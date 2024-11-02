@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class PantallaCliente extends JFrame {
     public JPanel PantallaCliente;
@@ -14,6 +15,11 @@ public class PantallaCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                try {
+                    enlazarPedido();
+                } finally {
+
+                }
             }
         });
     }

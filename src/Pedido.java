@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class Pedido {
+public class Pedido extends JFrame{
     private JTable table1;
     private JTextField textField4;
     private JPanel Pedido;
@@ -31,7 +31,7 @@ public class Pedido {
         // Inicializa la tabla y establece el modelo
         table1.setModel(modTabla);
         textField4.setEditable(false);
-        Pedido = new JPanel();
+
 
 
         // Agrega un DocumentListener al campo de cantidad para detectar cambios en tiempo real
@@ -57,6 +57,23 @@ public class Pedido {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+
+            }
+        });
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            try {
+                Behind();
+
+            }finally {
+
+            }
+            }
+        });
+        confirmarPedidoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });
@@ -118,4 +135,9 @@ public class Pedido {
         pe.pack();
     }
 
+    public void Behind() {
+        PantallaCliente enlace = new PantallaCliente();
+        enlace.mostrarCliente();
+
+    }
 }
