@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Pedido extends JFrame{
     private JTable table1;
@@ -18,6 +20,7 @@ public class Pedido extends JFrame{
     private JButton regresarButton;
     private JTextField textField1;
     private JButton mostrarButton;
+
 
     Connection conexion;
     PreparedStatement ps;
@@ -31,6 +34,7 @@ public class Pedido extends JFrame{
         // Inicializa la tabla y establece el modelo
         table1.setModel(modTabla);
         textField4.setEditable(false);
+        textField1.setEditable(false);
 
 
 
@@ -74,7 +78,34 @@ public class Pedido extends JFrame{
         confirmarPedidoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            try{
 
+
+                if (textField4.getText().trim().isEmpty()||textField4.getText().trim().equals("0") ) {  // Cambiamos la condición a "equals('0')"
+                    JOptionPane.showMessageDialog(null, "Por favor seleccione un producto");
+                } else {
+
+                    Pago enlace = new Pago();
+                    enlace.pago();
+                    mostraPago();
+                }
+
+
+            }catch (NumberFormatException ex){
+
+            JOptionPane.showMessageDialog(null, "Error, el valor total debe ser numerico");
+            }
+
+            }
+        });
+        table1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = table1.getSelectedRow();
+                if (row != -1) {
+                    textField1.setText(table1.getValueAt(row, 1).toString());
+
+                }
             }
         });
     }
@@ -101,6 +132,7 @@ public class Pedido extends JFrame{
         }
         table1.setModel(modTabla);
     }
+
 
 
 
@@ -140,4 +172,12 @@ public class Pedido extends JFrame{
         enlace.mostrarCliente();
 
     }
+
+    public void mostraPago(){
+        Pago enlace = new Pago();
+        enlace.pago();
+
+    }
+
+
 }
