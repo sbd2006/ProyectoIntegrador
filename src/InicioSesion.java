@@ -27,6 +27,12 @@ public class InicioSesion extends JFrame {
                 Validacion();
             }
         });
+        CreateUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCrearUsuario();
+            }
+        });
     }
 
     void conectar(){
@@ -73,6 +79,11 @@ public class InicioSesion extends JFrame {
         is.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         is.setVisible(true);
         is.pack();
+    }
+
+    public void mostrarCrearUsuario(){
+        CrearUsuario enlace = new CrearUsuario();
+        enlace.mostrarVentanaEmergente();
     }
 
 
