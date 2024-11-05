@@ -1,32 +1,39 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
 
-public class Pago extends JFrame {
-    private JPanel panel1;
+public class Pago extends JFrame{
+
     private JRadioButton efectivoRadioButton;
     private JRadioButton tarjetaDeCreditoDebitoRadioButton;
     private JRadioButton transferenciaRadioButton;
     private JButton regresarButton;
     private JButton pagarButton;
+    private JPanel panel1;
     private ButtonGroup group;
 
-
-
-    public Pago(){
-        efectivoRadioButton = new JRadioButton("Efectivo");
-        tarjetaDeCreditoDebitoRadioButton= new JRadioButton("Tarjeta de credito/debito");
-        transferenciaRadioButton = new JRadioButton("Transferencia");
-
-
-
-        group = new ButtonGroup();
+    public Pago() {
+        // Crear el ButtonGroup para que solo uno de los JRadioButton pueda estar seleccionado a la vez
+        ButtonGroup group = new ButtonGroup();
         group.add(efectivoRadioButton);
         group.add(tarjetaDeCreditoDebitoRadioButton);
         group.add(transferenciaRadioButton);
 
+        // Agregar listener al botón de pago
+        pagarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Verificar si algún JRadioButton está seleccionado
+                if (efectivoRadioButton.isSelected() || tarjetaDeCreditoDebitoRadioButton.isSelected() || transferenciaRadioButton.isSelected()) {
+                    JOptionPane.showMessageDialog(null, "¡Su pedido ha sido exitoso!");
 
+                }else{
+                    JOptionPane.showMessageDialog(null, "¡Por favor seleccione un metodo de pago!");
+                }
+
+                // Si no hay ningún botón seleccionado, no hace nada
+            }
+        });
 
         regresarButton.addActionListener(new ActionListener() {
             @Override
@@ -42,17 +49,7 @@ public class Pago extends JFrame {
                 }
             }
         });
-        pagarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    mostrarMensajeExito();
 
-                }finally {
-
-                }
-            }
-        });
     }
 
     private void mostrarMensajeExito() {
@@ -66,11 +63,13 @@ public class Pago extends JFrame {
 
     }
 
+
     public void back(){
         Pedido enlace = new Pedido();
         enlace.mostrarPedido();
 
     }
+
     public void pago(){
         Pago pg = new Pago();
         pg.setContentPane(new Pago().panel1);
@@ -78,5 +77,6 @@ public class Pago extends JFrame {
         pg.setVisible(true);
         pg.pack();
     }
+
 
 }
