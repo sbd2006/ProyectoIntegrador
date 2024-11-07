@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class PantallaCliente extends JFrame {
     public JPanel PantallaCliente;
     private JLabel label1;
     private JButton realizarPedidoButton;
+    private JButton cerrarSesionButton;
 
 
     public PantallaCliente () {
@@ -20,6 +20,12 @@ public class PantallaCliente extends JFrame {
                 } finally {
 
                 }
+            }
+        });
+        cerrarSesionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cerrarSesionCliente();
             }
         });
     }
@@ -36,6 +42,14 @@ public class PantallaCliente extends JFrame {
         Pedido enlace1 = new Pedido();
         enlace1.mostrarPedido();
     }
+
+    public void cerrarSesionCliente (){
+        InicioSesion enlace = new InicioSesion();
+        enlace.mostrarInicioSesion();
+
+    }
+
+
 
 }
 

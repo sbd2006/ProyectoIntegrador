@@ -13,13 +13,13 @@ public class Pago extends JFrame{
     private ButtonGroup group;
 
     public Pago() {
-        // Crear el ButtonGroup para que solo uno de los JRadioButton pueda estar seleccionado a la vez
+
         ButtonGroup group = new ButtonGroup();
         group.add(efectivoRadioButton);
         group.add(tarjetaDeCreditoDebitoRadioButton);
         group.add(transferenciaRadioButton);
 
-        // Agregar listener al botón de pago
+
         pagarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,12 +57,6 @@ public class Pago extends JFrame{
     }
 
 
-    void Validacionpago(){
-
-
-
-    }
-
 
     public void back(){
         Pedido enlace = new Pedido();
@@ -77,6 +71,8 @@ public class Pago extends JFrame{
         pg.setVisible(true);
         pg.pack();
     }
+
+
 
 
 }

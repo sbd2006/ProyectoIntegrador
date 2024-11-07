@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +6,7 @@ import java.awt.event.ActionListener;
 public class Administrador extends JFrame {
     private JPanel administracion;
     private JButton productoButton;
+    private JButton cerrarSesionButton;
 
     public Administrador(){
         productoButton.addActionListener(new ActionListener() {
@@ -19,6 +19,12 @@ public class Administrador extends JFrame {
 
                 }
 
+            }
+        });
+        cerrarSesionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cerrarSesionAdmin();
             }
         });
     }
@@ -39,6 +45,11 @@ public class Administrador extends JFrame {
 
     }
 
+    public void cerrarSesionAdmin(){
+    InicioSesion enlace = new InicioSesion();
+    enlace.mostrarInicioSesion();
+
+    }
 
 
 

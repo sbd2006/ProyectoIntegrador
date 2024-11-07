@@ -87,6 +87,14 @@ public class InicioSesion extends JFrame {
     }
 
 
+    public void mostrarInicioSesion(){
+        InicioSesion in = new InicioSesion();
+        in.setContentPane(new InicioSesion().Mensaje);
+        in.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        in.setVisible(true);
+        in.pack();
+    }
+
 
 
 }
