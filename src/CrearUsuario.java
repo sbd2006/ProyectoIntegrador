@@ -28,6 +28,7 @@ public class CrearUsuario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 insertarUsuario();
+                regresarAInicioSesion();
             }
         });
 
@@ -36,6 +37,7 @@ public class CrearUsuario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 regresarAInicioSesion();
+                dispose();
             }
         });
     }
@@ -90,8 +92,8 @@ public class CrearUsuario extends JFrame {
 
     public void regresarAInicioSesion() {
         InicioSesion inicioSesion = new InicioSesion();
-        inicioSesion.setContentPane(new InicioSesion().Mensaje);
-        inicioSesion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        inicioSesion.setContentPane(inicioSesion.Mensaje);
+        inicioSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         inicioSesion.setVisible(true);
         inicioSesion.pack();
         dispose();

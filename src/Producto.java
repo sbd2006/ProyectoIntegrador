@@ -85,6 +85,7 @@ public class Producto extends JFrame {
             public void actionPerformed(ActionEvent e) {
             try {
                 Regresar();
+                dispose();
             }finally {
 
             }
@@ -176,8 +177,8 @@ public class Producto extends JFrame {
 
     public void mostrarProducto() {
         Producto Pr = new Producto();
-        Pr.setContentPane(new Producto().producto);
-        Pr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Pr.setContentPane(Pr.producto);
+        Pr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Pr.setVisible(true);
         Pr.pack();
     }

@@ -17,6 +17,7 @@ public class PantallaCliente extends JFrame {
 
                 try {
                     enlazarPedido();
+                    dispose();
                 } finally {
 
                 }
@@ -26,14 +27,15 @@ public class PantallaCliente extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cerrarSesionCliente();
+                dispose();
             }
         });
     }
 
     public void mostrarCliente(){
         PantallaCliente pc = new PantallaCliente();
-        pc.setContentPane(new PantallaCliente().PantallaCliente);
-        pc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pc.setContentPane(pc.PantallaCliente);
+        pc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pc.setVisible(true);
         pc.pack();
     }

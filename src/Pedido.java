@@ -101,12 +101,13 @@ public class Pedido extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MostrarPedido();
+
             }
         });
         confirmarPedidoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+            dispose();
             }
         });
         PrecioUnitario.addKeyListener(new KeyAdapter() {
@@ -390,7 +391,7 @@ public class Pedido extends JFrame {
     public void mostrarPedido(){
         Pedido pe = new Pedido();
         pe.setContentPane(pe.Pedido); 
-        pe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pe.setVisible(true);
         pe.pack();
 

@@ -31,6 +31,7 @@ public class InicioSesion extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCrearUsuario();
+                dispose();
             }
         });
     }

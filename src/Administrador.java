@@ -15,6 +15,7 @@ public class Administrador extends JFrame {
 
                 try {
                     enlazarProducto();
+                    dispose();
                 }finally {
 
                 }
@@ -25,6 +26,7 @@ public class Administrador extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cerrarSesionAdmin();
+                dispose();
             }
         });
     }
@@ -38,8 +40,8 @@ public class Administrador extends JFrame {
 
     public void mostrarAdministrador(){
         Administrador admin = new Administrador();
-        admin.setContentPane(new Administrador().administracion);
-        admin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        admin.setContentPane(admin.administracion);
+        admin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         admin.setVisible(true);
         admin.pack();
 

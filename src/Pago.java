@@ -26,6 +26,9 @@ public class Pago extends JFrame{
 
                 if (efectivoRadioButton.isSelected() || tarjetaDeCreditoDebitoRadioButton.isSelected() || transferenciaRadioButton.isSelected()) {
                     JOptionPane.showMessageDialog(null, "¡Su pedido ha sido exitoso!");
+                    dispose();
+
+
 
                 }else{
                     JOptionPane.showMessageDialog(null, "¡Por favor seleccione un metodo de pago!");
@@ -42,7 +45,7 @@ public class Pago extends JFrame{
 
                     back();
 
-
+                    dispose();
 
                 }finally {
 
@@ -66,8 +69,8 @@ public class Pago extends JFrame{
 
     public void pago(){
         Pago pg = new Pago();
-        pg.setContentPane(new Pago().panel1);
-        pg.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pg.setContentPane(pg.panel1);
+        pg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pg.setVisible(true);
         pg.pack();
     }
