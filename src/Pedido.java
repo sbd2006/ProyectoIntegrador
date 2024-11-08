@@ -88,6 +88,7 @@ public class Pedido extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 regresarCliente();
+                dispose();
             }
         });
         mostrarCatalogoButton.addActionListener(new ActionListener() {
