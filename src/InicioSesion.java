@@ -58,10 +58,14 @@ public class InicioSesion extends JFrame {
                     JOptionPane.showMessageDialog(null,"Bienvenido Administrador");
                     Administrador enlace = new Administrador();
                     enlace.mostrarAdministrador();
+                    dispose();
+
+
                 }else{
                     JOptionPane.showMessageDialog(null,"Bienvenido Cliente");
                     PantallaCliente enlace = new PantallaCliente();
                     enlace.mostrarCliente();
+                    dispose();
                 }
 
             }else {
@@ -75,8 +79,8 @@ public class InicioSesion extends JFrame {
 
     public static void main(String[] args) {
         InicioSesion is = new InicioSesion();
-        is.setContentPane(new InicioSesion().Mensaje);
-        is.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        is.setContentPane(is.Mensaje);
+        is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         is.setVisible(true);
         is.pack();
     }
@@ -89,8 +93,8 @@ public class InicioSesion extends JFrame {
 
     public void mostrarInicioSesion(){
         InicioSesion in = new InicioSesion();
-        in.setContentPane(new InicioSesion().Mensaje);
-        in.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        in.setContentPane(in.Mensaje);
+        in.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         in.setVisible(true);
         in.pack();
     }

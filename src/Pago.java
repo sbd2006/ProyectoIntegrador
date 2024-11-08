@@ -23,7 +23,7 @@ public class Pago extends JFrame{
         pagarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Verificar si algún JRadioButton está seleccionado
+
                 if (efectivoRadioButton.isSelected() || tarjetaDeCreditoDebitoRadioButton.isSelected() || transferenciaRadioButton.isSelected()) {
                     JOptionPane.showMessageDialog(null, "¡Su pedido ha sido exitoso!");
 
@@ -31,7 +31,7 @@ public class Pago extends JFrame{
                     JOptionPane.showMessageDialog(null, "¡Por favor seleccione un metodo de pago!");
                 }
 
-                // Si no hay ningún botón seleccionado, no hace nada
+
             }
         });
 

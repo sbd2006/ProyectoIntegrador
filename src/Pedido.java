@@ -389,10 +389,11 @@ public class Pedido extends JFrame {
 
     public void mostrarPedido(){
         Pedido pe = new Pedido();
-        pe.setContentPane(pe.Pedido); // Uso de la misma instancia 'pe'
+        pe.setContentPane(pe.Pedido); 
         pe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pe.setVisible(true);
         pe.pack();
+
     }
 
     public void regresarCliente (){
