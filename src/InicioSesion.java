@@ -13,6 +13,7 @@ public class InicioSesion extends JFrame {
     private JLabel MensajePassword;
     private JButton Login;
     private JButton CreateUser;
+    private JButton volverButton;
     Connection conexion;
     ResultSet rs;
     Statement st;
@@ -31,6 +32,14 @@ public class InicioSesion extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCrearUsuario();
+                dispose();
+            }
+        });
+        volverButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarPag();
+                setSize(1920,1080);
                 dispose();
             }
         });
@@ -78,13 +87,6 @@ public class InicioSesion extends JFrame {
     }
 
 
-    public static void main(String[] args) {
-        InicioSesion is = new InicioSesion();
-        is.setContentPane(is.Mensaje);
-        is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        is.setVisible(true);
-        is.pack();
-    }
 
     public void mostrarCrearUsuario(){
         CrearUsuario enlace = new CrearUsuario();
@@ -98,8 +100,13 @@ public class InicioSesion extends JFrame {
         in.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         in.setVisible(true);
         in.pack();
+        in.setSize(1920,1080);
     }
 
+    public void mostrarPag (){
+        Inicio enlace = new Inicio();
+        enlace.mostrarPagPrincipal();
 
+    }
 
 }

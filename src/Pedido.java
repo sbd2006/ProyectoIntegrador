@@ -128,8 +128,8 @@ public class Pedido extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 int SelectRow = tableCatalogo.getSelectedRow();
                 if (SelectRow != -1){
-                    String Producto = tableCatalogo.getValueAt(SelectRow,1).toString();
-                    IdProducto.setText(Producto);
+                    String idProducto = tableCatalogo.getValueAt(SelectRow,0).toString();
+                    IdProducto.setText(idProducto);
                 }
 
             }

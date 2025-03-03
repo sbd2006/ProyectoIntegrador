@@ -221,7 +221,7 @@
           <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Producto"/>
+          <text value="Id Producto"/>
         </properties>
       </component>
       <component id="264b8" class="javax.swing.JTextField" binding="IdProducto">
