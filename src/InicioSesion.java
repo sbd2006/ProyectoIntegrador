@@ -47,7 +47,7 @@ public class InicioSesion extends JFrame {
 
     void conectar(){
         try{
-            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose","root","OH{c<6H1#cQ%F69$i");
+            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose","root","Santi104");
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
@@ -62,9 +62,11 @@ public class InicioSesion extends JFrame {
         try {
             st = conexion.createStatement();
             rs = st.executeQuery("select * from usuarios where Usuario = '"+usuario+"' and Pass = '"+pass+"'");
-            if (rs.next()){
 
-                if(usuario.contains("AdminPMJ2024")){
+            if (rs.next()){
+                String userType = rs.getString("tipo");
+
+                if("Administrador".equals(userType)){
                     JOptionPane.showMessageDialog(null,"Bienvenido Administrador");
                     Administrador enlace = new Administrador();
                     enlace.mostrarAdministrador();

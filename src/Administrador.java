@@ -7,6 +7,7 @@ public class Administrador extends JFrame {
     private JPanel administracion;
     private JButton productoButton;
     private JButton cerrarSesionButton;
+    private JButton gestionDeUsuariosButton;
 
     public Administrador(){
         productoButton.addActionListener(new ActionListener() {
@@ -27,6 +28,13 @@ public class Administrador extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 cerrarSesionAdmin();
                 dispose();
+            }
+        });
+        gestionDeUsuariosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Rolselection enlace = new Rolselection();
+                enlace.mostrarRolSelection();
             }
         });
     }

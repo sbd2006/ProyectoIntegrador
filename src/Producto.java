@@ -95,7 +95,7 @@ public class Producto extends JFrame {
 
     void conectar(){
         try{
-            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose","root","OH{c<6H1#cQ%F69$i");
+            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose","root","Santi104");
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
