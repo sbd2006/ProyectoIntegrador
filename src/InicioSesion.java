@@ -35,14 +35,6 @@ public class InicioSesion extends JFrame {
                 dispose();
             }
         });
-        volverButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarPag();
-                setSize(1920,1080);
-                dispose();
-            }
-        });
     }
 
     void conectar(){
@@ -103,12 +95,6 @@ public class InicioSesion extends JFrame {
         in.setVisible(true);
         in.pack();
         in.setSize(1920,1080);
-    }
-
-    public void mostrarPag (){
-        Inicio enlace = new Inicio();
-        enlace.mostrarPagPrincipal();
-
     }
 
 }

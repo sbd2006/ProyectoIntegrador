@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
-public class Pedido extends JFrame {
+public class Venta extends JFrame {
     private JTable Catalogo;
     private JTextField PrecioUnitario;
     private JPanel Pedido;
@@ -49,7 +49,7 @@ public class Pedido extends JFrame {
     ResultSet rs;
     List<Detalle_Pedido> productosV = new ArrayList<>();
 
-    public Pedido() {
+    public Venta() {
 
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -135,12 +135,12 @@ public class Pedido extends JFrame {
             }
 
         });
-        confirmarPedidoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarPago();
-            }
-        });
+//        confirmarPedidoButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                mostrarPago();
+//            }
+//        });
         tableCatalogo.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -390,8 +390,8 @@ public class Pedido extends JFrame {
     }
 
     public void mostrarPedido(){
-        Pedido pe = new Pedido();
-        pe.setContentPane(pe.Pedido); 
+        Venta pe = new Venta();
+        pe.setContentPane(pe.Pedido);
         pe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pe.setVisible(true);
         pe.pack();
@@ -402,10 +402,4 @@ public class Pedido extends JFrame {
         PantallaCliente enlace = new PantallaCliente();
         enlace.mostrarCliente();
     }
-
-    public void mostrarPago(){
-        Pago enlace = new Pago();
-        enlace.pago();
-    }
-
 }
