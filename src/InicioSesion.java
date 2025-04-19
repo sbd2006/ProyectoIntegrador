@@ -97,4 +97,13 @@ public class InicioSesion extends JFrame {
         in.setSize(1920,1080);
     }
 
+    public static void main(String[] args) {
+        InicioSesion is = new InicioSesion();
+        is.setContentPane(is.Mensaje);
+        is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        is.setVisible(true);
+        is.pack();
+        is.setSize(1920, 1080);
+    }
+
 }
