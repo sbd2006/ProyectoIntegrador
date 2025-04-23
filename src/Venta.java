@@ -176,7 +176,7 @@ public class Venta extends JFrame {
 
     void conectar(){
         try {
-            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "Santi104");
+            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "Juanguis-2006");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -399,7 +399,7 @@ public class Venta extends JFrame {
     }
 
     public void regresarCliente (){
-        PantallaCliente enlace = new PantallaCliente();
-        enlace.mostrarCliente();
+        Empleado enlace = new Empleado();
+        enlace.mostrarEmpleado();
     }
 }
