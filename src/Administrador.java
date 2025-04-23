@@ -41,10 +41,7 @@ public class Administrador extends JFrame {
     public void enlazarProducto(){
         Producto enlace = new Producto();
         enlace.mostrarProducto();
-
     }
-
-
 
     public void mostrarAdministrador(){
         Administrador admin = new Administrador();
@@ -60,7 +57,4 @@ public class Administrador extends JFrame {
     enlace.mostrarInicioSesion();
 
     }
-
-
-
 }
