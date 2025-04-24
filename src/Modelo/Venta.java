@@ -1,3 +1,5 @@
+package Modelo;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
@@ -28,15 +30,13 @@ public class Venta extends JFrame {
     private JButton agregarProductoButton;
     private JButton mostrarCatalogoButton;
     private JButton mostrarPedidoButton;
-    private JLabel ID_PEDIDO;
-    private JLabel Id;
-    private JLabel FECHA_PEDIDO;
-    private JLabel CANTIDAD_PRODUCTO;
-    private JLabel DESCRIPCION;
-    private JLabel PRECIO_UNITARIO;
-    private JLabel TOTAL;
     private JTextField Total_Producto;
-    private JLabel TOTAL_PRODUCTO;
+    private JLabel Id;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
+    private JLabel CANTIDAD_PRODUCTO;
     private JButton mostrarButton;
 
 

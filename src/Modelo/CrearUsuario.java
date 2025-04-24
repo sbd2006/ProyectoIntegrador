@@ -1,3 +1,5 @@
+package Modelo;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -61,7 +63,7 @@ public class CrearUsuario extends JFrame {
         String password = new String(IngresoContraseña.getPassword());
 
 
-        String query = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario.Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setString(1, nombre);
@@ -72,7 +74,7 @@ public class CrearUsuario extends JFrame {
             ps.setString(6, password);
 
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
+            JOptionPane.showMessageDialog(null, "Usuario.Usuario creado exitosamente");
 
             regresarAInicioSesion();
 
