@@ -4,16 +4,16 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PantallaCliente extends JFrame {
+public class Empleado extends JFrame {
     public JPanel PantallaCliente;
     private JLabel label1;
-    private JButton realizarPedidoButton;
+    private JButton realizarVentaButton;
     private JButton cerrarSesionButton;
 
 
-    public PantallaCliente () {
+    public Empleado() {
 
-        realizarPedidoButton.addActionListener(new ActionListener() {
+        realizarVentaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -34,8 +34,8 @@ public class PantallaCliente extends JFrame {
         });
     }
 
-    public void mostrarCliente(){
-        PantallaCliente pc = new PantallaCliente();
+    public void mostrarEmpleado(){
+        Empleado pc = new Empleado();
         pc.setContentPane(pc.PantallaCliente);
         pc.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pc.setVisible(true);
@@ -53,7 +53,4 @@ public class PantallaCliente extends JFrame {
 
     }
 
-
-
 }
-

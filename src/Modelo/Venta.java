@@ -87,7 +87,7 @@ public class Venta extends JFrame {
         regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                regresarCliente();
+                regresarEmpleado();
                 dispose();
             }
         });
@@ -398,8 +398,8 @@ public class Venta extends JFrame {
 
     }
 
-    public void regresarCliente (){
-        PantallaCliente enlace = new PantallaCliente();
-        enlace.mostrarCliente();
+    public void regresarEmpleado (){
+        Empleado enlace = new Empleado();
+        enlace.mostrarEmpleado();
     }
 }
