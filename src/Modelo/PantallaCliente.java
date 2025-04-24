@@ -1,3 +1,5 @@
+package Modelo;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +18,7 @@ public class PantallaCliente extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    enlazarPedido();
+                    enlazarVenta();
                     dispose();
                 } finally {
 
@@ -40,8 +42,8 @@ public class PantallaCliente extends JFrame {
         pc.pack();
     }
 
-    public void enlazarPedido(){
-        Pedido enlace1 = new Pedido();
+    public void enlazarVenta(){
+        Venta enlace1 = new Venta();
         enlace1.mostrarPedido();
     }
 

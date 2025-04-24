@@ -1,3 +1,5 @@
+package Modelo;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,7 @@ public class Rolselection extends JFrame{
     private JButton deleteButton;
     private JPanel rolPanel;
     Connection conexion;
-    String[] columnas = {"Id","Nombre","Apellido","Rol","Usuario"};
+    String[] columnas = {"Id","Nombre","Apellido","Rol", "Usuario"};
     String[] registros = new String[10];
     DefaultTableModel modTabla = new DefaultTableModel(null , columnas);
     Statement st;
@@ -88,7 +90,7 @@ public class Rolselection extends JFrame{
         modTabla.setRowCount(0);
         tabla.setModel(modTabla);
         st = conexion.createStatement();
-        rs = st.executeQuery("select id, Nombre, Apellido, tipo, Usuario from usuarios");
+        rs = st.executeQuery("select id, Nombre, Apellido, tipo, Usuario.Usuario from usuarios");
         while (rs.next()) {
             registros[0] = rs.getString("id");
             registros[1] = rs.getString("nombre");
