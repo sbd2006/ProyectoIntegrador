@@ -3,7 +3,7 @@ package Controlador;
 import Modelo.Administrador;
 import Modelo.CrearUsuario;
 import Modelo.InicioSesion;
-import Modelo.PantallaCliente;
+import Modelo.Empleado;
 import Modelo.Conexion;
 
 import javax.swing.*;
@@ -48,7 +48,7 @@ public class ControladorIS {
                     modelo.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Bienvenido Cliente");
-                    PantallaCliente enlace = new PantallaCliente();
+                    Empleado enlace = new Empleado();
                     enlace.mostrarCliente();
                     modelo.dispose();
                 }
