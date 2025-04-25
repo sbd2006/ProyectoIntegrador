@@ -1,4 +1,7 @@
-package Modelo;
+package Vista;
+
+import Modelo.InicioSesion;
+import Modelo.Venta;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

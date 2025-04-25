@@ -1,4 +1,8 @@
-package Modelo;
+package Vista;
+
+import Modelo.InicioSesion;
+import Modelo.Producto;
+import Modelo.Rolselection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -61,7 +65,5 @@ public class Administrador extends JFrame {
     enlace.mostrarInicioSesion();
 
     }
-
-
 
 }
