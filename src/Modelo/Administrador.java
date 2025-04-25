@@ -1,5 +1,8 @@
 package Modelo;
 
+import Vista.VistaP;
+import Vista.VistaIS;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,7 +43,7 @@ public class Administrador extends JFrame {
         });
     }
     public void enlazarProducto(){
-        Producto enlace = new Producto();
+        VistaP enlace = new VistaP();
         enlace.mostrarProducto();
 
     }
@@ -57,7 +60,7 @@ public class Administrador extends JFrame {
     }
 
     public void cerrarSesionAdmin(){
-    InicioSesion enlace = new InicioSesion();
+    VistaIS enlace = new VistaIS();
     enlace.mostrarInicioSesion();
 
     }

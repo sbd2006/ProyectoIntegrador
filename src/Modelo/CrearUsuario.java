@@ -1,5 +1,7 @@
 package Modelo;
 
+import Vista.VistaIS;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,11 +95,11 @@ public class CrearUsuario extends JFrame {
 
 
     public void regresarAInicioSesion() {
-        InicioSesion inicioSesion = new InicioSesion();
-        inicioSesion.setContentPane(inicioSesion.Mensaje);
-        inicioSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        inicioSesion.setVisible(true);
-        inicioSesion.pack();
+        VistaIS vistaIS = new VistaIS();
+        vistaIS.setContentPane(vistaIS.Mensaje);
+        vistaIS.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        vistaIS.setVisible(true);
+        vistaIS.pack();
         dispose();
     }
 

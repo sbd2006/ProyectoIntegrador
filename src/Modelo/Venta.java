@@ -197,7 +197,7 @@ public class Venta extends JFrame {
         Detalle_Pedido producto1 = new Detalle_Pedido(ID_PEDIDO, Id, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, TOTAL_PRODUCTO);
         productosV.add(producto1);
 
-        JOptionPane.showMessageDialog(null, "Producto agregado al pedido");
+        JOptionPane.showMessageDialog(null, "VistaP agregado al pedido");
 
     }
 
@@ -249,7 +249,7 @@ public class Venta extends JFrame {
 
             if (filasinsertadas.length > 0) {
 
-                String sqlActualizarCantidad = "UPDATE Producto SET Cantidad_Actual = Cantidad_Actual - ? WHERE Id = ?";
+                String sqlActualizarCantidad = "UPDATE VistaP SET Cantidad_Actual = Cantidad_Actual - ? WHERE Id = ?";
                 ps = conexion.prepareStatement(sqlActualizarCantidad);
 
                 for (Detalle_Pedido producto1 : productosV) {
@@ -332,7 +332,7 @@ public class Venta extends JFrame {
         tableCatalogo.setModel(modTabla);
         try {
             st = conexion.createStatement();
-            rs = st.executeQuery("select Id, Nombre, Categoria, Precio, Cantidad_Actual from Producto");
+            rs = st.executeQuery("select Id, Nombre, Categoria, Precio, Cantidad_Actual from VistaP");
             while (rs.next()) {
                 registros[0] = rs.getString("Id");
                 registros[1] = rs.getString("Nombre");

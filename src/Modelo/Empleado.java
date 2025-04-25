@@ -1,5 +1,7 @@
 package Modelo;
 
+import Vista.VistaIS;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +50,7 @@ public class Empleado extends JFrame {
     }
 
     public void cerrarSesionCliente (){
-        InicioSesion enlace = new InicioSesion();
+        VistaIS enlace = new VistaIS();
         enlace.mostrarInicioSesion();
 
     }
