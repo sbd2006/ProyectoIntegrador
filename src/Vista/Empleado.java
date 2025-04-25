@@ -1,6 +1,7 @@
-package Modelo;
+package Vista;
 
-import Vista.VistaIS;
+import Modelo.InicioSesion;
+import Modelo.Venta;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,7 +51,7 @@ public class Empleado extends JFrame {
     }
 
     public void cerrarSesionCliente (){
-        VistaIS enlace = new VistaIS();
+        InicioSesion enlace = new InicioSesion();
         enlace.mostrarInicioSesion();
 
     }
