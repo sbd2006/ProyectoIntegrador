@@ -13,6 +13,7 @@ public class Administrador extends JFrame {
     private JButton productoButton;
     private JButton cerrarSesionButton;
     private JButton gestionDeUsuariosButton;
+    private JLabel labelBienvenida;
 
     public Administrador(){
         productoButton.addActionListener(new ActionListener() {

@@ -7,12 +7,18 @@ public class AdministradorVista extends JFrame {
     public JButton productoButton;
     public JButton cerrarSesionButton;
     public JButton gestionDeUsuariosButton;
+    private JLabel labelBienvenida;
+
 
     public AdministradorVista() {
         setTitle("Vista Administrador");
         setContentPane(administracion);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        labelBienvenida.setText("Bienvenido " + nombreUsuario);
     }
 
     public void mostrarVista() {

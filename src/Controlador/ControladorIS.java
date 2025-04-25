@@ -1,9 +1,9 @@
 package Controlador;
 
-import Modelo.Administrador;
+import Vista.Administrador;
 import Modelo.CrearUsuario;
 import Modelo.InicioSesion;
-import Modelo.Empleado;
+import Vista.Empleado;
 import Modelo.Conexion;
 
 import javax.swing.*;

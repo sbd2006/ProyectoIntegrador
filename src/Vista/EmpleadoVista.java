@@ -7,6 +7,11 @@ public class EmpleadoVista extends JFrame {
     public JButton realizarVentaButton;
     public JButton cerrarSesionButton;
     private JLabel label1;
+    private JLabel lblBienvenida;
+
+    public void setNombreUsuario(String nombreUsuario) {
+        lblBienvenida.setText("Bienvenido " + nombreUsuario);
+    }
 
     public EmpleadoVista() {
         setTitle("Vista Empleado");
@@ -14,6 +19,7 @@ public class EmpleadoVista extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
     }
+
 
     public void mostrarVista() {
         setVisible(true);
