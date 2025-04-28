@@ -2,97 +2,116 @@ package Controlador;
 
 import Modelo.ModeloP;
 import Vista.VistaP;
-
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class ControladorP {
-    private VistaP vista;
     private ModeloP modelo;
+    private VistaP vista;
 
-    public ControladorP(VistaP vista, ModeloP modelo) {
-        this.vista = vista;
+    public ControladorP(ModeloP modelo, VistaP vista) {
         this.modelo = modelo;
+        this.vista = vista;
 
-        // Usando los getters
-        vista.getMostrarButton().addActionListener(e -> {
-            try {
+        // Listener de botones
+        this.vista.mostrarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 mostrarProductos();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
-        vista.getGuardarButton().addActionListener(e -> {
-            try {
+        this.vista.guardarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 guardarProducto();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
-        vista.getEditarButton().addActionListener(e -> {
-            try {
+        this.vista.editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 editarProducto();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
-        vista.getEliminarButton().addActionListener(e -> {
-            try {
+        this.vista.eliminarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 eliminarProducto();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
         });
 
-        vista.getRegresarButton().addActionListener(e -> vista.dispose());
+        this.vista.regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regresar();
+            }
+        });
     }
 
-        private void mostrarProductos() throws SQLException {
-            vista.actualizarTabla(modelo.mostrarProductos());
+    private void mostrarProductos() {
+        try {
+            vista.modTabla.setRowCount(0); // Limpiar tabla
+            for (String[] producto : modelo.obtenerProductos()) {
+                vista.modTabla.addRow(producto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-    private void guardarProducto() throws SQLException {
-        int id = Integer.parseInt(vista.getIdtext().getText());
-        String nombre = vista.getNombretext().getText();
-        String categoria = vista.getCategoriatext().getText();
-        int precio = Integer.parseInt(vista.getPreciotext().getText());
-        int cantidad = Integer.parseInt(vista.getCantidadtext().getText());
-
-        if (modelo.guardarProducto(id, nombre, categoria, precio, cantidad)) {
-            vista.limpiarCampos();
+    private void guardarProducto() {
+        try {
+            modelo.guardarProducto(
+                    vista.Idtext.getText(),
+                    vista.nombretext.getText(),
+                    vista.categoriatext.getText(),
+                    vista.preciotext.getText(),
+                    vista.cantidadtext.getText()
+            );
+            limpiarCampos();
             mostrarProductos();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private void editarProducto() throws SQLException {
-        int id = Integer.parseInt(vista.getIdtext().getText());
-        int precio = Integer.parseInt(vista.getPreciotext().getText());
-        int cantidad = Integer.parseInt(vista.getCantidadtext().getText());
-
-        if (modelo.editarProducto(id, precio, cantidad)) {
-            vista.limpiarCampos();
+    private void editarProducto() {
+        try {
+            modelo.editarProducto(
+                    vista.Idtext.getText(),
+                    vista.preciotext.getText(),
+                    vista.cantidadtext.getText()
+            );
+            limpiarCampos();
             mostrarProductos();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private void eliminarProducto() throws SQLException {
-        int id = Integer.parseInt(vista.getIdtext().getText());
-
-        if (modelo.eliminarProducto(id)) {
-            vista.limpiarCampos();
+    private void eliminarProducto() {
+        try {
+            modelo.eliminarProducto(vista.Idtext.getText());
+            limpiarCampos();
             mostrarProductos();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private Object[] getColumnNames(DefaultTableModel modelo) {
-        int columnas = modelo.getColumnCount();
-        Object[] nombres = new Object[columnas];
-        for (int i = 0; i < columnas; i++) {
-            nombres[i] = modelo.getColumnName(i);
-        }
-        return nombres;
+    private void limpiarCampos() {
+        vista.Idtext.setText("");
+        vista.nombretext.setText("");
+        vista.categoriatext.setText("");
+        vista.preciotext.setText("");
+        vista.cantidadtext.setText("");
+    }
+
+    private void regresar() {
+        // Aquí deberías abrir la vista del administrador
+        vista.dispose();
     }
 }

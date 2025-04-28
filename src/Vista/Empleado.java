@@ -1,7 +1,5 @@
 package Vista;
 
-import Controlador.VentaControlador;
-import Modelo.VentaDAO;
 import Vista.VistaIS;
 import Modelo.Venta;
 import Modelo.ModeloP;
