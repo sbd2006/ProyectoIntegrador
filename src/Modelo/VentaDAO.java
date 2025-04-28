@@ -1,35 +1,34 @@
 package Modelo;
 
+import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class VentaDAO {
+public class VentaDAO extends JFrame {
+    private final Connection connection;
 
-    private final String url = "jdbc:mysql://localhost:3306/tu_base";
-    private final String usuario = "usuario";
-    private final String contraseña = "contraseña";
+    public VentaDAO(Connection connection) {
+        this.connection = connection;
+    }
 
-    public List<String[]> consultarPorFecha(String fecha) {
-        List<String[]> resultados = new ArrayList<>();
+    public void guardarVenta(Venta venta) throws SQLException {
+        String sqlPedido = "INSERT INTO pedidos (id_pedido, fecha) VALUES (?, ?)";
+        String sqlDetalle = "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url, usuario, contraseña);
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tu_tabla WHERE fecha = ?")) {
+        try (PreparedStatement psPedido = connection.prepareStatement(sqlPedido);
+             PreparedStatement psDetalle = connection.prepareStatement(sqlDetalle)) {
 
-            stmt.setString(1, fecha);
-            ResultSet rs = stmt.executeQuery();
+            psPedido.setInt(1, venta.getIdPedido());
+            psPedido.setDate(2, Date.valueOf(venta.getFecha()));
+            psPedido.executeUpdate();
 
-            while (rs.next()) {
-                resultados.add(new String[]{
-                        String.valueOf(rs.getInt("id")),
-                        rs.getString("nombre"),
-                        String.valueOf(rs.getDate("fecha"))
-                });
+            for (Producto p : venta.getProductos()) {
+                psDetalle.setInt(1, venta.getIdPedido());
+                psDetalle.setInt(2, p.getId());
+                psDetalle.setInt(3, p.getCantidad());
+                psDetalle.setDouble(4, p.getPrecio());
+                psDetalle.executeUpdate();
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return resultados;
     }
 }

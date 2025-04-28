@@ -1,11 +1,19 @@
 package Vista;
 
-import Modelo.InicioSesion;
+import Controlador.VentaControlador;
+import Modelo.VentaDAO;
+import Vista.VistaIS;
 import Modelo.Venta;
+import Modelo.ModeloP;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.sql.DriverManager;
+
 
 public class Empleado extends JFrame {
     public JPanel PantallaCliente;
@@ -45,13 +53,23 @@ public class Empleado extends JFrame {
         pc.pack();
     }
 
-    public void enlazarVenta(){
-        Venta enlace1 = new Venta();
-        enlace1.mostrarPedido();
+    public void enlazarVenta() {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "OH{c<6H1#cQ%F69$i");
+            Venta model = new Venta(1, LocalDate.now());
+            VentaVista view = new VentaVista();
+            VentaDAO dao = new VentaDAO(con);
+            ModeloP modelo = new ModeloP();
+            VentaControlador controller = new VentaControlador(view, modelo);
+            view.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+
     public void cerrarSesionCliente (){
-        InicioSesion enlace = new InicioSesion();
+        VistaIS enlace = new VistaIS();
         enlace.mostrarInicioSesion();
 
     }
