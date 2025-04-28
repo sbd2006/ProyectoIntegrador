@@ -1,68 +1,49 @@
 package Controlador;
 
+import Modelo.*;
 import Vista.Administrador;
-import Modelo.CrearUsuario;
-import Modelo.InicioSesion;
 import Vista.Empleado;
-import Modelo.Conexion;
+import Vista.VistaIS;
+import Vista.CrearUsario.CrearUsuarioVista;
+
 
 import javax.swing.*;
-import java.sql.*;
+import Vista.Administrador;
+import Vista.Empleado;
 
 public class ControladorIS {
-    private InicioSesion modelo;
-    private ResultSet rs;
-    private Statement st;
-    private PreparedStatement ps;
+    private ModeloIS modelo;
+    private VistaIS vista;
 
-    public ControladorIS(InicioSesion modelo) {
+    public ControladorIS(ModeloIS modelo, VistaIS vista) {
         this.modelo = modelo;
+        this.vista = vista;
     }
 
-    public JTextField getUser() {
-        return modelo.getIngresoUser();
-    }
-
-    public JPasswordField getPass() {
-        return modelo.getIngresoPassword();
-    }
 
     public void Validacion() {
         Conexion conX = new Conexion();
         conX.conectar();
+        String userType = modelo.validacionSQL();
 
-        String usuario = getUser().getText();
-        String pass = String.valueOf(getPass().getPassword());
-
-        try {
-            st = conX.getConexion().createStatement();
-            rs = st.executeQuery("SELECT * FROM usuarios WHERE Usuario = '" + usuario + "' AND Pass = '" + pass + "'");
-
-            if (rs.next()) {
-                String userType = rs.getString("tipo");
-
-                if ("Administrador".equals(userType)) {
-                    JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
-                    Administrador enlace = new Administrador();
-                    enlace.mostrarAdministrador();
-                    modelo.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Bienvenido Cliente");
-                    Empleado enlace = new Empleado();
-                    enlace.mostrarCliente();
-                    modelo.dispose();
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Las credenciales no son correctas");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        if ("Administrador".equals(userType)) {
+            JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
+            Administrador enlace = new Administrador();
+            enlace.mostrarAdministrador();
+            vista.dispose();
+        } else if ("Usuario".equals(userType)) {
+            JOptionPane.showMessageDialog(null, "Bienvenido Cliente");
+            Empleado enlace = new Empleado();
+            enlace.mostrarEmpleado();
+            vista.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Las credenciales no son correctas");
         }
     }
 
-    public void mostrarCrearUsuario(){
-        CrearUsuario enlace = new CrearUsuario();
-        enlace.mostrarVentanaEmergente();
+    public void mostrarCrearUsuario() {
+        CrearUsuarioVista vistaCU = new CrearUsuarioVista();
+        new CrearUsuarioControlador(vistaCU);
+        vistaCU.setVisible(true);
     }
 }

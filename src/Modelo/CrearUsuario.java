@@ -1,108 +1,62 @@
 package Modelo;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-public class CrearUsuario extends JFrame {
-    public JPanel CrearUsuario;
-    private JTextField IngresoNombre;
-    private JTextField IngresoApellido;
-    private JTextField IngresoTelefono;
-    private JTextField IngresoDireccion;
-    private JTextField IngresoUsuario;
-    private JPasswordField IngresoContraseña;
-    private JButton BotonCrear;
-    private JButton BotonRegresar;
-    Connection conexion;
-
-    public CrearUsuario() {
-        setContentPane(CrearUsuario);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 300);
-
-
-        BotonCrear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                insertarUsuario();
-                regresarAInicioSesion();
-            }
-        });
-
-
-        BotonRegresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                regresarAInicioSesion();
-                dispose();
-            }
-        });
+public class CrearUsuario  {
+    private String nombre, apellido, telefono, direccion, usuario, contraseña;
+    public CrearUsuario(String nombre, String apellido, String telefono, String direccion, String usuario, String contraseña) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.usuario = usuario;
+        this.contraseña = contraseña;
     }
 
 
-    void conectar() {
-        try {
-            conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "Santi104");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public String getNombre() {
+        return nombre;
     }
 
-    private void insertarUsuario() {
-        conectar();
-        String nombre = IngresoNombre.getText();
-        String apellido = IngresoApellido.getText();
-        String telefono = IngresoTelefono.getText();
-        String direccion = IngresoDireccion.getText();
-        String usuario = IngresoUsuario.getText();
-        String password = new String(IngresoContraseña.getPassword());
-
-
-        String query = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario.Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setString(1, nombre);
-            ps.setString(2, apellido);
-            ps.setString(3, telefono);
-            ps.setString(4, direccion);
-            ps.setString(5, usuario);
-            ps.setString(6, password);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Usuario.Usuario creado exitosamente");
-
-            regresarAInicioSesion();
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al crear usuario: " + e.getMessage());
-        } finally {
-            try {
-                if (conexion != null && !conexion.isClosed()) {
-                    conexion.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-
-    public void regresarAInicioSesion() {
-        InicioSesion inicioSesion = new InicioSesion();
-        inicioSesion.setContentPane(inicioSesion.Mensaje);
-        inicioSesion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        inicioSesion.setVisible(true);
-        inicioSesion.pack();
-        dispose();
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void mostrarVentanaEmergente() {
-        setVisible(true);
-        pack();
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 }

@@ -1,12 +1,13 @@
-package Modelo;
+package Vista;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Controlador.ControladorIS;
+import Modelo.CrearUsuario;
 
-public class InicioSesion extends JFrame {
+public class VistaIS extends JFrame {
     public JPanel Mensaje;
     private JLabel MensajeBienvenida;
     private JLabel MensajeLog;
@@ -36,33 +37,19 @@ public class InicioSesion extends JFrame {
         CreateUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarCrearUsuario();
+                controlador.mostrarCrearUsuario();
                 dispose();
             }
         });
     }
 
-    public void mostrarCrearUsuario(){
-        CrearUsuario enlace = new CrearUsuario();
-        enlace.mostrarVentanaEmergente();
-    }
 
     public void mostrarInicioSesion() {
-        InicioSesion is = new InicioSesion();
+        VistaIS is = new VistaIS();
         is.setContentPane(is.Mensaje);
         is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         is.setVisible(true);
         is.pack();
         is.setSize(1920, 1080);
     }
-
-    public static void main(String[] args) {
-        InicioSesion is = new InicioSesion();
-        is.setContentPane(is.Mensaje);
-        is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        is.setVisible(true);
-        is.pack();
-        is.setSize(1920, 1080);
-    }
-
 }

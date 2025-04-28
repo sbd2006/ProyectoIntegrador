@@ -1,10 +1,15 @@
 import Controlador.ControladorIS;
-import Modelo.InicioSesion;
+import Modelo.ModeloIS;
+import Vista.VistaIS;
+import Modelo.ModeloP;
+
+import javax.swing.table.DefaultTableModel;
 
 public class Main {
     public static void main(String[] args) {
-        InicioSesion vista = new InicioSesion();
-        ControladorIS controlador = new ControladorIS(vista);
+        VistaIS vista = new VistaIS();
+        ModeloIS modelo = new ModeloIS(vista);
+        ControladorIS controlador = new ControladorIS(modelo, vista);
 
         vista.setControlador(controlador);
 
@@ -15,4 +20,3 @@ public class Main {
         vista.setSize(1920, 1080);
     }
 }
-
