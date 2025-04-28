@@ -28,7 +28,7 @@ public class ModeloIS {
 
     public String validacionSQL() {
         Conexion conX = new Conexion();
-        conX.conectar(); // <--- LÍNEA CLAVE
+        conX.conectar();
         String user = getUser().getText();
         String pass = String.valueOf(getPass().getPassword());
 

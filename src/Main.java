@@ -7,14 +7,6 @@ import javax.swing.table.DefaultTableModel;
 
 public class Main {
     public static void main(String[] args) {
-            try {
-                ModeloP modelo = new ModeloP();
-                DefaultTableModel tabla = modelo.mostrarProductos();
-                System.out.println("Número de filas encontradas: " + tabla.getRowCount());
-            } catch (Exception e) {
-                e.printStackTrace(); // Esto nos da la pista real
-            }
-
         VistaIS vista = new VistaIS();
         ModeloIS modelo = new ModeloIS(vista);
         ControladorIS controlador = new ControladorIS(modelo, vista);

@@ -1,60 +1,60 @@
 package Modelo;
 
 import java.sql.*;
-import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ModeloP {
-    private Connection conexion;
-    private PreparedStatement ps;
-    private ResultSet rs;
-    private Statement st;
+    private Conexion conSQL;
 
-    public ModeloP() throws SQLException {
-        Conexion conX = new Conexion();
-        conX.conectar();
-        conexion = conX.getConexion();
+    public ModeloP() {
+        conSQL = new Conexion();
+        conSQL.conectar();
+    }
+    public Connection getConexion() {
+        return conSQL.getConexion();
     }
 
-    public DefaultTableModel mostrarProductos() throws SQLException {
-        String[] columnas = {"Id", "Nombre", "Categoria", "Precio", "Cantidad_Actual"};
-        DefaultTableModel modeloTabla = new DefaultTableModel(null, columnas);
-        String[] registros = new String[5];
-
-        st = conexion.createStatement();
-        rs = st.executeQuery("SELECT ID_PRODUCTO, Nombre, Categoria, Precio, Cantidad_Actual FROM Producto");
+    public List<String[]> obtenerProductos() throws SQLException {
+        List<String[]> productos = new ArrayList<>();
+        Statement st = getConexion().createStatement();
+        ResultSet rs = st.executeQuery("SELECT Id_producto, Nombre, Categoria, Precio, Cantidad_Actual FROM Producto");
 
         while (rs.next()) {
-            registros[0] = rs.getString("ID_PRODUCTO");
-            registros[1] = rs.getString("Nombre");
-            registros[2] = rs.getString("Categoria");
-            registros[3] = rs.getString("Precio");
-            registros[4] = rs.getString("Cantidad_Actual");
-            modeloTabla.addRow(registros);
+            String[] registro = {
+                    rs.getString("Id_producto"),
+                    rs.getString("Nombre"),
+                    rs.getString("Categoria"),
+                    rs.getString("Precio"),
+                    rs.getString("Cantidad_Actual")
+            };
+            productos.add(registro);
         }
-        return modeloTabla;
+        return productos;
     }
 
-    public boolean guardarProducto(int id, String nombre, String categoria, int precio, int cantidad) throws SQLException {
-        ps = conexion.prepareStatement("INSERT INTO Producto (ID_PRODUCTO, Nombre, Categoria, Precio, Cantidad_Actual) VALUES (?, ?, ?, ?, ?)");
-        ps.setInt(1, id);
+    public boolean guardarProducto(String id, String nombre, String categoria, String precio, String cantidad) throws SQLException {
+        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, Categoria, Precio, Cantidad_Actual) VALUES (?, ?, ?, ?, ?)");
+        ps.setInt(1, Integer.parseInt(id));
         ps.setString(2, nombre);
         ps.setString(3, categoria);
-        ps.setInt(4, precio);
-        ps.setInt(5, cantidad);
+        ps.setInt(4, Integer.parseInt(precio));
+        ps.setInt(5, Integer.parseInt(cantidad));
         return ps.executeUpdate() > 0;
     }
 
-    public boolean editarProducto(int id, int precio, int cantidad) throws SQLException {
-        ps = conexion.prepareStatement("UPDATE Producto SET Precio = ?, Cantidad_Actual = ? WHERE ID_PRODUCTO = ?");
-        ps.setInt(1, precio);
-        ps.setInt(2, cantidad);
-        ps.setInt(3, id);
+    public boolean editarProducto(String id, String precio, String cantidad) throws SQLException {
+        PreparedStatement ps = getConexion().prepareStatement("UPDATE Producto SET Precio = ?, Cantidad_Actual = ? WHERE Id_producto = ?");
+        ps.setInt(1, Integer.parseInt(precio));
+        ps.setInt(2, Integer.parseInt(cantidad));
+        ps.setInt(3, Integer.parseInt(id));
         return ps.executeUpdate() > 0;
     }
 
-    public boolean eliminarProducto(int id) throws SQLException {
-        ps = conexion.prepareStatement("DELETE FROM Producto WHERE ID_PRODUCTO = ?");
-        ps.setInt(1, id);
+    public boolean eliminarProducto(String id) throws SQLException {
+        PreparedStatement ps = getConexion().prepareStatement("DELETE FROM Producto WHERE Id_producto = ?");
+        ps.setInt(1, Integer.parseInt(id));
         return ps.executeUpdate() > 0;
     }
 }

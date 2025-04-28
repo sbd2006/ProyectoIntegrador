@@ -1,7 +1,7 @@
 package Vista;
 
-import Modelo.InicioSesion;
-import Modelo.Producto;
+import Controlador.ControladorP;
+import Modelo.ModeloP;
 import Modelo.Rolselection;
 
 import javax.swing.*;
@@ -44,9 +44,9 @@ public class Administrador extends JFrame {
         });
     }
     public void enlazarProducto(){
-        Producto enlace = new Producto();
-        enlace.mostrarProducto();
-
+        ModeloP modelo = new ModeloP();
+        VistaP vista = new VistaP();
+        ControladorP controlador = new ControladorP(modelo, vista);
     }
 
 
@@ -61,7 +61,7 @@ public class Administrador extends JFrame {
     }
 
     public void cerrarSesionAdmin(){
-    InicioSesion enlace = new InicioSesion();
+    VistaIS enlace = new VistaIS();
     enlace.mostrarInicioSesion();
 
     }

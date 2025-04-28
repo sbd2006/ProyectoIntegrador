@@ -4,6 +4,8 @@ import Modelo.*;
 import Vista.VistaIS;
 
 import javax.swing.*;
+import Vista.Administrador;
+import Vista.Empleado;
 
 public class ControladorIS {
     private ModeloIS modelo;
