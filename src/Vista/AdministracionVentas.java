@@ -1,7 +1,9 @@
+package Vista;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
-import java.awt.*;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -70,10 +72,6 @@ public class AdministracionVentas extends JFrame {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al consultar datos.");
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(AdministracionVentas::new);
     }
 }
 

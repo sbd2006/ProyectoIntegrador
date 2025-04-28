@@ -37,16 +37,12 @@ public class VistaIS extends JFrame {
         CreateUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarCrearUsuario();
+                controlador.mostrarCrearUsuario();
                 dispose();
             }
         });
     }
 
-    public void mostrarCrearUsuario(){
-        CrearUsuario enlace = new CrearUsuario();
-        enlace.mostrarVentanaEmergente();
-    }
 
     public void mostrarInicioSesion() {
         VistaIS is = new VistaIS();

@@ -1,7 +1,10 @@
 package Controlador;
 
 import Modelo.*;
+import Vista.Administrador;
+import Vista.Empleado;
 import Vista.VistaIS;
+import Vista.CrearUsario.CrearUsuarioVista;
 
 import javax.swing.*;
 import Vista.Administrador;
@@ -37,8 +40,9 @@ public class ControladorIS {
         }
     }
 
-    public void mostrarCrearUsuario(){
-        CrearUsuario enlace = new CrearUsuario();
-        enlace.mostrarVentanaEmergente();
+    public void mostrarCrearUsuario() {
+        CrearUsuarioVista vistaCU = new CrearUsuarioVista();
+        new CrearUsuarioControlador(vistaCU);
+        vistaCU.setVisible(true);
     }
 }
