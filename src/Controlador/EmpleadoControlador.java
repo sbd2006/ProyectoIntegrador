@@ -7,25 +7,28 @@ import Vista.AdministracionVentasVista;
 public class EmpleadoControlador {
 
     private final EmpleadoVista vista;
+    private final String nombreUsuario; // Hacemos final el nombre del usuario
 
-    public EmpleadoControlador(EmpleadoVista vista) {
+    public EmpleadoControlador(EmpleadoVista vista, String nombreUsuario) {
         this.vista = vista;
+        this.nombreUsuario = nombreUsuario;
         initController();
     }
 
     private void initController() {
         vista.realizarVentaButton.addActionListener(e -> mostrarVentas());
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
+        vista.setNombreUsuario(nombreUsuario); // Aquí actualizamos el nombre en la vista
     }
 
     private void mostrarVentas() {
-        AdministracionVentasView vistaVentas = new AdministracionVentasView();
+        AdministracionVentasVista vistaVentas = new AdministracionVentasVista();
         vistaVentas.mostrarVista();
         vista.dispose();
     }
 
     private void cerrarSesion() {
-        InicioSesionView inicio = new InicioSesionView();
+        InicioSesionVista inicio = new InicioSesionVista();
         inicio.mostrarVista();
         vista.dispose();
     }
@@ -34,3 +37,4 @@ public class EmpleadoControlador {
         vista.mostrarVista();
     }
 }
+
