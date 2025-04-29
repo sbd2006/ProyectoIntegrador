@@ -1,12 +1,10 @@
-package Vista.CrearUsario;
-
-import Vista.VistaIS;
+package Vista;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class CrearUsuarioVista extends JFrame {
-
+    public JPanel CrearUsuario;
     public JTextField IngresoNombre, IngresoApellido, IngresoTelefono, IngresoDireccion, IngresoUsuario;
     public JPasswordField IngresoContraseña;
     public JButton BotonCrear, BotonRegresar;

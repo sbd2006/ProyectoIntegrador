@@ -43,7 +43,6 @@ public class VistaIS extends JFrame {
         });
     }
 
-
     public void mostrarInicioSesion() {
         VistaIS is = new VistaIS();
         is.setContentPane(is.Mensaje);
@@ -52,4 +51,10 @@ public class VistaIS extends JFrame {
         is.pack();
         is.setSize(1920, 1080);
     }
+
+    public void mostrarVista() {
+        this.setVisible(true);
+    }
+
+
 }

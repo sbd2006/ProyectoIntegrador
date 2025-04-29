@@ -2,13 +2,14 @@ package Vista;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class VentaVista extends JFrame {
+    public JPanel Venta;
     public JTable tableCatalogo;
     public JTable tablePedido;
-    public JTextField IdProducto, CantidadP, PrecioUnitario, Descripcion, IdPedido, FechaPedido, Total;
+    public JTextField IdProducto, CantidadP, PrecioUnitario, Descripcion, IdPedido, FechaVenta, Total;
     public JButton confirmarPedidoButton, regresarButton, agregarPedidoButton, agregarProductoButton, mostrarCatalogoButton;
+    public JLabel Id,CANTIDAD_PRODUCTO;
 
     public VentaVista() {
         setTitle("Gestión de Ventas");
@@ -22,7 +23,7 @@ public class VentaVista extends JFrame {
         PrecioUnitario = new JTextField();
         Descripcion = new JTextField();
         IdPedido = new JTextField();
-        FechaPedido = new JTextField();
+        FechaVenta = new JTextField();
         Total = new JTextField();
 
         panelFormulario.add(new JLabel("ID Producto"));
@@ -36,7 +37,7 @@ public class VentaVista extends JFrame {
         panelFormulario.add(new JLabel("ID Pedido"));
         panelFormulario.add(IdPedido);
         panelFormulario.add(new JLabel("Fecha Pedido"));
-        panelFormulario.add(FechaPedido);
+        panelFormulario.add(FechaVenta);
         panelFormulario.add(new JLabel("Total"));
         panelFormulario.add(Total);
 

@@ -1,7 +1,7 @@
 package Controlador;
 
 import Vista.EmpleadoVista;
-import Vista.InicioSesionVista;
+import Vista.VistaIS;
 import Vista.AdministracionVentasVista;
 
 public class EmpleadoControlador {
@@ -28,13 +28,13 @@ public class EmpleadoControlador {
     }
 
     private void cerrarSesion() {
-        InicioSesionVista inicio = new InicioSesionVista();
+        VistaIS inicio = new VistaIS();
         inicio.mostrarVista();
         vista.dispose();
     }
 
     public void iniciarVista() {
-        vista.mostrarVista();
+        vista.mostrarEmpleado();
     }
 }
 

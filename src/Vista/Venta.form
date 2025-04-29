@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Modelo.Venta">
-  <grid id="27dc6" binding="Pedido" layout-manager="GridLayoutManager" row-count="28" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.VentaVista">
+  <grid id="27dc6" binding="Venta" layout-manager="GridLayoutManager" row-count="28" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="17" y="24" width="730" height="716"/>
@@ -96,7 +96,7 @@
           <text value="Precio unitario"/>
         </properties>
       </component>
-      <component id="780f6" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="780f6" class="javax.swing.JTextField" binding="PrecioUnitario">
         <constraints>
           <grid row="11" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -106,7 +106,7 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="b2780" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+      <component id="b2780" class="javax.swing.JTextField" binding="CantidadP">
         <constraints>
           <grid row="16" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -123,7 +123,7 @@
           <text value="Fecha venta"/>
         </properties>
       </component>
-      <component id="4bda" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+      <component id="4bda" class="javax.swing.JTextField" binding="FechaVenta">
         <constraints>
           <grid row="20" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -140,7 +140,7 @@
           <text value="Total"/>
         </properties>
       </component>
-      <component id="e1be2" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+      <component id="e1be2" class="javax.swing.JTextField" binding="Total">
         <constraints>
           <grid row="24" column="4" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>

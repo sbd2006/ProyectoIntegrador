@@ -114,4 +114,8 @@ public class ControladorP {
         // Aquí deberías abrir la vista del administrador
         vista.dispose();
     }
+    public void iniciarVista() {
+        vista.mostrarVista();
+    }
 }
+

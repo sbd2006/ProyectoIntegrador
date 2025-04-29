@@ -72,4 +72,9 @@ public class RolSelectionControlador {
     private void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(vista, mensaje);
     }
+
+    public void iniciarVista() {
+        vista.mostrarVista();
+    }
+
 }
