@@ -3,10 +3,9 @@ package Vista;
 import Controlador.ControladorP;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
-import Vista.VistaIS;
-import Vista.VistaP;
-import Vista.RolSelectionVista;
 import Controlador.RolSelectionControlador;
+import Controlador.AdministracionVentasControlador;
+import Vista.AdministracionVentasVista;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,6 +18,7 @@ public class AdministradorVista extends JFrame {
     public JButton cerrarSesionButton;
     public JButton gestionDeUsuariosButton;
     private JLabel labelBienvenida;
+    private JButton consultarVentasButton;
 
     public AdministradorVista() {
         setTitle("Vista Administrador");
@@ -47,6 +47,12 @@ public class AdministradorVista extends JFrame {
                 abrirGestionUsuarios();
             }
         });
+        consultarVentasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void setNombreUsuario(String nombreUsuario) {
@@ -59,14 +65,14 @@ public class AdministradorVista extends JFrame {
     private void abrirVistaProducto() {
         VistaP productoVista = new VistaP();
         ModeloP productoModelo = new ModeloP();
-        ControladorP productoControlador = new ControladorP(productoModelo, productoVista);
+        ControladorP productoControlador = new ControladorP(productoModelo, productoVista, this);
         productoControlador.iniciarVista();
-        dispose(); // cerramos la ventana actual
+        this.setVisible(false);
     }
 
     private void cerrarSesion() {
         VistaIS inicio = new VistaIS();
-        inicio.mostrarVista();
+        inicio.mostrarInicioSesion();
         dispose();
     }
 
@@ -74,18 +80,17 @@ public class AdministradorVista extends JFrame {
         try {
             RolSelectionVista rolVista = new RolSelectionVista();
             RolDAO rolDAO = new RolDAO();
-            RolSelectionControlador rolControlador = new RolSelectionControlador(rolVista, rolDAO);
+            RolSelectionControlador rolControlador = new RolSelectionControlador(rolVista, rolDAO,this);
             rolControlador.iniciarVista();
-            dispose();
+            this.setVisible(false);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error de base de datos: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
-    public void mostrarAdministrador() {
+    public void regresar() {
         setVisible(true);
     }
 }
-
-
