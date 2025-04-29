@@ -7,8 +7,8 @@ import java.util.List;
 public class AdminVentaDAO {
 
     private final String url = "jdbc:mysql://localhost:3306/tu_base";
-    private final String usuario = "usuario";
-    private final String contraseña = "contraseña";
+    private final String usuario = "root";
+    private final String contraseña = "Juanguis-2006";
 
     public List<String[]> consultarPorFecha(String fecha) {
         List<String[]> resultados = new ArrayList<>();

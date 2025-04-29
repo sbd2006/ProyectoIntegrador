@@ -25,28 +25,22 @@ public class VentaControlador {
     }
 
 
-
     private void mostrarCatalogo() {
-        try {
-            catalogoModel.setRowCount(0);
+        catalogoModel.setRowCount(0);
 
-            DefaultTableModel productos = modelo.mostrarProductos();
+        DefaultTableModel productos = modelo.mostrarProductos();
 
-            if (productos.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(vista, "No hay productos disponibles en el catálogo.", "Información", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                for (int i = 0; i < productos.getRowCount(); i++) {
-                    Object id = productos.getValueAt(i, 0);
-                    Object descripcion = productos.getValueAt(i, 1);
-                    Object precio = productos.getValueAt(i, 3);
-                    catalogoModel.addRow(new Object[]{id, descripcion, precio});
-                }
+        if (productos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(vista, "No hay productos disponibles en el catálogo.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            for (int i = 0; i < productos.getRowCount(); i++) {
+                Object id = productos.getValueAt(i, 0);
+                Object descripcion = productos.getValueAt(i, 1);
+                Object precio = productos.getValueAt(i, 3);
+                catalogoModel.addRow(new Object[]{id, descripcion, precio});
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(vista, "Error de conexión con el servidor.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
 
     private void agregarProducto() {

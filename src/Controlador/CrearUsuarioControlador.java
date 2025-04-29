@@ -1,7 +1,7 @@
 package Controlador;
 
 import Modelo.CrearUsuarioDAO;
-import Vista.CrearUsario.CrearUsuarioVista;
+import Vista.CrearUsuarioVista;
 
 public class CrearUsuarioControlador {
     private CrearUsuarioVista vista;

@@ -1,18 +1,15 @@
 package Modelo;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import Vista.VistaIS;
 
 import javax.swing.*;
+import java.sql.*;
 
 public class ModeloIS {
     private VistaIS vista;
     private ResultSet rs;
-    private Statement st;
     private PreparedStatement ps;
+    private String nombreUsuario; // ← Aquí se guarda el nombre del usuario
 
     public ModeloIS(VistaIS vista) {
         this.vista = vista;
@@ -33,16 +30,26 @@ public class ModeloIS {
         String pass = String.valueOf(getPass().getPassword());
 
         try {
-            st = conX.getConexion().createStatement();
-            rs = st.executeQuery("SELECT * FROM usuarios WHERE Usuario = '" + user + "' AND Pass = '" + pass + "'");
+            String sql = "SELECT * FROM usuarios WHERE Usuario = ? AND Pass = ?";
+            ps = conX.getConexion().prepareStatement(sql);
+            ps.setString(1, user);
+            ps.setString(2, pass);
+
+            rs = ps.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("tipo");
+                // Guardar el nombre para usarlo en la bienvenida
+                nombreUsuario = rs.getString("Nombre"); // Asegúrate de que la columna se llame así
+                return rs.getString("tipo"); // Retorna el tipo (Administrador / Usuario)
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
-        return null;
+
+        return null; // Si no encuentra nada
     }
 
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
 }

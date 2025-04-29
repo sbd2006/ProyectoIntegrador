@@ -29,4 +29,8 @@ public class VistaP extends JFrame {
         pack();
         setVisible(true);
     }
+    public void mostrarVista() {
+        this.setVisible(true);
+    }
+
 }

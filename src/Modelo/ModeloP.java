@@ -3,6 +3,7 @@ package Modelo;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 
 public class ModeloP {
@@ -56,5 +57,18 @@ public class ModeloP {
         PreparedStatement ps = getConexion().prepareStatement("DELETE FROM Producto WHERE Id_producto = ?");
         ps.setInt(1, Integer.parseInt(id));
         return ps.executeUpdate() > 0;
+    }
+
+    public DefaultTableModel mostrarProductos() {
+        DefaultTableModel modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Categoria", "Precio", "Cantidad"}, 0);
+        try {
+            List<String[]> productos = obtenerProductos();
+            for (String[] producto : productos) {
+                modeloTabla.addRow(producto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return modeloTabla;
     }
 }
