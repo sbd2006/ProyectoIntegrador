@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.ModeloP;
+import Vista.AdministradorVista;
 import Vista.VistaP;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,10 +10,12 @@ import java.sql.SQLException;
 public class ControladorP {
     private ModeloP modelo;
     private VistaP vista;
+    private AdministradorVista adminVista;
 
-    public ControladorP(ModeloP modelo, VistaP vista) {
+    public ControladorP(ModeloP modelo, VistaP vista, AdministradorVista adminVista) {
         this.modelo = modelo;
         this.vista = vista;
+        this.adminVista = adminVista;
 
         // Listener de botones
         this.vista.mostrarButton.addActionListener(new ActionListener() {
@@ -111,8 +114,8 @@ public class ControladorP {
     }
 
     private void regresar() {
-        // Aquí deberías abrir la vista del administrador
         vista.dispose();
+        adminVista.setVisible(true);
     }
     public void iniciarVista() {
         vista.mostrarVista();

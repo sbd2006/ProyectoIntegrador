@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.RolDAO;
+import Vista.AdministradorVista;
 import Vista.RolSelectionVista;
 
 import javax.swing.*;
@@ -12,15 +13,17 @@ import java.util.List;
 public class RolSelectionControlador {
     private RolSelectionVista vista;
     private RolDAO modelo;
+    private AdministradorVista vistaAdministrador;
 
-    public RolSelectionControlador(RolSelectionVista vista, RolDAO modelo) {
+    public RolSelectionControlador(RolSelectionVista vista, RolDAO modelo, AdministradorVista vistaAdministrador) {
         this.vista = vista;
         this.modelo = modelo;
+        this.vistaAdministrador = vistaAdministrador;
 
         vista.consultButton.addActionListener(e -> consultarUsuarios());
         vista.updateButton.addActionListener(e -> actualizarRol());
         vista.deleteButton.addActionListener(e -> eliminarUsuario());
-        vista.button1.addActionListener(e -> vista.dispose());
+        vista.button1.addActionListener(e -> regresar());
 
         vista.mostrarVista();
     }
@@ -75,6 +78,11 @@ public class RolSelectionControlador {
 
     public void iniciarVista() {
         vista.mostrarVista();
+    }
+
+    private void regresar(){
+        vista.dispose();
+        vistaAdministrador.setVisible(true);
     }
 
 }

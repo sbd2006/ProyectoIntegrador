@@ -55,6 +55,4 @@ public class VistaIS extends JFrame {
     public void mostrarVista() {
         this.setVisible(true);
     }
-
-
 }
