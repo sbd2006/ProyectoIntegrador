@@ -7,25 +7,58 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class AdministracionVentasVista extends JFrame {
-    public JPanel panel1;
     public JButton consultarButton;
+    public JButton regresarButton;
     public JTable table1;
-    public JDateChooser selectorFecha;
     public DefaultTableModel modeloTabla;
+    public JDateChooser selectorFecha;
 
     public AdministracionVentasVista() {
         setTitle("Consulta por Fecha");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setContentPane(panel1);
+        setSize(600, 450);
+        setLocationRelativeTo(null);
+
+        JPanel panelPrincipal = new JPanel(new BorderLayout());
+
+        // ---------- Panel Título ----------
+        JLabel tituloLabel = new JLabel("Consultar Ventas", JLabel.CENTER);
+        tituloLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 18));
+        panelPrincipal.add(tituloLabel, BorderLayout.NORTH);
+
+        // ---------- Panel superior ----------
+        JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         selectorFecha = new JDateChooser();
         selectorFecha.setDateFormatString("yyyy-MM-dd");
 
-        panel1.add(new JLabel("Selecciona la fecha:"));
-        panel1.add(selectorFecha);
+        consultarButton = new JButton("Consultar");
+        regresarButton = new JButton("Regresar");
 
+        // Aplicar fuente a los botones
+        Font botonFuente = new Font("Britannic Bold", Font.PLAIN, 16);
+        consultarButton.setFont(botonFuente);
+        regresarButton.setFont(botonFuente);
+
+        panelSuperior.add(new JLabel("Fecha:"));
+        panelSuperior.add(selectorFecha);
+        panelSuperior.add(consultarButton);
+        panelSuperior.add(regresarButton);
+
+        JPanel panelTop = new JPanel(new BorderLayout());
+        panelTop.add(tituloLabel, BorderLayout.NORTH);
+        panelTop.add(panelSuperior, BorderLayout.SOUTH);
+        panelPrincipal.add(panelTop, BorderLayout.NORTH);
+
+        // ---------- Tabla ----------
+        table1 = new JTable();
         modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Fecha"}, 0);
         table1.setModel(modeloTabla);
+
+        JScrollPane scrollPane = new JScrollPane(table1);
+        panelPrincipal.add(scrollPane, BorderLayout.CENTER);
+
+        setContentPane(panelPrincipal);
     }
 
     public void mostrarVista() {
