@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AdminVentaDAO {
 
-    private final String url = "jdbc:mysql://localhost:3306/tu_base";
+    private final String url = "jdbc:mysql://localhost:3306/PostresMariaJose";
     private final String usuario = "root";
     private final String contraseña = "Juanguis-2006";
 
@@ -14,7 +14,7 @@ public class AdminVentaDAO {
         List<String[]> resultados = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(url, usuario, contraseña);
-             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM tu_tabla WHERE fecha = ?")) {
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM venta WHERE fecha = ?")) {
 
             stmt.setString(1, fecha);
             ResultSet rs = stmt.executeQuery();

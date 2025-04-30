@@ -3,9 +3,13 @@ package Vista;
 import Controlador.ControladorP;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
+import Modelo.VentaDAO;
+import Modelo.Conexion;
+import Modelo.VentaDAO;
 import Controlador.RolSelectionControlador;
 import Controlador.AdministracionVentasControlador;
 import Vista.AdministracionVentasVista;
+
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -50,7 +54,7 @@ public class AdministradorVista extends JFrame {
         consultarVentasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                abrirAdministracionVentas();
             }
         });
     }
@@ -90,6 +94,24 @@ public class AdministradorVista extends JFrame {
         }
 
     }
+    private void abrirAdministracionVentas() {
+        try {
+
+            Conexion connection = new  Conexion();
+            connection.conectar();
+
+            VentaDAO modeloVentas = new VentaDAO(connection.getConexion());
+            AdministracionVentasVista vistaVentas = new AdministracionVentasVista();
+            AdministracionVentasControlador controladorVentas = new AdministracionVentasControlador(vistaVentas, modeloVentas);
+            controladorVentas.iniciarVista();
+            this.setVisible(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al abrir la vista de administración de ventas: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void regresar() {
         setVisible(true);
     }
