@@ -1,8 +1,8 @@
 package Vista;
 
+
 import Controlador.ControladorIS;
 import Modelo.ModeloIS;
-
 import javax.swing.*;
 
 public class CrearUsuarioVista extends JFrame {
@@ -23,7 +23,6 @@ public class CrearUsuarioVista extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(1920, 1080);
-    }
 
     public void regresarAInicioSesion() {
         dispose();
