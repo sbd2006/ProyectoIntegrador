@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.sql.*;
 
 public class CrearUsuarioDAO {
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
-    private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+
+    private final String url = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
+    private final String user = "root";
+    private final String pass = "OH{c<6H1#cQ%F69$i";
+
 
     public boolean guardarUsuario(CrearUsuario usuario) {
         String sql = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";

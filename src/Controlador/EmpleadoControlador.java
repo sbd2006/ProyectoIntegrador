@@ -2,7 +2,7 @@ package Controlador;
 
 import Vista.EmpleadoVista;
 import Vista.VistaIS;
-import Vista.AdministracionVentasVista;
+import Vista.VentaVista;
 
 public class EmpleadoControlador {
 
@@ -22,8 +22,8 @@ public class EmpleadoControlador {
     }
 
     private void mostrarVentas() {
-        AdministracionVentasVista vistaVentas = new AdministracionVentasVista();
-        vistaVentas.mostrarVista();
+        VentaVista vistaVentas = new VentaVista();
+        vistaVentas.mostrarVenta();
         vista.dispose();
     }
 
