@@ -22,6 +22,6 @@ public class CrearUsuarioControlador {
                 vista.IngresoUsuario.getText(),
                 new String(vista.IngresoContraseña.getPassword())
         );
-        dao.insertarUsuario(usuario);
+        dao.guardarUsuario(usuario);
     }
 }
