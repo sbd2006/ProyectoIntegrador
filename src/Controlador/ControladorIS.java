@@ -34,7 +34,7 @@ public class ControladorIS {
             vista.dispose();
 
         } else if ("Usuario".equals(userType)) {
-            JOptionPane.showMessageDialog(null, "Bienvenido Cliente");
+            JOptionPane.showMessageDialog(null, "Bienvenido Empleado");
             EmpleadoVista vistaEmpleado = new EmpleadoVista();
             EmpleadoControlador controladorEmpleado = new EmpleadoControlador(vistaEmpleado, nombre);
             controladorEmpleado.iniciarVista();

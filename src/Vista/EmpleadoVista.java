@@ -6,6 +6,7 @@ public class EmpleadoVista extends JFrame {
     public JPanel PantallaCliente;
     public JButton realizarVentaButton;
     public JButton cerrarSesionButton;
+    private JLabel Bienvenido;
     private JLabel lblBienvenida;
 
     public EmpleadoVista() {
@@ -16,7 +17,7 @@ public class EmpleadoVista extends JFrame {
     }
 
     public void setNombreUsuario(String nombreUsuario) {
-        lblBienvenida.setText("Bienvenido " + nombreUsuario);
+        Bienvenido.setText("Bienvenido Emplead@ " + nombreUsuario);
     }
 
     public void mostrarEmpleado() {

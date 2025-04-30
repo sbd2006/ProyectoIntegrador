@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Controlador.ControladorIS;
-import Modelo.CrearUsuario;
 
 public class VistaIS extends JFrame {
     public JPanel Mensaje;
@@ -17,6 +16,14 @@ public class VistaIS extends JFrame {
     private JLabel MensajePassword;
     private JButton Login;
     private JButton CreateUser;
+
+    public VistaIS() {
+        setTitle("Inicio de Sesión");
+        setContentPane(Mensaje);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setSize(1920,1080);
+    }
 
     public JTextField getIngresoUser() {
         return IngresoUser;
@@ -44,17 +51,14 @@ public class VistaIS extends JFrame {
     }
 
     public void mostrarInicioSesion() {
-        VistaIS is = new VistaIS();
-        is.setContentPane(is.Mensaje);
-        is.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        is.setVisible(true);
-        is.pack();
-        is.setSize(1920, 1080);
+        setContentPane(Mensaje);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+        pack();
+        setSize(1920, 1080);
     }
 
     public void mostrarVista() {
         this.setVisible(true);
     }
-
-
 }

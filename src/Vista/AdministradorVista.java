@@ -1,11 +1,10 @@
 package Vista;
 
+import Controlador.ControladorIS;
 import Controlador.ControladorP;
+import Modelo.ModeloIS;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
-import Vista.VistaIS;
-import Vista.VistaP;
-import Vista.RolSelectionVista;
 import Controlador.RolSelectionControlador;
 
 import javax.swing.*;
@@ -19,12 +18,16 @@ public class AdministradorVista extends JFrame {
     public JButton cerrarSesionButton;
     public JButton gestionDeUsuariosButton;
     private JLabel labelBienvenida;
+    private JButton consultarVentasButton;
+    private ModeloIS modelo;
+
 
     public AdministradorVista() {
         setTitle("Vista Administrador");
         setContentPane(administracion);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        setLocationRelativeTo(null);
 
         // Aquí se conectan los botones con sus acciones
         productoButton.addActionListener(new ActionListener() {
@@ -47,6 +50,12 @@ public class AdministradorVista extends JFrame {
                 abrirGestionUsuarios();
             }
         });
+        consultarVentasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void setNombreUsuario(String nombreUsuario) {
@@ -59,33 +68,38 @@ public class AdministradorVista extends JFrame {
     private void abrirVistaProducto() {
         VistaP productoVista = new VistaP();
         ModeloP productoModelo = new ModeloP();
-        ControladorP productoControlador = new ControladorP(productoModelo, productoVista);
+        ControladorP productoControlador = new ControladorP(productoModelo, productoVista, this);
         productoControlador.iniciarVista();
-        dispose(); // cerramos la ventana actual
+        this.setVisible(false);
     }
 
     private void cerrarSesion() {
-        VistaIS inicio = new VistaIS();
-        inicio.mostrarVista();
         dispose();
+
+        VistaIS nuevaVistaLogin = new VistaIS();
+        ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
+        ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
+        nuevaVistaLogin.setControlador(nuevoControladorLogin);
+        nuevaVistaLogin.setVisible(true);
     }
+
+
 
     private void abrirGestionUsuarios() {
         try {
             RolSelectionVista rolVista = new RolSelectionVista();
             RolDAO rolDAO = new RolDAO();
-            RolSelectionControlador rolControlador = new RolSelectionControlador(rolVista, rolDAO);
+            RolSelectionControlador rolControlador = new RolSelectionControlador(rolVista, rolDAO,this);
             rolControlador.iniciarVista();
-            dispose();
+            this.setVisible(false);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this,
                     "Error de base de datos: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
-    public void mostrarAdministrador() {
+    public void regresar() {
         setVisible(true);
     }
 }
-
-
