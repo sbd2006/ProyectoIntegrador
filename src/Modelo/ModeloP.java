@@ -20,7 +20,7 @@ public class ModeloP {
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
         Statement st = getConexion().createStatement();
-        ResultSet rs = st.executeQuery("SELECT Id_producto, Nombre, Categoria, Precio, Cantidad_Actual FROM Producto");
+        ResultSet rs = st.executeQuery("SELECT Id_producto, Nombre, Categoria, Precio, stock FROM Producto");
 
         while (rs.next()) {
             String[] registro = {
@@ -28,7 +28,7 @@ public class ModeloP {
                     rs.getString("Nombre"),
                     rs.getString("Categoria"),
                     rs.getString("Precio"),
-                    rs.getString("Cantidad_Actual")
+                    rs.getString("stock")
             };
             productos.add(registro);
         }
@@ -36,7 +36,7 @@ public class ModeloP {
     }
 
     public boolean guardarProducto(String id, String nombre, String categoria, String precio, String cantidad) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, Categoria, Precio, Cantidad_Actual) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, Categoria, Precio, stock) VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(id));
         ps.setString(2, nombre);
         ps.setString(3, categoria);
@@ -46,7 +46,7 @@ public class ModeloP {
     }
 
     public boolean editarProducto(String id, String precio, String cantidad) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("UPDATE Producto SET Precio = ?, Cantidad_Actual = ? WHERE Id_producto = ?");
+        PreparedStatement ps = getConexion().prepareStatement("UPDATE Producto SET Nombre= ?, Categoria= ?, Precio = ? WHERE Id_producto = ?");
         ps.setInt(1, Integer.parseInt(precio));
         ps.setInt(2, Integer.parseInt(cantidad));
         ps.setInt(3, Integer.parseInt(id));

@@ -18,7 +18,7 @@ public class EmpleadoControlador {
     private void initController() {
         vista.realizarVentaButton.addActionListener(e -> mostrarVentas());
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
-        vista.setNombreUsuario(nombreUsuario); // Aquí actualizamos el nombre en la vista
+        vista.setNombreUsuario(nombreUsuario);
     }
 
     private void mostrarVentas() {

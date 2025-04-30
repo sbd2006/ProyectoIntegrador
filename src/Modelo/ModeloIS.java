@@ -10,6 +10,7 @@ public class ModeloIS {
     private ResultSet rs;
     private PreparedStatement ps;
     private String nombreUsuario; // ← Aquí se guarda el nombre del usuario
+    Conexion conX = new Conexion();
 
     public ModeloIS(VistaIS vista) {
         this.vista = vista;
@@ -24,7 +25,6 @@ public class ModeloIS {
     }
 
     public String validacionSQL() {
-        Conexion conX = new Conexion();
         conX.conectar();
         String user = getUser().getText();
         String pass = String.valueOf(getPass().getPassword());

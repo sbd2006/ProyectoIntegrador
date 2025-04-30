@@ -21,7 +21,7 @@ public class VistaP extends JFrame {
     public DefaultTableModel modTabla;
 
     public VistaP() {
-        modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Cantidad_Actual"}, 0);
+        modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Stock"}, 0);
         table1.setModel(modTabla);
 
         setContentPane(producto);

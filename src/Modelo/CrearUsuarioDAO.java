@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class CrearUsuarioDAO {
     public void insertarUsuario(CrearUsuario u) {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "Juanguis-2006")) {
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "Santi104")) {
             String sql = "INSERT INTO usuarios (nombre, apellido, telefono, direccion, usuario, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, u.getNombre());

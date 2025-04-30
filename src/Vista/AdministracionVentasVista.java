@@ -15,7 +15,6 @@ public class AdministracionVentasVista extends JFrame {
 
     public AdministracionVentasVista() {
         setTitle("Consulta por Fecha");
-        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setContentPane(panel1);
 

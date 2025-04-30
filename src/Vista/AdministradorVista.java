@@ -1,11 +1,11 @@
 package Vista;
 
+import Controlador.ControladorIS;
 import Controlador.ControladorP;
+import Modelo.ModeloIS;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
 import Controlador.RolSelectionControlador;
-import Controlador.AdministracionVentasControlador;
-import Vista.AdministracionVentasVista;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,12 +19,15 @@ public class AdministradorVista extends JFrame {
     public JButton gestionDeUsuariosButton;
     private JLabel labelBienvenida;
     private JButton consultarVentasButton;
+    private ModeloIS modelo;
+
 
     public AdministradorVista() {
         setTitle("Vista Administrador");
         setContentPane(administracion);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        setLocationRelativeTo(null);
 
         // Aquí se conectan los botones con sus acciones
         productoButton.addActionListener(new ActionListener() {
@@ -71,10 +74,16 @@ public class AdministradorVista extends JFrame {
     }
 
     private void cerrarSesion() {
-        VistaIS inicio = new VistaIS();
-        inicio.mostrarInicioSesion();
         dispose();
+
+        VistaIS nuevaVistaLogin = new VistaIS();
+        ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
+        ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
+        nuevaVistaLogin.setControlador(nuevoControladorLogin);
+        nuevaVistaLogin.setVisible(true);
     }
+
+
 
     private void abrirGestionUsuarios() {
         try {
