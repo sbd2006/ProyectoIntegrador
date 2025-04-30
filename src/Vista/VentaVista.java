@@ -10,6 +10,8 @@ public class VentaVista extends JFrame {
     public JTextField IdProducto, CantidadP, PrecioUnitario, Descripcion, IdPedido, FechaVenta, Total;
     public JButton confirmarPedidoButton, regresarButton, agregarPedidoButton, agregarProductoButton, mostrarCatalogoButton;
     public JLabel Id,CANTIDAD_PRODUCTO;
+    private JButton mostrarButton;
+    private JButton eliminarButton;
 
     public VentaVista() {
         setTitle("Gestión de Ventas");

@@ -1,20 +1,27 @@
 package Controlador;
 
+import Modelo.CrearUsuario;
 import Modelo.CrearUsuarioDAO;
+import Modelo.ModeloIS;
 import Vista.CrearUsuarioVista;
+import Vista.VistaIS;
 
-public class CrearUsuarioControlador {
-    private CrearUsuarioVista vista;
-    private CrearUsuarioDAO dao;
+import javax.swing.*;
 
-    public CrearUsuarioControlador(CrearUsuarioVista vista) {
+public class CrearUsuarioControlador extends JFrame {
+    private final CrearUsuarioVista vista;
+    private final CrearUsuarioDAO dao;
+
+    public CrearUsuarioControlador(CrearUsuarioVista vista, CrearUsuarioDAO dao) {
         this.vista = vista;
-        this.dao = new CrearUsuarioDAO();
+        this.dao = dao;
 
-        vista.BotonCrear.addActionListener(e -> crearUsuario());
+        this.vista.BotonCrear.addActionListener(e -> crearUsuario());
+        this.vista.BotonRegresar.addActionListener(e -> vista.regresarAInicioSesion());
     }
+
     private void crearUsuario() {
-        Modelo.CrearUsuario usuario = new Modelo.CrearUsuario(
+        CrearUsuario usuario = new CrearUsuario(
                 vista.IngresoNombre.getText(),
                 vista.IngresoApellido.getText(),
                 vista.IngresoTelefono.getText(),
@@ -22,6 +29,11 @@ public class CrearUsuarioControlador {
                 vista.IngresoUsuario.getText(),
                 new String(vista.IngresoContraseña.getPassword())
         );
-        dao.guardarUsuario(usuario);
+
+        if (dao.guardarUsuario(usuario)) {
+            JOptionPane.showMessageDialog(vista, "Usuario creado exitosamente.");
+            vista.regresarAInicioSesion();
+            vista.dispose();
+        }
     }
 }

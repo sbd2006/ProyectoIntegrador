@@ -5,6 +5,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AdministracionVentasVista extends JFrame {
     public JButton consultarButton;
@@ -13,7 +15,12 @@ public class AdministracionVentasVista extends JFrame {
     public DefaultTableModel modeloTabla;
     public JDateChooser selectorFecha;
 
-    public AdministracionVentasVista() {
+    // Nueva variable para referencia a la ventana anterior
+    private AdministradorVista administradorVista;
+
+    public AdministracionVentasVista(AdministradorVista administradorVista) {
+        this.administradorVista = administradorVista;
+
         setTitle("Consulta por Fecha");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 450);
@@ -35,7 +42,6 @@ public class AdministracionVentasVista extends JFrame {
         consultarButton = new JButton("Consultar");
         regresarButton = new JButton("Regresar");
 
-        // Aplicar fuente a los botones
         Font botonFuente = new Font("Britannic Bold", Font.PLAIN, 16);
         consultarButton.setFont(botonFuente);
         regresarButton.setFont(botonFuente);
@@ -50,7 +56,6 @@ public class AdministracionVentasVista extends JFrame {
         panelTop.add(panelSuperior, BorderLayout.SOUTH);
         panelPrincipal.add(panelTop, BorderLayout.NORTH);
 
-        // ---------- Tabla ----------
         table1 = new JTable();
         modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Fecha"}, 0);
         table1.setModel(modeloTabla);
@@ -59,6 +64,19 @@ public class AdministracionVentasVista extends JFrame {
         panelPrincipal.add(scrollPane, BorderLayout.CENTER);
 
         setContentPane(panelPrincipal);
+
+        // Acción del botón regresar
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cerrarYRegresar();
+            }
+        });
+    }
+
+    private void cerrarYRegresar() {
+        this.dispose(); // Cierra la ventana actual
+        administradorVista.regresar(); // Muestra la vista del administrador
     }
 
     public void mostrarVista() {
