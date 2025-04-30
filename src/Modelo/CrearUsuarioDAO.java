@@ -1,14 +1,20 @@
 package Modelo;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
+import java.sql.*;
 
 public class CrearUsuarioDAO {
-    public void insertarUsuario(CrearUsuario u) {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/?user=root", "root", "Juanguis-2006")) {
-            String sql = "INSERT INTO usuarios (nombre, apellido, telefono, direccion, usuario, contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+    private final String url = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
+    private final String user = "root";
+    private final String pass = "OH{c<6H1#cQ%F69$i";
+
+    public boolean guardarUsuario(CrearUsuario u) {
+        if (existeUsuario(u.getUsuario())) {
+            System.err.println("Usuario ya existe en la base de datos");
+            return false;
+        }
+
+        try (Connection con = DriverManager.getConnection(url, user, pass)) {
+            String sql = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, u.getNombre());
             ps.setString(2, u.getApellido());
@@ -17,8 +23,25 @@ public class CrearUsuarioDAO {
             ps.setString(5, u.getUsuario());
             ps.setString(6, u.getContraseña());
             ps.executeUpdate();
+            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Error al guardar usuario: " + e.getMessage());
+            return false;
         }
+    }
+
+    public boolean existeUsuario(String nombreUsuario) {
+        String query = "SELECT COUNT(*) FROM usuarios WHERE usuario = ?";
+        try (Connection con = DriverManager.getConnection(url, user, pass);
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setString(1, nombreUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al validar existencia de usuario: " + e.getMessage());
+        }
+        return false;
     }
 }

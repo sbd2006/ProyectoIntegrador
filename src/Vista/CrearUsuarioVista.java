@@ -1,50 +1,50 @@
 package Vista;
 
+import Modelo.CrearUsuarioDAO;
+import Modelo.CrearUsuario;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CrearUsuarioVista extends JFrame {
-    public JPanel CrearUsuario;
-    public JTextField IngresoNombre, IngresoApellido, IngresoTelefono, IngresoDireccion, IngresoUsuario;
+    public JTextField IngresoNombre;
+    public JTextField IngresoApellido;
+    public JTextField IngresoTelefono;
+    public JTextField IngresoDireccion;
+    public JTextField IngresoUsuario;
     public JPasswordField IngresoContraseña;
-    public JButton BotonCrear, BotonRegresar;
+    public JButton BotonCrear;
+    public JButton BotonRegresar;
+    public JPanel CrearUsuarioVista;
+    private JLabel Imagen;
 
-    public CrearUsuarioVista (){
+    private final CrearUsuarioDAO usuarioDAO = new CrearUsuarioDAO();
 
+    public CrearUsuarioVista() {
+        setContentPane(CrearUsuarioVista);
         setTitle("Crear Usuario");
-        setSize(400, 300);
+        setSize(1920, 1080);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
-        JPanel panelFormulario = new JPanel(new GridLayout(6, 2));
-        IngresoNombre = new JTextField();
-        IngresoApellido = new JTextField();
-        IngresoTelefono = new JTextField();
-        IngresoDireccion = new JTextField();
-        IngresoUsuario = new JTextField();
-        IngresoContraseña = new JPasswordField();
+        BotonRegresar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                regresarAInicioSesion();
+            }
+        });
 
-        panelFormulario.add(new JLabel("Nombre"));
-        panelFormulario.add(IngresoNombre);
-        panelFormulario.add(new JLabel("Apellido"));
-        panelFormulario.add(IngresoApellido);
-        panelFormulario.add(new JLabel("Teléfono"));
-        panelFormulario.add(IngresoTelefono);
-        panelFormulario.add(new JLabel("Dirección"));
-        panelFormulario.add(IngresoDireccion);
-        panelFormulario.add(new JLabel("Usuario"));
-        panelFormulario.add(IngresoUsuario);
-        panelFormulario.add(new JLabel("Contraseña"));
-        panelFormulario.add(IngresoContraseña);
+        BotonCrear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearUsuario();
+            }
+        });
+    }
 
-        JPanel panelBotones = new JPanel();
-        BotonCrear = new JButton("Crear Usuario");
-        BotonRegresar = new JButton("Regresar");
-        panelBotones.add(BotonCrear);
-        panelBotones.add(BotonRegresar);
-
-        add(panelFormulario, BorderLayout.CENTER);
-        add(panelBotones, BorderLayout.SOUTH);
+    public void mostrarVentanaEmergente() {
+        setVisible(true);
     }
 
     public void regresarAInicioSesion() {
@@ -56,8 +56,22 @@ public class CrearUsuarioVista extends JFrame {
         dispose();
     }
 
-    public void mostrarVentanaEmergente() {
-        setVisible(true);
-        pack();
+    private void crearUsuario() {
+        String nombre = IngresoNombre.getText();
+        String apellido = IngresoApellido.getText();
+        String telefono = IngresoTelefono.getText();
+        String direccion = IngresoDireccion.getText();
+        String usuario = IngresoUsuario.getText();
+        String contrasena = new String(IngresoContraseña.getPassword());
+
+        CrearUsuario nuevoUsuario = new CrearUsuario(nombre, apellido, telefono, direccion, usuario, contrasena);
+
+        boolean exito = usuarioDAO.guardarUsuario(nuevoUsuario);
+        if (exito) {
+            JOptionPane.showMessageDialog(this, "Usuario creado exitosamente");
+            regresarAInicioSesion();
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al crear usuario", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
