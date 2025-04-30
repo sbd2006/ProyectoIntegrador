@@ -5,7 +5,7 @@ import java.sql.*;
 public class CrearUsuarioDAO {
     private final String url = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
     private final String user = "root";
-    private final String pass = "Santi104";
+    private final String pass = "Juanguis-2006";
 
     public boolean guardarUsuario(CrearUsuario u) {
         if (existeUsuario(u.getUsuario())) {

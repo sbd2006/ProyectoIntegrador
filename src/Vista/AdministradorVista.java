@@ -106,13 +106,17 @@ public class AdministradorVista extends JFrame {
     }
     private void abrirAdministracionVentas() {
         try {
-
-            Conexion connection = new  Conexion();
+            Conexion connection = new Conexion();
             connection.conectar();
 
             VentaDAO modeloVentas = new VentaDAO(connection.getConexion());
-            AdministracionVentasVista vistaVentas = new AdministracionVentasVista();
-            AdministracionVentasControlador controladorVentas = new AdministracionVentasControlador(vistaVentas, modeloVentas);
+
+            // Se pasa la instancia actual (this) al constructor de la vista
+            AdministracionVentasVista vistaVentas = new AdministracionVentasVista(this);
+
+            AdministracionVentasControlador controladorVentas =
+                    new AdministracionVentasControlador(vistaVentas, modeloVentas);
+
             controladorVentas.iniciarVista();
             this.setVisible(false);
         } catch (Exception ex) {
@@ -122,7 +126,9 @@ public class AdministradorVista extends JFrame {
         }
     }
 
+
     public void regresar() {
+
         setVisible(true);
     }
 }
