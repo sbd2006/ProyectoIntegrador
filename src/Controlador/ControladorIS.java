@@ -48,7 +48,9 @@ public class ControladorIS {
 
     public void mostrarCrearUsuario() {
         CrearUsuarioVista vistaCU = new CrearUsuarioVista();
-        new CrearUsuarioControlador(vistaCU);
+        CrearUsuarioDAO dao = new CrearUsuarioDAO();
+        new CrearUsuarioControlador(vistaCU, dao);
         vistaCU.setVisible(true);
     }
+
 }
