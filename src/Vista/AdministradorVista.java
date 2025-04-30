@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.AdministracionVentasControlador;
 import Controlador.ControladorIS;
 import Controlador.ControladorP;
 import Modelo.ModeloIS;

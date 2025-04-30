@@ -63,4 +63,11 @@ public class VentaVista extends JFrame {
         add(splitPane, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
     }
+    public void mostrarVenta() {
+        setContentPane(Venta);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+        pack();
+        setSize(1920, 1080);
+    }
 }
