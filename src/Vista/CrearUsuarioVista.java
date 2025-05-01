@@ -1,5 +1,8 @@
 package Vista;
 
+
+import Controlador.ControladorIS;
+import Modelo.ModeloIS;
 import javax.swing.*;
 
 public class CrearUsuarioVista extends JFrame {
@@ -20,5 +23,14 @@ public class CrearUsuarioVista extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(1920, 1080);
+
+    public void regresarAInicioSesion() {
+        dispose();
+
+        VistaIS nuevaVistaLogin = new VistaIS();
+        ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
+        ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
+        nuevaVistaLogin.setControlador(nuevoControladorLogin);
+        nuevaVistaLogin.setVisible(true);
     }
 }
