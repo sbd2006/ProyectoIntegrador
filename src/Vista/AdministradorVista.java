@@ -109,7 +109,7 @@ public class AdministradorVista extends JFrame {
             Conexion connection = new Conexion();
             connection.conectar();
 
-            VentaDAO modeloVentas = new VentaDAO(connection.getConexion());
+            VentaDAO modeloVentas = new VentaDAO();
 
             // Se pasa la instancia actual (this) al constructor de la vista
             AdministracionVentasVista vistaVentas = new AdministracionVentasVista(this);
