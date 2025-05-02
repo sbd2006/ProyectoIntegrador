@@ -2,6 +2,7 @@
   <library name="jcalendar-1.4">
     <CLASSES>
       <root url="jar://$USER_HOME$/Downloads/jcalendar-1.4.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/itextpdf-5.5.13.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
