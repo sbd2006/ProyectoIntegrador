@@ -10,6 +10,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.awt.Desktop;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import Modelo.Venta;
+import Modelo.DetalleVenta;
+
+
 
 public class VentaControlador {
     private final VentaVista vista;
@@ -34,7 +56,24 @@ public class VentaControlador {
         vista.CantidadP.addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) { calcularTotalProducto(); }
         });
-    }
+
+        vista.tableCatalogo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tableCatalogo.getSelectedRow();
+                if (fila != -1) {
+                    String id = vista.tableCatalogo.getValueAt(fila, 0).toString();
+                    String nombre = vista.tableCatalogo.getValueAt(fila, 1).toString();
+                    String precio = vista.tableCatalogo.getValueAt(fila, 3).toString();
+
+                    vista.IdProducto.setText(id);
+                    vista.PrecioUnitario.setText(precio);
+                    vista.Total.setText("");  // reset total
+                    vista.CantidadP.setText("");  // reset cantidad
+                }
+            }
+        });
+        }
 
     private void agregarProducto() {
         try {
@@ -98,18 +137,22 @@ public class VentaControlador {
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
             Venta venta = new Venta(0, vista.FechaVenta.getText(), total);
 
-            int idVenta = dao.insertarVenta(venta); // SE GENERA ID
+            int idVenta = dao.insertarVenta(venta, listaDetalles);
+            venta.setIdVenta(idVenta);
             for (DetalleVenta detalle : listaDetalles) {
                 detalle.setIdVenta(idVenta);
             }
 
-            dao.insertarDetalles(listaDetalles); // Ahora los detalles tienen un ID_VENTA válido
-            JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
+            dao.insertarDetalles(listaDetalles);
+            generarFacturaPDF(venta, listaDetalles);
 
+            JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "Error al registrar venta: " + e.getMessage());
         }
     }
+
+
 
     private void mostrarCatalogo() {
         try {
@@ -129,10 +172,16 @@ public class VentaControlador {
             vista.modTablaVenta.removeRow(fila);
             listaDetalles.remove(fila);
             JOptionPane.showMessageDialog(vista, "Producto eliminado");
+
+            // Deshabilitar si ya no hay productos
+            if (listaDetalles.isEmpty()) {
+                vista.finalizarVenta.setEnabled(false);
+            }
         } else {
             JOptionPane.showMessageDialog(vista, "Seleccione una fila para eliminar");
         }
     }
+
 
     private void calcularTotalProducto() {
         try {
@@ -142,4 +191,48 @@ public class VentaControlador {
         } catch (NumberFormatException ignored) {
         }
     }
+
+    private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
+        Document document = new Document();
+        try {
+            String nombreArchivo = "Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
+            PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
+            document.open();
+
+            Font tituloFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
+            Font textoFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+
+            document.add(new Paragraph("POSTRES MARIA JOSE", tituloFont));
+            document.add(new Paragraph("Factura N°: " + venta.getIdVenta(), textoFont));
+            document.add(new Paragraph("Fecha: " + venta.getFecha(), textoFont));
+            document.add(new Paragraph("\n"));
+
+            document.add(new Paragraph("Detalles de la venta:", textoFont));
+            document.add(new Paragraph("--------------------------------------", textoFont));
+
+            for (DetalleVenta d : detalles) {
+                document.add(new Paragraph("Producto: " + d.getDescripcion(), textoFont));
+                document.add(new Paragraph("ID Producto: " + d.getIdProducto(), textoFont));
+                document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
+                document.add(new Paragraph("Precio Unitario: $" + d.getPrecioUnitario(), textoFont));
+                document.add(new Paragraph("Subtotal: $" + d.getTotalProducto(), textoFont));
+                document.add(new Paragraph(" ", textoFont));
+            }
+
+            document.add(new Paragraph("--------------------------------------", textoFont));
+            document.add(new Paragraph("Total a pagar: $" + venta.getTotal(), tituloFont));
+            document.add(new Paragraph("\nGracias por su compra. ¡Vuelva pronto!", textoFont));
+
+            document.close();
+            JOptionPane.showMessageDialog(vista, "Factura generada correctamente.");
+            Desktop.getDesktop().open(new File(nombreArchivo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(vista, "Error al generar factura: " + e.getMessage());
+        }
+    }
+
+
+
+
 }

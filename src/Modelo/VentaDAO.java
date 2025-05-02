@@ -10,15 +10,23 @@ public class VentaDAO {
     private final String USER = "root";
     private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
-    public int insertarVenta(Venta venta) throws SQLException {
-        String sql = "INSERT INTO Venta (FECHA_VENTA, TOTAL) VALUES (?, ?)";
+    public int insertarVenta(Venta venta, List<DetalleVenta> detalles) throws SQLException
+    {
+        String sql = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
+        int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
+        int precioTotal = (int) detalles.stream().mapToDouble(DetalleVenta::getPrecioUnitario).sum(); // total por unidad
+        int descuento = 0; // Puedes cambiar esto si luego gestionás descuentos
+
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             ps.setString(1, venta.getFecha());
             ps.setDouble(2, venta.getTotal());
-            ps.executeUpdate();
+            ps.setInt(3, cantidadTotal);
+            ps.setInt(4, precioTotal);
+            ps.setInt(5, descuento);
 
+            ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 return rs.getInt(1);

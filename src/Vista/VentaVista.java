@@ -19,15 +19,30 @@ public class VentaVista extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1920, 1080);
         setLocationRelativeTo(null);
+        IdProducto.setEditable(false);
+        PrecioUnitario.setEditable(false);
+        FechaVenta.setEditable(false);
+        Total.setEditable(false);
         finalizarVenta.setEnabled(false);
 
         String[] columnas = {"ID", "Nombre", "Categoría", "Precio", "Stock"};
-        modTablaCatalogo = new DefaultTableModel(columnas, 0);
+        modTablaCatalogo = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableCatalogo.setModel(modTablaCatalogo);
 
         String[] columnasVenta = {"ID", "Nombre", "Cantidad", "Precio Unitario", "Total"};
-        modTablaVenta = new DefaultTableModel(columnasVenta, 0);
+        modTablaVenta = new DefaultTableModel(columnasVenta, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tableVenta.setModel(modTablaVenta);
+
 
     }
 }
