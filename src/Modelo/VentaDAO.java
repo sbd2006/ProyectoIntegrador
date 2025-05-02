@@ -2,60 +2,125 @@ package Modelo;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
-public class VentaDAO extends JFrame {
-    private final Connection connection;
+public class VentaDAO {
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
+    private final String USER = "root";
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
-    public VentaDAO(Connection connection) {
-        this.connection = connection;
+    public int insertarVenta(Venta venta, List<DetalleVenta> detalles) throws SQLException
+    {
+        String sql = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
+        int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
+        int precioTotal = (int) detalles.stream().mapToDouble(DetalleVenta::getPrecioUnitario).sum(); // total por unidad
+        int descuento = 0; // Puedes cambiar esto si luego gestionás descuentos
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, venta.getFecha());
+            ps.setDouble(2, venta.getTotal());
+            ps.setInt(3, cantidadTotal);
+            ps.setInt(4, precioTotal);
+            ps.setInt(5, descuento);
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        throw new SQLException("No se generó ID de la venta.");
     }
 
-    public void guardarVenta(Venta venta) throws SQLException {
-        String sqlPedido = "INSERT INTO pedidos (id_pedido, fecha) VALUES (?, ?)";
-        String sqlDetalle = "INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio) VALUES (?, ?, ?, ?)";
+    public void insertarDetalles(List<DetalleVenta> detalles) throws SQLException {
+        String sql = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, TOTAL_PRODUCTO, ID_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement psPedido = connection.prepareStatement(sqlPedido);
-             PreparedStatement psDetalle = connection.prepareStatement(sqlDetalle)) {
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            psPedido.setInt(1, venta.getIdPedido());
-            psPedido.setDate(2, Date.valueOf(venta.getFecha()));
-            psPedido.executeUpdate();
-
-            for (Producto p : venta.getProductos()) {
-                psDetalle.setInt(1, venta.getIdPedido());
-                psDetalle.setInt(2, p.getId());
-                psDetalle.setInt(3, p.getCantidad());
-                psDetalle.setDouble(4, p.getPrecio());
-                psDetalle.executeUpdate();
+            for (DetalleVenta d : detalles) {
+                ps.setString(1, d.getIdProducto());
+                ps.setInt(2, d.getCantidad());
+                ps.setString(3, d.getDescripcion());
+                ps.setDouble(4, d.getPrecioUnitario());
+                ps.setDouble(5, d.getTotalProducto());
+                ps.setInt(6, d.getIdVenta()); // Aquí debe estar correctamente seteado
+                ps.addBatch();
             }
+
+
+            ps.executeBatch();
         }
     }
 
     public List<String[]> consultarPorFecha(String fecha) {
         List<String[]> resultados = new ArrayList<>();
+        String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, d.TOTAL_PRODUCTO, p.Nombre FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto WHERE v.FECHA_VENTA = ?";
 
-        String sql = "SELECT * FROM ventas WHERE fecha = ?"; // Ajusta la tabla y columna si es necesario
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, fecha);
-            ResultSet rs = stmt.executeQuery();
+            ps.setString(1, fecha);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String idVenta = rs.getString("id_venta");
-                String cliente = rs.getString("cliente");
-                String total = rs.getString("total");
-                String fechaVenta = rs.getString("fecha");
-
-                String[] fila = {idVenta, cliente, total, fechaVenta};
+                String[] fila = new String[8];
+                fila[0] = rs.getString("ID_VENTA");
+                fila[1] = rs.getString("FECHA_VENTA");
+                fila[2] = rs.getString("TOTAL");
+                fila[3] = rs.getString("ID_PRODUCTO");
+                fila[4] = rs.getString("CANTIDAD_PRODUCTO");
+                fila[5] = rs.getString("PRECIO_UNITARIO");
+                fila[6] = rs.getString("TOTAL_PRODUCTO");
+                fila[7] = rs.getString("Nombre");
                 resultados.add(fila);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al consultar ventas: " + e.getMessage());
         }
 
         return resultados;
+    }
+
+    public List<String[]> obtenerProductos() throws SQLException {
+        List<String[]> productos = new ArrayList<>();
+
+        String sql = "SELECT Id_producto, Nombre, Categoria, Precio, stock FROM producto";
+
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) {
+                String[] registro = {
+                        rs.getString("Id_producto"),
+                        rs.getString("Nombre"),
+                        rs.getString("Categoria"),
+                        rs.getString("Precio"),
+                        rs.getString("stock")
+                };
+                productos.add(registro);
+            }
+        }
+
+        return productos;
+    }
+
+    public String obtenerNombreProducto(String idProducto) throws SQLException {
+        String sql = "SELECT Nombre FROM producto WHERE Id_producto = ?";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, idProducto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("Nombre");
+            }
+        }
+        return "";
     }
 }

@@ -1,37 +1,21 @@
 package Modelo;
 
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Venta {
-    private int idPedido;
-    private LocalDate fecha;
-    private List<Producto> productos = new ArrayList<>();
+    private int idVenta;
+    private String fecha;
+    private double total;
 
-    public Venta(int idPedido, LocalDate fecha) {
-        this.idPedido = idPedido;
+    public Venta(int idVenta, String fecha, double total) {
+        this.idVenta = idVenta;
         this.fecha = fecha;
+        this.total = total;
     }
 
-    public int getIdPedido() {
-        return idPedido;
-    }
+    public int getIdVenta() { return idVenta; }
+    public String getFecha() { return fecha; }
+    public double getTotal() { return total; }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public void agregarProducto(Producto producto) {
-        productos.add(producto);
-    }
-
-    public double calcularTotal() {
-        return productos.stream().mapToDouble(p -> p.getPrecio() * p.getCantidad()).sum();
-    }
+    public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
+    public void setTotal(double total) { this.total = total; }
 }

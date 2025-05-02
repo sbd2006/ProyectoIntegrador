@@ -1,29 +1,33 @@
 package Modelo;
 
-import java.util.List;
-
 public class DetalleVenta {
-    private int idPedido;
-    private String fecha;
-    private double total;
-    private List<ProductoVenta> productos;
+    private int idVenta;
+    private String idProducto;
+    private int cantidad;
+    private String descripcion;
+    private double precioUnitario;
+    private double totalProducto;
 
-    public DetalleVenta(int idPedido, String fecha, double total, List<ProductoVenta> productos) {
-        this.idPedido = idPedido;
-        this.fecha = fecha;
-        this.total = total;
-        this.productos = productos;
+    public DetalleVenta(int idVenta, String idProducto, int cantidad, String descripcion, double precioUnitario, double totalProducto) {
+        this.idVenta = idVenta;
+        this.idProducto = idProducto;
+        this.cantidad = cantidad;
+        this.descripcion = descripcion;
+        this.precioUnitario = precioUnitario;
+        this.totalProducto = totalProducto;
     }
 
-    public int getIdPedido() { return idPedido; }
-    public void setIdPedido(int idPedido) { this.idPedido = idPedido; }
+    public int getIdVenta() { return idVenta; }
+    public String getIdProducto() { return idProducto; }
+    public int getCantidad() { return cantidad; }
+    public String getDescripcion() { return descripcion; }
+    public double getPrecioUnitario() { return precioUnitario; }
+    public double getTotalProducto() { return totalProducto; }
 
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
-
-    public double getTotal() { return total; }
-    public void setTotal(double total) { this.total = total; }
-
-    public List<ProductoVenta> getProductos() { return productos; }
-    public void setProductos(List<ProductoVenta> productos) { this.productos = productos; }
+    public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
+    public void setIdProducto(String idProducto) { this.idProducto = idProducto; }
+    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setPrecioUnitario(double precioUnitario) { this.precioUnitario = precioUnitario; }
+    public void setTotalProducto(double totalProducto) { this.totalProducto = totalProducto; }
 }
