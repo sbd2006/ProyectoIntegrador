@@ -27,6 +27,7 @@ public class VistaP extends JFrame {
         setContentPane(producto);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
     public void mostrarVista() {
