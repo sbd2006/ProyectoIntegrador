@@ -2,12 +2,13 @@ package Controlador;
 
 import Modelo.CrearUsuario;
 import Modelo.CrearUsuarioDAO;
+import Modelo.ModeloIS;
 import Vista.CrearUsuarioVista;
 import Vista.VistaIS;
 
 import javax.swing.*;
 
-public class CrearUsuarioControlador {
+public class CrearUsuarioControlador extends JFrame {
     private final CrearUsuarioVista vista;
     private final CrearUsuarioDAO dao;
 
@@ -16,7 +17,7 @@ public class CrearUsuarioControlador {
         this.dao = dao;
 
         this.vista.BotonCrear.addActionListener(e -> crearUsuario());
-        this.vista.BotonRegresar.addActionListener(e -> regresarAInicioSesion());
+        this.vista.BotonRegresar.addActionListener(e -> vista.regresarAInicioSesion());
     }
 
     private void crearUsuario() {
@@ -31,14 +32,8 @@ public class CrearUsuarioControlador {
 
         if (dao.guardarUsuario(usuario)) {
             JOptionPane.showMessageDialog(vista, "Usuario creado exitosamente.");
-            regresarAInicioSesion();
+            vista.regresarAInicioSesion();
             vista.dispose();
         }
-    }
-
-    private void regresarAInicioSesion() {
-        VistaIS inicioSesion = new VistaIS();
-        inicioSesion.setVisible(true);
-        vista.dispose();
     }
 }

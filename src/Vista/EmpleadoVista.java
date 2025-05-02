@@ -1,5 +1,8 @@
 package Vista;
 
+import Controlador.ControladorIS;
+import Modelo.ModeloIS;
+
 import javax.swing.*;
 
 public class EmpleadoVista extends JFrame {
@@ -18,6 +21,15 @@ public class EmpleadoVista extends JFrame {
 
     public void setNombreUsuario(String nombreUsuario) {
         Bienvenido.setText("Bienvenido Emplead@ " + nombreUsuario);
+    }
+
+    public void cerrarSesion() {
+        dispose();
+        VistaIS nuevaVistaLogin = new VistaIS();
+        ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
+        ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
+        nuevaVistaLogin.setControlador(nuevoControladorLogin);
+        nuevaVistaLogin.setVisible(true);
     }
 
     public void mostrarEmpleado() {
