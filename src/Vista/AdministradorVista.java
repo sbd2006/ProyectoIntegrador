@@ -24,6 +24,7 @@ public class AdministradorVista extends JFrame {
     public JButton gestionDeUsuariosButton;
     private JLabel labelBienvenida;
     private JButton consultarVentasButton;
+    private JButton ReporteVentaButton;
     private ModeloIS modelo;
 
 
@@ -66,6 +67,11 @@ public class AdministradorVista extends JFrame {
     public void setNombreUsuario(String nombreUsuario) {
         labelBienvenida.setText("¡Bienvenido Administrador " + nombreUsuario + "¡");
     }
+
+    public JButton getReporteVentaButton() {
+        return ReporteVentaButton;
+    }
+
 
 
     // Métodos de acción
