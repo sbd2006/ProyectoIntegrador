@@ -190,7 +190,10 @@ public class VentaControlador {
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
         Document document = new Document();
         try {
-            String nombreArchivo = "Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
+            File carpeta = new File("facturas");
+            if (!carpeta.exists()) carpeta.mkdirs(); // Crea carpeta si no existe
+
+            String nombreArchivo = "facturas/Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
             PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
             document.open();
 
@@ -221,6 +224,7 @@ public class VentaControlador {
             document.close();
             JOptionPane.showMessageDialog(vista, "Factura generada correctamente.");
             Desktop.getDesktop().open(new File(nombreArchivo));
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(vista, "Error al generar factura: " + e.getMessage());
@@ -230,6 +234,7 @@ public class VentaControlador {
         vista.dispose();
         emVista.setVisible(true);
     }
+
 
 
 

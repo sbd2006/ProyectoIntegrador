@@ -13,13 +13,21 @@ public class EmpleadoVista extends JFrame {
     public JButton cerrarSesionButton;
     private JLabel Bienvenido;
 
+    private JButton ReporteVentaButton;
+    private JLabel lblBienvenida;
+
+
     public EmpleadoVista() {
         setTitle("Vista Empleado");
         setContentPane(PantallaCliente);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
     }
+    public JButton getReporteVentaButton() {
+        return ReporteVentaButton;
+    }
+
 
     public void setNombreUsuario(String nombreUsuario) {
         Bienvenido.setText("Bienvenido Emplead@ " + nombreUsuario);
