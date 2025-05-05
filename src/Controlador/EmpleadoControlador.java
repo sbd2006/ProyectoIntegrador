@@ -1,6 +1,8 @@
 package Controlador;
 
+
 import Modelo.ReporteVentaDAO;
+
 import Modelo.VentaDAO;
 import Vista.EmpleadoVista;
 import Vista.ReporteVentaVista;
@@ -19,7 +21,9 @@ public class EmpleadoControlador {
     }
 
     private void initController() {
+
         vista.realizarVentaButton.addActionListener(e -> mostrarVenta());
+
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
         vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
         vista.setNombreUsuario(nombreUsuario);
@@ -33,19 +37,25 @@ public class EmpleadoControlador {
 
 
 
+
     private void mostrarVenta() {
         VentaVista vista = new VentaVista();
         VentaDAO dao = new VentaDAO();
         VentaControlador controlador = new VentaControlador(vista, dao);
-        vista.setVisible(true);  // Asegura que la ventana se abra
+        vista.setVisible(true); 
     }
 
 
 
+
     private void cerrarSesion() {
-        VistaIS inicio = new VistaIS();
-        inicio.mostrarVista();
         vista.dispose();
+
+        VistaIS nuevaVistaLogin = new VistaIS();
+        ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
+        ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
+        nuevaVistaLogin.setControlador(nuevoControladorLogin);
+        nuevaVistaLogin.setVisible(true);
     }
 
     public void iniciarVista() {

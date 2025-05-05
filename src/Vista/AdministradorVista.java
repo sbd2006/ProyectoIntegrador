@@ -33,6 +33,7 @@ public class AdministradorVista extends JFrame {
         setContentPane(administracion);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         // Aquí se conectan los botones con sus acciones

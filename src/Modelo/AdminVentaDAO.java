@@ -8,7 +8,7 @@ public class AdminVentaDAO {
 
     private final String url = "jdbc:mysql://localhost:3306/PostresMariaJose";
     private final String usuario = "root";
-    private final String contraseña = "Juanguis-2006";
+    private final String contraseña = "Santi104";
 
     public List<String[]> consultarPorFecha(String fecha) {
         List<String[]> resultados = new ArrayList<>();

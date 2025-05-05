@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.*;
+import Vista.EmpleadoVista;
 import Vista.VentaVista;
 
 import javax.swing.*;
@@ -13,9 +14,11 @@ import java.sql.SQLException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.Desktop;
+
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import Modelo.Venta;
@@ -25,18 +28,20 @@ import Modelo.DetalleVenta;
 
 public class VentaControlador {
     private final VentaVista vista;
+    private EmpleadoVista emVista;
     private final VentaDAO dao;
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
 
-    public VentaControlador(VentaVista vista, VentaDAO dao) {
+    public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista) {
         this.vista = vista;
         this.dao = dao;
+        this.emVista = emVista;
 
         vista.FechaVenta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
         vista.agregarProductoButton.addActionListener(e -> agregarProducto());
         vista.finalizarVenta.addActionListener(e -> confirmarVenta());
-        vista.regresarButton.addActionListener(e -> vista.dispose());
+        vista.regresarButton.addActionListener(e -> regresar());
         vista.mostrarButton.addActionListener(e -> mostrarCatalogo());
         vista.eliminarButton.addActionListener(e -> eliminarProducto());
 
@@ -224,6 +229,10 @@ public class VentaControlador {
             e.printStackTrace();
             JOptionPane.showMessageDialog(vista, "Error al generar factura: " + e.getMessage());
         }
+    }
+    private void regresar() {
+        vista.dispose();
+        emVista.setVisible(true);
     }
 
 

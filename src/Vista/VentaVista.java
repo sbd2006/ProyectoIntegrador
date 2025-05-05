@@ -17,7 +17,7 @@ public class VentaVista extends JFrame {
         setTitle("Gestión de Ventas");
         setContentPane(Venta);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(1920, 1080);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         IdProducto.setEditable(false);
         PrecioUnitario.setEditable(false);
