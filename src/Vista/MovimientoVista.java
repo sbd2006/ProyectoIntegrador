@@ -1,19 +1,41 @@
 package Vista;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 public class MovimientoVista extends JFrame {
 
     private JTextField ProductoId;
     private JTextField Cantidad;
-    private JTextField Observacion;
-    private JComboBox comboBox1;
+    private JComboBox<String> tipoDocu;
     private JButton Regresar;
     private JButton registrarButton;
     private JPanel panelM;
+    private JTextArea obs;
+    private JTextField fecha;
+    private JTextField Ndocumento;
     private AdministradorVista administradorVista;
+
+    public MovimientoVista(){
+        tipoDocu.addItem("Entrada");
+        tipoDocu.addItem("Salida");
+        tipoDocu.addItem("Ajuste");
+
+        fecha.setText(LocalDate.now().toString());
+        fecha.setEditable(false);
+    }
+
+    public JTextArea getObs() {
+        return obs;
+    }
+
+    public JTextField getFecha() {
+        return fecha;
+    }
+
+    public JTextField getNdocumento() {
+        return Ndocumento;
+    }
 
     public void setAdministradorVista(AdministradorVista administradorVista) {
         this.administradorVista = administradorVista;
@@ -33,16 +55,13 @@ public class MovimientoVista extends JFrame {
         return Cantidad;
     }
 
-    public JTextField getObservacion() {
-        return Observacion;
+    public JComboBox<String> getTipoDocu() {
+        return tipoDocu;
     }
+
 
     public JButton getRegresar() {
         return Regresar;
-    }
-
-    public int getTipoMovimientoSeleccionado() {
-        return comboBox1.getSelectedIndex() + 1;
     }
 
     public int getDocumentoId() {
@@ -55,6 +74,4 @@ public class MovimientoVista extends JFrame {
         pack();
         setVisible(true);
     }
-
-
 }

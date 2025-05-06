@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
     public int insertarVenta(Venta venta, List<DetalleVenta> detalles) throws SQLException
     {
