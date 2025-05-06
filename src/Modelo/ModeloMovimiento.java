@@ -3,16 +3,16 @@ package Modelo;
 public class ModeloMovimiento {
     private int id;
     private int productoId;
-    private int tipoMovimientoId;
+    private String tipoMovimiento;
     private int documentoId;
     private int estadoMovimientoId;
     private int cantidad;
     private String fechaMovimiento;
     private String observacion;
 
-    public ModeloMovimiento(int productoId, int tipoMovimientoId, int documentoId, int estadoMovimientoId, int cantidad, String fechaMovimiento, String observacion) {
+    public ModeloMovimiento(int productoId, String tipoMovimiento, int documentoId, int estadoMovimientoId, int cantidad, String fechaMovimiento, String observacion) {
         this.productoId = productoId;
-        this.tipoMovimientoId = tipoMovimientoId;
+        this.tipoMovimiento = tipoMovimiento;
         this.documentoId = documentoId;
         this.estadoMovimientoId = estadoMovimientoId;
         this.cantidad = cantidad;
@@ -36,12 +36,12 @@ public class ModeloMovimiento {
         this.productoId = productoId;
     }
 
-    public int getTipoMovimientoId() {
-        return tipoMovimientoId;
+    public String getTipoMovimiento() {
+        return tipoMovimiento;
     }
 
-    public void setTipoMovimientoId(int tipoMovimientoId) {
-        this.tipoMovimientoId = tipoMovimientoId;
+    public void setTipoMovimiento(String tipoMovimiento) {
+        this.tipoMovimiento = tipoMovimiento;
     }
 
     public int getDocumentoId() {
