@@ -1,15 +1,12 @@
 package Vista;
 
-import Controlador.AdministracionVentasControlador;
-import Controlador.ControladorIS;
-import Controlador.ControladorP;
+import Controlador.*;
 import Modelo.ModeloIS;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
 import Modelo.VentaDAO;
 import Modelo.Conexion;
 import Modelo.VentaDAO;
-import Controlador.RolSelectionControlador;
 
 
 import javax.swing.*;
@@ -25,6 +22,7 @@ public class AdministradorVista extends JFrame {
     private JLabel labelBienvenida;
     private JButton consultarVentasButton;
     private JButton ReporteVentaButton;
+    private JButton inventarioButton;
     private ModeloIS modelo;
 
 
@@ -63,6 +61,14 @@ public class AdministradorVista extends JFrame {
                 abrirAdministracionVentas();
             }
         });
+
+        inventarioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                abrirVistaMovimiento();
+            }
+        });
+
     }
 
     public void setNombreUsuario(String nombreUsuario) {
@@ -72,7 +78,6 @@ public class AdministradorVista extends JFrame {
     public JButton getReporteVentaButton() {
         return ReporteVentaButton;
     }
-
 
 
     // Métodos de acción
@@ -132,6 +137,13 @@ public class AdministradorVista extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private void abrirVistaMovimiento() {
+        MovimientoVista vistaMovimiento = new MovimientoVista(); // tu clase de interfaz
+        ControladorMovimiento controladorMovimiento = new ControladorMovimiento(vistaMovimiento, this); // controlador que maneja eventos
+        vistaMovimiento.mostrarVista(); // se abre la ventana
+        this.setVisible(false); // oculta la actual
+}
 
 
     public void regresar() {
