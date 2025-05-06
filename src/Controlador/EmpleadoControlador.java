@@ -1,6 +1,7 @@
 package Controlador;
 
 
+import Modelo.ModeloIS;
 import Modelo.ReporteVentaDAO;
 
 import Modelo.VentaDAO;
@@ -41,7 +42,7 @@ public class EmpleadoControlador {
     private void mostrarVenta() {
         VentaVista vista = new VentaVista();
         VentaDAO dao = new VentaDAO();
-        VentaControlador controlador = new VentaControlador(vista, dao);
+        VentaControlador controlador = new VentaControlador(vista, dao, this.vista);
         vista.setVisible(true); 
     }
 
