@@ -22,7 +22,7 @@ public class CrearUsuarioVista extends JFrame {
         setContentPane(CrearUsuarioVista);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setSize(1920, 1080);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public void regresarAInicioSesion() {

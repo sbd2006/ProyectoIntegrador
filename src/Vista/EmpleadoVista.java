@@ -1,7 +1,9 @@
 package Vista;
 
 import Controlador.ControladorIS;
+import Controlador.VentaControlador;
 import Modelo.ModeloIS;
+import Modelo.VentaDAO;
 
 import javax.swing.*;
 
@@ -10,14 +12,22 @@ public class EmpleadoVista extends JFrame {
     public JButton realizarVentaButton;
     public JButton cerrarSesionButton;
     private JLabel Bienvenido;
+
+    private JButton ReporteVentaButton;
     private JLabel lblBienvenida;
+
 
     public EmpleadoVista() {
         setTitle("Vista Empleado");
         setContentPane(PantallaCliente);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+
     }
+    public JButton getReporteVentaButton() {
+        return ReporteVentaButton;
+    }
+
 
     public void setNombreUsuario(String nombreUsuario) {
         Bienvenido.setText("Bienvenido Emplead@ " + nombreUsuario);
@@ -34,5 +44,19 @@ public class EmpleadoVista extends JFrame {
 
     public void mostrarEmpleado() {
         setVisible(true);
+    }
+
+
+    public void mostrarVenta() {
+        VentaVista vistaV = new VentaVista();
+        VentaDAO dao = new VentaDAO();
+        VentaControlador controlador = new VentaControlador(vistaV, dao, this);
+        vistaV.setVisible(true);
+        this.setVisible(false);
+    }
+
+
+    public void cerrarEmpleado() {
+        dispose();
     }
 }

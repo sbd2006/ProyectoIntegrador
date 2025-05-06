@@ -1,6 +1,8 @@
 package Controlador;
 
+import Modelo.ReporteVentaDAO;
 import Vista.AdministradorVista;
+import Vista.ReporteVentaVista;
 
 public class AdministradorControlador {
     private final AdministradorVista vista;
@@ -14,6 +16,18 @@ public class AdministradorControlador {
     public void iniciarVista() {
         vista.setNombreUsuario(nombreUsuario);
         vista.setVisible(true);
+        vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
+
+
     }
+
+    private void abrirVistaReporteVenta() {
+        ReporteVentaVista vista = new ReporteVentaVista();
+        ReporteVentaDAO dao = new ReporteVentaDAO();
+        ReporteVentaControlador controlador = new ReporteVentaControlador(vista, dao);
+        vista.setVisible(true);
+    }
+
+
 }
 

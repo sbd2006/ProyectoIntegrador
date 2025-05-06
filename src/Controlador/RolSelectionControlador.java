@@ -20,10 +20,10 @@ public class RolSelectionControlador {
         this.modelo = modelo;
         this.vistaAdministrador = vistaAdministrador;
 
-        vista.consultButton.addActionListener(e -> consultarUsuarios());
-        vista.updateButton.addActionListener(e -> actualizarRol());
-        vista.deleteButton.addActionListener(e -> eliminarUsuario());
-        vista.button1.addActionListener(e -> regresar());
+        vista.getConsultButton().addActionListener(e -> consultarUsuarios());
+        vista.getUpdateButton().addActionListener(e -> actualizarRol());
+        vista.getDeleteButton().addActionListener(e -> eliminarUsuario());
+        vista.getButton1().addActionListener(e -> regresar());
 
         vista.mostrarVista();
     }
@@ -35,7 +35,7 @@ public class RolSelectionControlador {
             for (String[] fila : usuarios) {
                 tabla.addRow(fila);
             }
-            vista.tabla.setModel(tabla);
+            vista.getTabla().setModel(tabla);
         } catch (SQLException e) {
             mostrarError("Error al consultar: " + e.getMessage());
         }
@@ -43,12 +43,21 @@ public class RolSelectionControlador {
 
     private void actualizarRol() {
         try {
-            int id = Integer.parseInt(vista.idText.getText());
-            String rol = vista.rolText.getText();
-            if (modelo.actualizarRol(id, rol)) {
-                limpiarCampos();
-                consultarUsuarios();
+            String idText = vista.getIdText().getText().trim();
+
+            if (idText.isEmpty()) {
+                mostrarError("El campo ID no puede estar vacío.");
+            }else {
+                int id = Integer.parseInt(idText);
+                String rol = vista.getRolText().getSelectedItem().toString();
+
+                if (modelo.actualizarRol(id, rol)) {
+                    JOptionPane.showMessageDialog(null , "Se actualizo correctamente");
+                    limpiarCampos();
+                    consultarUsuarios();
+                }
             }
+
         } catch (Exception e) {
             mostrarError("Error al actualizar: " + e.getMessage());
         }
@@ -56,10 +65,16 @@ public class RolSelectionControlador {
 
     private void eliminarUsuario() {
         try {
-            int id = Integer.parseInt(vista.idText.getText());
-            if (modelo.eliminarUsuario(id)) {
-                limpiarCampos();
-                consultarUsuarios();
+            String idText = vista.getIdText().getText().trim();
+            if (idText.isEmpty()) {
+                mostrarError("El campo ID no puede estar vacío.");
+            }else {
+                int id = Integer.parseInt(vista.getIdText().getText());
+                if (modelo.eliminarUsuario(id)) {
+                    JOptionPane.showMessageDialog(null , "Se Elimino correctamente");
+                    limpiarCampos();
+                    consultarUsuarios();
+                }
             }
         } catch (Exception e) {
             mostrarError("Error al eliminar: " + e.getMessage());
@@ -67,9 +82,8 @@ public class RolSelectionControlador {
     }
 
     private void limpiarCampos() {
-        vista.idText.setText("");
-        vista.rolText.setText("");
-        vista.nameText.setText("");
+        vista.getIdText().setText("");
+        vista.getRolText().setSelectedIndex(0);
     }
 
     private void mostrarError(String mensaje) {
