@@ -6,7 +6,7 @@ import java.util.*;
 public class ReporteVentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
     public List<String[]> obtenerVentasPorRango(String fechaInicio, String fechaFin, String tipo) throws SQLException {
         String agrupamiento;

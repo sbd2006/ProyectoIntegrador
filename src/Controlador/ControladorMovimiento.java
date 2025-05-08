@@ -8,7 +8,6 @@ import Vista.MovimientoVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.List;
 
 public class ControladorMovimiento {
@@ -53,14 +52,11 @@ public class ControladorMovimiento {
             int productoId = Integer.parseInt(vista.getProductoId().getText());
             String tipoMovimiento = vista.getTipoDocu().getSelectedItem().toString();
             int documentoId = vista.getDocumentoId();
-            int estadoMovimientoId = 1; // Aplicado
             int cantidad = Integer.parseInt(vista.getCantidad().getText());
             String fecha = vista.getFecha().getText();
             String observacion = vista.getObs().getText();
             String nroDocumento = vista.getNdocumento().getText();
-            ModeloMovimiento movimiento = new ModeloMovimiento(
-                    productoId, tipoMovimiento, documentoId,
-                    estadoMovimientoId, cantidad, fecha, observacion);
+            ModeloMovimiento movimiento = new ModeloMovimiento(productoId, tipoMovimiento, documentoId,cantidad, fecha, observacion);
 
             boolean exito = new MovimientoDAO().registrarMovimiento(movimiento, nroDocumento);
 
@@ -68,6 +64,7 @@ public class ControladorMovimiento {
                 JOptionPane.showMessageDialog(null,
                         "Movimiento registrado exitosamente.",
                         "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarTablas();
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Error al registrar el movimiento.",
@@ -93,5 +90,13 @@ public class ControladorMovimiento {
             vista.getTipoDocu().addItem(tipo);
         }
     }
+    public void cargarTablas() {
+        MovimientoDAO dao = new MovimientoDAO();
+        List<String[]> movimientos = dao.obtenerMovimientos();
+        List<String[]> documentos = dao.obtenerDocumentos();
+        vista.cargarTablaMovimiento(movimientos);
+        vista.cargarTablaDocumento(documentos);
+    }
+
 
 }

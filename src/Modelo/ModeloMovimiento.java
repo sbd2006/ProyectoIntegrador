@@ -5,19 +5,20 @@ public class ModeloMovimiento {
     private int productoId;
     private String tipoMovimiento;
     private int documentoId;
-    private int estadoMovimientoId;
     private int cantidad;
     private String fechaMovimiento;
     private String observacion;
 
-    public ModeloMovimiento(int productoId, String tipoMovimiento, int documentoId, int estadoMovimientoId, int cantidad, String fechaMovimiento, String observacion) {
+    public ModeloMovimiento(int productoId, String tipoMovimiento, int documentoId, int cantidad, String fechaMovimiento, String observacion) {
         this.productoId = productoId;
         this.tipoMovimiento = tipoMovimiento;
         this.documentoId = documentoId;
-        this.estadoMovimientoId = estadoMovimientoId;
         this.cantidad = cantidad;
         this.fechaMovimiento = fechaMovimiento;
         this.observacion = observacion;
+    }
+
+    public ModeloMovimiento() {
     }
 
     public int getId() {
@@ -52,13 +53,6 @@ public class ModeloMovimiento {
         this.documentoId = documentoId;
     }
 
-    public int getEstadoMovimientoId() {
-        return estadoMovimientoId;
-    }
-
-    public void setEstadoMovimientoId(int estadoMovimientoId) {
-        this.estadoMovimientoId = estadoMovimientoId;
-    }
 
     public int getCantidad() {
         return cantidad;
