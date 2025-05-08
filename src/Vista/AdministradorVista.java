@@ -1,14 +1,12 @@
 package Vista;
 
+
 import Controlador.*;
 import Modelo.ModeloIS;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
 import Modelo.VentaDAO;
 import Modelo.Conexion;
-import Modelo.VentaDAO;
-
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +21,8 @@ public class AdministradorVista extends JFrame {
     private JButton consultarVentasButton;
     private JButton ReporteVentaButton;
     private JButton inventarioButton;
-    private ModeloIS modelo;
+    private MovimientoVista movimientoVista;
+    private ControladorMovimiento controladorMovimiento;
 
 
     public AdministradorVista() {
@@ -65,7 +64,14 @@ public class AdministradorVista extends JFrame {
         inventarioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abrirVistaMovimiento();
+
+                if (movimientoVista == null || controladorMovimiento == null) {
+                    movimientoVista = new MovimientoVista();
+                    controladorMovimiento = new ControladorMovimiento(movimientoVista, AdministradorVista.this);
+                }
+                dispose();
+                controladorMovimiento.cargarTablas();
+                movimientoVista.setVisible(true);
             }
         });
 

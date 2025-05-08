@@ -2,6 +2,8 @@ package Vista;
 
 import javax.swing.*;
 import java.time.LocalDate;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class MovimientoVista extends JFrame {
 
@@ -11,21 +13,20 @@ public class MovimientoVista extends JFrame {
     private JButton Regresar;
     private JButton registrarButton;
     private JPanel panelM;
-    private JTextArea obs;
+    private JTextField obs;
     private JTextField fecha;
     private JTextField Ndocumento;
+    private JTable table1;
+    private JTable table2;
     private AdministradorVista administradorVista;
 
     public MovimientoVista(){
-        tipoDocu.addItem("Entrada");
-        tipoDocu.addItem("Salida");
-        tipoDocu.addItem("Ajuste");
-
         fecha.setText(LocalDate.now().toString());
         fecha.setEditable(false);
+        mostrarVista();
     }
 
-    public JTextArea getObs() {
+    public JTextField getObs() {
         return obs;
     }
 
@@ -41,11 +42,9 @@ public class MovimientoVista extends JFrame {
         this.administradorVista = administradorVista;
     }
 
-
     public JButton getRegistrarButton() {
         return registrarButton;
     }
-
 
     public JTextField getProductoId() {
         return ProductoId;
@@ -59,7 +58,6 @@ public class MovimientoVista extends JFrame {
         return tipoDocu;
     }
 
-
     public JButton getRegresar() {
         return Regresar;
     }
@@ -68,10 +66,34 @@ public class MovimientoVista extends JFrame {
         return 1;
     }
 
+    public JTable getTablaMovimiento() {
+        return table1;
+    }
+
+    public JTable getTablaDocumento() {
+        return table2;
+    }
+
     public void mostrarVista(){
         setContentPane(panelM);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
     }
+    public void cargarTablaMovimiento(List<String[]> datos) {
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Id_producto", "Cantidad", "Fecha", "Obs"}, 0);
+        for (String[] fila : datos) {
+            modelo.addRow(fila);
+        }
+        table1.setModel(modelo);
+    }
+
+    public void cargarTablaDocumento(List<String[]> datos) {
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"ID", "Fecha", "Nro Documento"}, 0);
+        for (String[] fila : datos) {
+            modelo.addRow(fila);
+        }
+        table2.setModel(modelo);
+    }
+
 }

@@ -47,14 +47,19 @@ public class VentaDAO {
                 ps.setString(3, d.getDescripcion());
                 ps.setDouble(4, d.getPrecioUnitario());
                 ps.setDouble(5, d.getTotalProducto());
-                ps.setInt(6, d.getIdVenta()); // Aquí debe estar correctamente seteado
+                ps.setInt(6, d.getIdVenta());
                 ps.addBatch();
             }
 
-
             ps.executeBatch();
         }
+
+
+        for (DetalleVenta d : detalles) {
+            actualizarStock(d.getIdProducto(), d.getCantidad());
+        }
     }
+
 
     public List<String[]> consultarPorFecha(String fecha) {
         List<String[]> resultados = new ArrayList<>();
@@ -122,5 +127,29 @@ public class VentaDAO {
             }
         }
         return "";
+    }
+
+    public void actualizarStock(String idProducto, int cantidadVendida) throws SQLException {
+        String sql = "UPDATE producto SET stock = stock - ? WHERE Id_producto = ?";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, cantidadVendida);
+            ps.setString(2, idProducto);
+            ps.executeUpdate();
+        }
+    }
+    public int obtenerStockActual(String idProducto) throws SQLException {
+        String sql = "SELECT stock FROM producto WHERE Id_producto = ?";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, idProducto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("stock");
+            }
+        }
+        return -1; // o lanzar una excepción si el producto no existe
     }
 }

@@ -56,7 +56,7 @@ public class ControladorP {
 
     private void mostrarProductos() {
         try {
-            vista.modTabla.setRowCount(0); // Limpiar tabla
+            vista.modTabla.setRowCount(0);
             for (String[] producto : modelo.obtenerProductos()) {
                 vista.modTabla.addRow(producto);
             }
