@@ -20,7 +20,10 @@ public class ModeloP {
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
         Statement st = getConexion().createStatement();
-        ResultSet rs = st.executeQuery("SELECT Id_producto, Nombre, Categoria, Precio, stock FROM Producto");
+        ResultSet rs = st.executeQuery(
+                "SELECT p.Id_producto, p.Nombre, c.Nombre AS Categoria, p.Precio, p.stock " +
+                        "FROM Producto p JOIN Categoria c ON p.ID_CATEGORIA = c.ID_CATEGORIA"
+        );
 
         while (rs.next()) {
             String[] registro = {
@@ -35,21 +38,20 @@ public class ModeloP {
         return productos;
     }
 
-    public boolean guardarProducto(String id, String nombre, String categoria, String precio, String cantidad) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, Categoria, Precio, stock) VALUES (?, ?, ?, ?, ?)");
+    public boolean guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
+        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, ID_CATEGORIA, Precio) VALUES (?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(id));
         ps.setString(2, nombre);
-        ps.setString(3, categoria);
+        ps.setInt(3, idCategoria);
         ps.setInt(4, Integer.parseInt(precio));
-        ps.setInt(5, Integer.parseInt(cantidad));
         return ps.executeUpdate() > 0;
     }
 
-    public boolean editarProducto(String id, String precio, String cantidad) throws SQLException {
+
+    public boolean editarProducto(String id, String precio) throws SQLException {
         PreparedStatement ps = getConexion().prepareStatement("UPDATE Producto SET Nombre= ?, Categoria= ?, Precio = ? WHERE Id_producto = ?");
         ps.setInt(1, Integer.parseInt(precio));
-        ps.setInt(2, Integer.parseInt(cantidad));
-        ps.setInt(3, Integer.parseInt(id));
+        ps.setInt(2, Integer.parseInt(id));
         return ps.executeUpdate() > 0;
     }
 
