@@ -31,6 +31,7 @@ public class VentaControlador {
     private EmpleadoVista emVista;
     private final VentaDAO dao;
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
+    private final MovimientoDAO movimientoDAO = new MovimientoDAO();
 
     public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista) {
         this.vista = vista;
@@ -89,6 +90,13 @@ public class VentaControlador {
                 return;
             }
 
+            // 🔍 VALIDACIÓN DE STOCK
+            int stockActual = dao.obtenerStockActual(idProducto);  // Asegúrate de tener este método en tu DAO
+            if (cantidad > stockActual) {
+                JOptionPane.showMessageDialog(vista, "Stock insuficiente. Disponible: " + stockActual, "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
             // Obtener nombre del producto desde la base de datos
             String nombreProducto = dao.obtenerNombreProducto(idProducto);
 
@@ -127,6 +135,7 @@ public class VentaControlador {
     }
 
 
+
     private void confirmarVenta() {
         try {
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
@@ -141,13 +150,29 @@ public class VentaControlador {
             dao.insertarDetalles(listaDetalles);
             generarFacturaPDF(venta, listaDetalles);
 
+            String fecha = vista.FechaVenta.getText();
+            String tipoMovimiento = "Ajuste negativo inventario";
+            String nroDocumento = "VENTA-" + venta.getIdVenta();
+
+            for (DetalleVenta detalle : listaDetalles) {
+                ModeloMovimiento movimiento = new ModeloMovimiento();
+                movimiento.setCantidad(detalle.getCantidad());
+                movimiento.setFechaMovimiento(fecha);
+                movimiento.setObservacion("Venta");
+                movimiento.setProductoId(Integer.parseInt(detalle.getIdProducto()));
+                movimiento.setTipoMovimiento(tipoMovimiento);
+
+                boolean exito = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
+                }
+            }
+
             JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "Error al registrar venta: " + e.getMessage());
         }
     }
-
-
 
     private void mostrarCatalogo() {
         try {
@@ -190,7 +215,10 @@ public class VentaControlador {
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
         Document document = new Document();
         try {
-            String nombreArchivo = "Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
+            File carpeta = new File("facturas");
+            if (!carpeta.exists()) carpeta.mkdirs(); // Crea carpeta si no existe
+
+            String nombreArchivo = "facturas/Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
             PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
             document.open();
 
@@ -221,6 +249,7 @@ public class VentaControlador {
             document.close();
             JOptionPane.showMessageDialog(vista, "Factura generada correctamente.");
             Desktop.getDesktop().open(new File(nombreArchivo));
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(vista, "Error al generar factura: " + e.getMessage());
@@ -230,8 +259,5 @@ public class VentaControlador {
         vista.dispose();
         emVista.setVisible(true);
     }
-
-
-
 
 }

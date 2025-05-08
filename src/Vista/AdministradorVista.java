@@ -1,13 +1,12 @@
 package Vista;
 
+
 import Controlador.*;
 import Modelo.ModeloIS;
 import Modelo.ModeloP;
 import Modelo.RolDAO;
 import Modelo.VentaDAO;
 import Modelo.Conexion;
-
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +19,10 @@ public class AdministradorVista extends JFrame {
     public JButton gestionDeUsuariosButton;
     private JLabel labelBienvenida;
     private JButton consultarVentasButton;
+    private JButton ReporteVentaButton;
     private JButton inventarioButton;
-    private ModeloIS modelo;
+    private MovimientoVista movimientoVista;
+    private ControladorMovimiento controladorMovimiento;
 
 
     public AdministradorVista() {
@@ -59,17 +60,33 @@ public class AdministradorVista extends JFrame {
                 abrirAdministracionVentas();
             }
         });
+
         inventarioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abrirVistaMovimiento();
+
+                if (movimientoVista == null || controladorMovimiento == null) {
+                    movimientoVista = new MovimientoVista();
+                    controladorMovimiento = new ControladorMovimiento(movimientoVista, AdministradorVista.this);
+                }
+                dispose();
+                controladorMovimiento.cargarTablas();
+                movimientoVista.setVisible(true);
             }
         });
+
     }
 
     public void setNombreUsuario(String nombreUsuario) {
         labelBienvenida.setText("¡Bienvenido Administrador " + nombreUsuario + "¡");
     }
+
+    public JButton getReporteVentaButton() {
+        return ReporteVentaButton;
+    }
+
+
+    // Métodos de acción
 
     private void abrirVistaProducto() {
         VistaP productoVista = new VistaP();
@@ -88,6 +105,7 @@ public class AdministradorVista extends JFrame {
         nuevaVistaLogin.setControlador(nuevoControladorLogin);
         nuevaVistaLogin.setVisible(true);
     }
+
 
 
     private void abrirGestionUsuarios() {
@@ -113,7 +131,10 @@ public class AdministradorVista extends JFrame {
 
             // Se pasa la instancia actual (this) al constructor de la vista
             AdministracionVentasVista vistaVentas = new AdministracionVentasVista(this);
-            AdministracionVentasControlador controladorVentas = new AdministracionVentasControlador(vistaVentas, modeloVentas);
+
+            AdministracionVentasControlador controladorVentas =
+                    new AdministracionVentasControlador(vistaVentas, modeloVentas);
+
             controladorVentas.iniciarVista();
             this.setVisible(false);
         } catch (Exception ex) {
@@ -127,10 +148,12 @@ public class AdministradorVista extends JFrame {
         MovimientoVista vistaMovimiento = new MovimientoVista(); // tu clase de interfaz
         ControladorMovimiento controladorMovimiento = new ControladorMovimiento(vistaMovimiento, this); // controlador que maneja eventos
         vistaMovimiento.mostrarVista(); // se abre la ventana
-        this.setVisible(false); // oculta la actual
-    }
+        this.setVisible(false); // oculta la actual
+}
+
 
     public void regresar() {
+
         setVisible(true);
     }
 }

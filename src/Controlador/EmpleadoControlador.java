@@ -2,19 +2,18 @@ package Controlador;
 
 
 import Modelo.ModeloIS;
-import Modelo.VentaDAO;
+import Modelo.ReporteVentaDAO;
 
+import Modelo.VentaDAO;
 import Vista.EmpleadoVista;
+import Vista.ReporteVentaVista;
 import Vista.VistaIS;
 import Vista.VentaVista;
 
-
-import javax.swing.*;
-
-public class EmpleadoControlador extends JFrame {
+public class EmpleadoControlador {
 
     private final EmpleadoVista vista;
-    private final String nombreUsuario; 
+    private final String nombreUsuario; // Hacemos final el nombre del usuario
 
     public EmpleadoControlador(EmpleadoVista vista, String nombreUsuario) {
         this.vista = vista;
@@ -24,11 +23,31 @@ public class EmpleadoControlador extends JFrame {
 
     private void initController() {
 
-        vista.realizarVentaButton.addActionListener(e -> vista.mostrarVenta());
-        vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
+        vista.realizarVentaButton.addActionListener(e -> mostrarVenta());
 
+        vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
+        vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
         vista.setNombreUsuario(nombreUsuario);
     }
+    private void abrirVistaReporteVenta() {
+        ReporteVentaVista vista = new ReporteVentaVista();
+        ReporteVentaDAO dao = new ReporteVentaDAO();
+        ReporteVentaControlador controlador = new ReporteVentaControlador(vista, dao);
+        vista.setVisible(true);
+    }
+
+
+
+
+    private void mostrarVenta() {
+        VentaVista vista = new VentaVista();
+        VentaDAO dao = new VentaDAO();
+        VentaControlador controlador = new VentaControlador(vista, dao, this.vista);
+        vista.setVisible(true); 
+    }
+
+
+
 
     private void cerrarSesion() {
         vista.dispose();
@@ -39,7 +58,6 @@ public class EmpleadoControlador extends JFrame {
         nuevaVistaLogin.setControlador(nuevoControladorLogin);
         nuevaVistaLogin.setVisible(true);
     }
-
 
     public void iniciarVista() {
         vista.mostrarEmpleado();
