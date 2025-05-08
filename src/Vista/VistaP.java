@@ -4,21 +4,72 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class VistaP extends JFrame {
-    public JPanel producto;
-    public JTextField categoriatext;
-    public JTextField preciotext;
-    public JTextField cantidadtext;
-    public JTable table1;
-    public JButton mostrarButton;
-    public JButton editarButton;
-    public JButton eliminarButton;
-    public JButton guardarButton;
-    public JTextField nombretext;
-    public JButton regresarButton;
-    public JTextField Idtext;
-    public JLabel Id;
-
+    private JPanel producto;
+    private JTextField preciotext;
+    private JTextField cantidadtext;
+    private JTable table1;
+    private JButton mostrarButton;
+    private JButton editarButton;
+    private JButton eliminarButton;
+    private JButton guardarButton;
+    private JTextField nombretext;
+    private JButton regresarButton;
+    private JTextField Idtext;
+    private JLabel Id;
+    private JComboBox categoriatext;
+    public JButton newButton;
+    private JButton deleteCategory;
     public DefaultTableModel modTabla;
+
+    public JTextField getPreciotext() {
+        return preciotext;
+    }
+
+    public JTextField getCantidadtext() {
+        return cantidadtext;
+    }
+
+    public JTable getTable1() {
+        return table1;
+    }
+
+    public JButton getMostrarButton() {
+        return mostrarButton;
+    }
+
+    public JButton getEditarButton() {
+        return editarButton;
+    }
+
+    public JButton getEliminarButton() {
+        return eliminarButton;
+    }
+
+    public JButton getGuardarButton() {
+        return guardarButton;
+    }
+
+    public JTextField getNombretext() {
+        return nombretext;
+    }
+
+    public JButton getRegresarButton() {
+        return regresarButton;
+    }
+
+    public JTextField getIdtext() {
+        return Idtext;
+    }
+
+    public JComboBox getComboBoxCategoria() {
+        return categoriatext;
+    }
+
+    public JButton getDeleteCategory() {
+        return deleteCategory;
+    }
+
+
 
     public VistaP() {
         modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Stock"}, 0);
