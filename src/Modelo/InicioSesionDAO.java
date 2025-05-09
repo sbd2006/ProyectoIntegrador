@@ -3,6 +3,7 @@ package Modelo;
 import Vista.VistaIS;
 
 import javax.swing.*;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,8 +34,7 @@ public class InicioSesionDAO {
         String pass = String.valueOf(getPass().getPassword());
 
         try {
-            String sql = "SELECT * FROM usuarios WHERE Usuario = ? AND Pass = ?";
-            ps = conX.getConexion().prepareStatement(sql);
+            CallableStatement cs = conX.getConexion().prepareCall("{CALL validacion(?,?)}");
             ps.setString(1, user);
             ps.setString(2, pass);
 

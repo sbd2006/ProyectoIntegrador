@@ -7,22 +7,20 @@ public class CrearUsuarioDAO {
 
     private final String URL = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
+    private final String PASSWORD = "Santi104";
 
     public boolean guardarUsuario(CrearUsuario usuario) {
-        String sql = "INSERT INTO usuarios (Nombre, Apellido, Telefono, Direccion, Usuario, Pass) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD)) {
+             CallableStatement cs = conexion.prepareCall("{CALL guardarUsuarios(?,?,?,?,?,?)}");
 
-        try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement ps = conexion.prepareStatement(sql)) {
+            cs.setString(1, usuario.getNombre());
+            cs.setString(2, usuario.getApellido());
+            cs.setString(3, usuario.getTelefono());
+            cs.setString(4, usuario.getDireccion());
+            cs.setString(5, usuario.getUsuario());
+            cs.setString(6, usuario.getContrasena());
 
-            ps.setString(1, usuario.getNombre());
-            ps.setString(2, usuario.getApellido());
-            ps.setString(3, usuario.getTelefono());
-            ps.setString(4, usuario.getDireccion());
-            ps.setString(5, usuario.getUsuario());
-            ps.setString(6, usuario.getContrasena());
-
-            ps.executeUpdate();
+            cs.executeUpdate();
             return true;
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "El usuario ya existe. Por favor use otro nombre de usuario.");

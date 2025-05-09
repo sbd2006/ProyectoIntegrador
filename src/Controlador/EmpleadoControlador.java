@@ -60,7 +60,7 @@ public class EmpleadoControlador {
     }
 
     public void iniciarVista() {
-        vista.mostrarEmpleado();
+        vista.setVisible(true);
     }
 }
 

@@ -22,8 +22,9 @@ public class EmpleadoVista extends JFrame {
         setContentPane(PantallaCliente);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
-
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
+
     public JButton getReporteVentaButton() {
         return ReporteVentaButton;
     }
@@ -41,11 +42,6 @@ public class EmpleadoVista extends JFrame {
         nuevaVistaLogin.setControlador(nuevoControladorLogin);
         nuevaVistaLogin.setVisible(true);
     }
-
-    public void mostrarEmpleado() {
-        setVisible(true);
-    }
-
 
     public void mostrarVenta() {
         VentaVista vistaV = new VentaVista();
