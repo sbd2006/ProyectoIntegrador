@@ -14,29 +14,31 @@ import java.sql.SQLException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.Desktop;
-
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import Modelo.Venta;
-import Modelo.DetalleVenta;
-
-
 
 public class VentaControlador {
     private final VentaVista vista;
     private EmpleadoVista emVista;
     private final VentaDAO dao;
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
+
+    private String clienteNombreActual = "";
+    private final int idEmpleadoActual; 
+    private String nombreEmpleadoActual = ""; 
+
     private final MovimientoDAO movimientoDAO = new MovimientoDAO();
 
-    public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista) {
+
+    public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista, int idEmpleadoActual) {
         this.vista = vista;
         this.dao = dao;
         this.emVista = emVista;
+        this.idEmpleadoActual = idEmpleadoActual;
 
         vista.FechaVenta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
@@ -59,23 +61,21 @@ public class VentaControlador {
                 int fila = vista.tableCatalogo.getSelectedRow();
                 if (fila != -1) {
                     String id = vista.tableCatalogo.getValueAt(fila, 0).toString();
-                    String nombre = vista.tableCatalogo.getValueAt(fila, 1).toString();
                     String precio = vista.tableCatalogo.getValueAt(fila, 3).toString();
 
                     vista.IdProducto.setText(id);
                     vista.PrecioUnitario.setText(precio);
-                    vista.Total.setText("");  // reset total
-                    vista.CantidadP.setText("");  // reset cantidad
+                    vista.Total.setText("");
+                    vista.CantidadP.setText("");
                 }
             }
         });
-        }
+    }
 
     private void agregarProducto() {
         try {
             if (vista.IdProducto.getText().isBlank() || vista.CantidadP.getText().isBlank()
-                    || vista.PrecioUnitario.getText().isBlank()
-                    || vista.Total.getText().isBlank()) {
+                    || vista.PrecioUnitario.getText().isBlank() || vista.Total.getText().isBlank()) {
                 JOptionPane.showMessageDialog(vista, "Todos los campos deben estar completos", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -86,66 +86,73 @@ public class VentaControlador {
             String idProducto = vista.IdProducto.getText();
 
             if (cantidad <= 0 || precio <= 0 || totalProducto <= 0) {
-                JOptionPane.showMessageDialog(vista, "Los valores numéricos deben ser mayores a cero.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(vista, "Los valores deben ser mayores a cero.", "Valor inválido", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // 🔍 VALIDACIÓN DE STOCK
+
+            
             int stockActual = dao.obtenerStockActual(idProducto);  // Asegúrate de tener este método en tu DAO
             if (cantidad > stockActual) {
                 JOptionPane.showMessageDialog(vista, "Stock insuficiente. Disponible: " + stockActual, "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Obtener nombre del producto desde la base de datos
+            
+
             String nombreProducto = dao.obtenerNombreProducto(idProducto);
 
-            DetalleVenta detalle = new DetalleVenta(
-                    0,
-                    idProducto,
-                    cantidad,
-                    nombreProducto,
-                    precio,
-                    totalProducto
-            );
+            DetalleVenta detalle = new DetalleVenta(0, idProducto, cantidad, nombreProducto, precio, totalProducto);
             listaDetalles.add(detalle);
 
-            // Agregar fila con el nombre del producto incluido
             vista.modTablaVenta.addRow(new Object[]{
-                    idProducto,
-                    nombreProducto,
-                    cantidad,
-                    String.format("%.2f", precio),
-                    String.format("%.2f", totalProducto)
+                    idProducto, nombreProducto, cantidad, String.format("%.2f", precio), String.format("%.2f", totalProducto)
             });
-
-            JOptionPane.showMessageDialog(vista, "Producto agregado");
 
             if (!listaDetalles.isEmpty()) {
                 vista.finalizarVenta.setEnabled(true);
             }
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vista, "Error en el formato de número: " + ex.getMessage(), "Formato inválido", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(vista, "Formato inválido: " + ex.getMessage());
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(vista, "Error al obtener el nombre del producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vista, "Error al agregar producto: " + ex.getMessage());
+            JOptionPane.showMessageDialog(vista, "Error al obtener nombre del producto: " + ex.getMessage());
         }
     }
 
 
 
+
+
+
     private void confirmarVenta() {
         try {
-            double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
-            Venta venta = new Venta(0, vista.FechaVenta.getText(), total);
+            String nombre = vista.getNombreCliente().getText().trim();
+            String telefono = vista.getTelefono().getText().trim();
+            String direccion = vista.getDireccion().getText().trim();
 
-            int idVenta = dao.insertarVenta(venta, listaDetalles);
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(vista, "Debe ingresar el nombre del cliente.", "Cliente requerido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            this.clienteNombreActual = nombre;
+            ClienteDAO clienteDAO = new ClienteDAO();
+            int clienteId = clienteDAO.obtenerIdOCrear(nombre, telefono, direccion);
+
+            double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
+            Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual);
+
+            EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+            this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
+
+            int idVenta = dao.insertarVentaCliente(venta, listaDetalles, clienteId);
             venta.setIdVenta(idVenta);
             for (DetalleVenta detalle : listaDetalles) {
                 detalle.setIdVenta(idVenta);
             }
+
+
 
             dao.insertarDetalles(listaDetalles);
             generarFacturaPDF(venta, listaDetalles);
@@ -174,6 +181,7 @@ public class VentaControlador {
         }
     }
 
+
     private void mostrarCatalogo() {
         try {
             vista.modTablaCatalogo.setRowCount(0);
@@ -193,7 +201,7 @@ public class VentaControlador {
             listaDetalles.remove(fila);
             JOptionPane.showMessageDialog(vista, "Producto eliminado");
 
-            // Deshabilitar si ya no hay productos
+            
             if (listaDetalles.isEmpty()) {
                 vista.finalizarVenta.setEnabled(false);
             }
@@ -212,11 +220,12 @@ public class VentaControlador {
         }
     }
 
+
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
         Document document = new Document();
         try {
             File carpeta = new File("facturas");
-            if (!carpeta.exists()) carpeta.mkdirs(); // Crea carpeta si no existe
+            if (!carpeta.exists()) carpeta.mkdirs();
 
             String nombreArchivo = "facturas/Factura_PostresMariaJose_" + venta.getIdVenta() + ".pdf";
             PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
@@ -228,6 +237,8 @@ public class VentaControlador {
             document.add(new Paragraph("POSTRES MARIA JOSE", tituloFont));
             document.add(new Paragraph("Factura N°: " + venta.getIdVenta(), textoFont));
             document.add(new Paragraph("Fecha: " + venta.getFecha(), textoFont));
+            document.add(new Paragraph("Cliente: " + clienteNombreActual, textoFont));
+            document.add(new Paragraph("Empleado: " + nombreEmpleadoActual, textoFont));
             document.add(new Paragraph("\n"));
 
             document.add(new Paragraph("Detalles de la venta:", textoFont));
@@ -238,26 +249,24 @@ public class VentaControlador {
                 document.add(new Paragraph("ID Producto: " + d.getIdProducto(), textoFont));
                 document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
                 document.add(new Paragraph("Precio Unitario: $" + d.getPrecioUnitario(), textoFont));
-                document.add(new Paragraph("Subtotal: $" + d.getTotalProducto(), textoFont));
+                document.add(new Paragraph("Total: $" + d.getTotalProducto(), textoFont));
                 document.add(new Paragraph(" ", textoFont));
             }
 
             document.add(new Paragraph("--------------------------------------", textoFont));
             document.add(new Paragraph("Total a pagar: $" + venta.getTotal(), tituloFont));
+
             document.add(new Paragraph("\nGracias por su compra. ¡Vuelva pronto!", textoFont));
 
             document.close();
-            JOptionPane.showMessageDialog(vista, "Factura generada correctamente.");
             Desktop.getDesktop().open(new File(nombreArchivo));
 
         } catch (Exception e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(vista, "Error al generar factura: " + e.getMessage());
         }
     }
+
     private void regresar() {
         vista.dispose();
         emVista.setVisible(true);
     }
-
-}

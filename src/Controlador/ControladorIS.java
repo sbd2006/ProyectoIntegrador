@@ -6,7 +6,6 @@ import Vista.EmpleadoVista;
 import Vista.VistaIS;
 import Vista.CrearUsuarioVista;
 
-
 import javax.swing.*;
 
 public class ControladorIS {
@@ -18,13 +17,13 @@ public class ControladorIS {
         this.vista = vista;
     }
 
-
     public void Validacion() {
         Conexion conX = new Conexion();
         conX.conectar();
         String userType = modelo.validacionSQL();
 
-        String nombre = modelo.getNombreUsuario(); // ← Asegúrate de tener esto
+        String nombre = modelo.getNombreUsuario();
+        int idEmpleado = modelo.getIdEmpleado();
 
         if ("Administrador".equals(userType)) {
             JOptionPane.showMessageDialog(null, "Bienvenido Administrador");
@@ -35,8 +34,10 @@ public class ControladorIS {
 
         } else if ("Usuario".equals(userType)) {
             JOptionPane.showMessageDialog(null, "Bienvenido Empleado");
-            EmpleadoVista vistaEmpleado = new EmpleadoVista();
-            EmpleadoControlador controladorEmpleado = new EmpleadoControlador(vistaEmpleado, nombre);
+            EmpleadoVista vistaEmpleado = new EmpleadoVista(idEmpleado);
+
+
+            EmpleadoControlador controladorEmpleado = new EmpleadoControlador(vistaEmpleado, nombre, modelo.getIdEmpleado());
             controladorEmpleado.iniciarVista();
             vista.dispose();
 
@@ -45,12 +46,10 @@ public class ControladorIS {
         }
     }
 
-
     public void mostrarCrearUsuario() {
         CrearUsuarioVista vistaCU = new CrearUsuarioVista();
         CrearUsuarioDAO dao = new CrearUsuarioDAO();
         new CrearUsuarioControlador(vistaCU, dao);
         vistaCU.setVisible(true);
     }
-
 }

@@ -10,6 +10,9 @@ public class VentaVista extends JFrame {
     public JTextField IdProducto, CantidadP, PrecioUnitario, FechaVenta, Total;
     public JButton finalizarVenta, regresarButton, agregarProductoButton, mostrarButton, eliminarButton;
     public JLabel Id, CANTIDAD_PRODUCTO;
+    public JTextField nombreCliente;
+    private JTextField Direccion;
+    private JTextField Telefono;
     public DefaultTableModel modTablaCatalogo;
     public DefaultTableModel modTablaVenta;
 
@@ -44,5 +47,17 @@ public class VentaVista extends JFrame {
         tableVenta.setModel(modTablaVenta);
 
 
+    }
+    public JTextField getNombreCliente() {
+        return nombreCliente;
+    }
+
+
+    public JTextField getDireccion() {
+        return Direccion;
+    }
+
+    public JTextField getTelefono() {
+        return Telefono;
     }
 }

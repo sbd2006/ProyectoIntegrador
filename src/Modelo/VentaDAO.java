@@ -8,14 +8,16 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
 
-    public int insertarVenta(Venta venta, List<DetalleVenta> detalles) throws SQLException
-    {
-        String sql = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+
+
+
+    public int insertarVentaCliente(Venta venta, List<DetalleVenta> detalles, int clienteId) throws SQLException {
+        String sql = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
+
+
         int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
-        int precioTotal = (int) detalles.stream().mapToDouble(DetalleVenta::getPrecioUnitario).sum(); // total por unidad
-        int descuento = 0; // Puedes cambiar esto si luego gestionás descuentos
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -23,8 +25,8 @@ public class VentaDAO {
             ps.setString(1, venta.getFecha());
             ps.setDouble(2, venta.getTotal());
             ps.setInt(3, cantidadTotal);
-            ps.setInt(4, precioTotal);
-            ps.setInt(5, descuento);
+            ps.setInt(4, clienteId);
+            ps.setInt(5, venta.getIdEmpleado()); // Usa el nuevo campo
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -32,11 +34,16 @@ public class VentaDAO {
                 return rs.getInt(1);
             }
         }
-        throw new SQLException("No se generó ID de la venta.");
+
+        throw new SQLException("No se generó ID de la venta con cliente.");
     }
 
+
+
+
+
     public void insertarDetalles(List<DetalleVenta> detalles) throws SQLException {
-        String sql = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, TOTAL_PRODUCTO, ID_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, ID_VENTA) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -46,6 +53,12 @@ public class VentaDAO {
                 ps.setInt(2, d.getCantidad());
                 ps.setString(3, d.getDescripcion());
                 ps.setDouble(4, d.getPrecioUnitario());
+
+                ps.setInt(5, d.getIdVenta());
+
+                ps.addBatch();
+            }
+
                 ps.setDouble(5, d.getTotalProducto());
                 ps.setInt(6, d.getIdVenta());
                 ps.addBatch();
@@ -61,7 +74,8 @@ public class VentaDAO {
     }
 
 
-    public List<String[]> consultarPorFecha(String fecha) {
+    public List<String[]> consultarFecha(String fecha) {
+
         List<String[]> resultados = new ArrayList<>();
         String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, d.TOTAL_PRODUCTO, p.Nombre FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto WHERE v.FECHA_VENTA = ?";
 
