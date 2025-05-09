@@ -22,6 +22,7 @@ public class EmpleadoVista extends JFrame {
         setContentPane(PantallaCliente);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
     public JButton getReporteVentaButton() {

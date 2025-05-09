@@ -97,7 +97,9 @@ public class MovimientoDAO {
 
     public List<String[]> obtenerMovimientos() {
         List<String[]> lista = new ArrayList<>();
-        String sql = "SELECT ID_PRODUCTO, CANTIDAD, FECHA_MOVIMIENTO, OBSERVACION FROM movimiento";
+        String sql = "SELECT p.NOMBRE, m.CANTIDAD, m.FECHA_MOVIMIENTO, m.OBSERVACION " +
+                "FROM movimiento m " +
+                "JOIN producto p ON m.ID_PRODUCTO = p.ID_PRODUCTO";
 
         con1.conectar();
         try (Connection conn = con1.getConexion();
@@ -106,7 +108,7 @@ public class MovimientoDAO {
 
             while (rs.next()) {
                 String[] fila = new String[4];
-                fila[0] = String.valueOf(rs.getInt("ID_PRODUCTO"));
+                fila[0] = String.valueOf(rs.getString("NOMBRE"));
                 fila[1] = String.valueOf(rs.getInt("CANTIDAD"));
                 fila[2] = rs.getString("FECHA_MOVIMIENTO");
                 fila[3] = rs.getString("OBSERVACION");

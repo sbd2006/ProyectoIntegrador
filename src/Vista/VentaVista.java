@@ -17,13 +17,15 @@ public class VentaVista extends JFrame {
         setTitle("Gestión de Ventas");
         setContentPane(Venta);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         IdProducto.setEditable(false);
         PrecioUnitario.setEditable(false);
         FechaVenta.setEditable(false);
         Total.setEditable(false);
         finalizarVenta.setEnabled(false);
+
 
         String[] columnas = {"ID", "Nombre", "Categoría", "Precio", "Stock"};
         modTablaCatalogo = new DefaultTableModel(columnas, 0) {

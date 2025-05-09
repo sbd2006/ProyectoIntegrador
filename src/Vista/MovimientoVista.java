@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class MovimientoVista extends JFrame {
 
-    private JTextField ProductoId;
+    private JComboBox<String> comboProductos;
     private JTextField Cantidad;
     private JComboBox<String> tipoDocu;
     private JButton Regresar;
@@ -19,6 +19,7 @@ public class MovimientoVista extends JFrame {
     private JTable table1;
     private JTable table2;
     private AdministradorVista administradorVista;
+
 
     public MovimientoVista(){
         fecha.setText(LocalDate.now().toString());
@@ -46,10 +47,6 @@ public class MovimientoVista extends JFrame {
         return registrarButton;
     }
 
-    public JTextField getProductoId() {
-        return ProductoId;
-    }
-
     public JTextField getCantidad() {
         return Cantidad;
     }
@@ -66,12 +63,8 @@ public class MovimientoVista extends JFrame {
         return 1;
     }
 
-    public JTable getTablaMovimiento() {
-        return table1;
-    }
-
-    public JTable getTablaDocumento() {
-        return table2;
+    public JComboBox<String> getComboProductos() {
+        return comboProductos;
     }
 
     public void mostrarVista(){
@@ -81,7 +74,7 @@ public class MovimientoVista extends JFrame {
         setVisible(true);
     }
     public void cargarTablaMovimiento(List<String[]> datos) {
-        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Id_producto", "Cantidad", "Fecha", "Obs"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Producto", "Cantidad", "Fecha", "Obs"}, 0);
         for (String[] fila : datos) {
             modelo.addRow(fila);
         }
@@ -94,6 +87,13 @@ public class MovimientoVista extends JFrame {
             modelo.addRow(fila);
         }
         table2.setModel(modelo);
+    }
+
+    public void setComboBoxItems(List<String> nombresProductos) {
+        comboProductos.removeAllItems();
+        for (String nombre : nombresProductos) {
+            comboProductos.addItem(nombre);
+        }
     }
 
 }

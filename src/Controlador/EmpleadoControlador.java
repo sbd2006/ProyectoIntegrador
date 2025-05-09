@@ -24,7 +24,6 @@ public class EmpleadoControlador {
     private void initController() {
 
         vista.realizarVentaButton.addActionListener(e -> mostrarVenta());
-
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
         vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
         vista.setNombreUsuario(nombreUsuario);
@@ -36,22 +35,16 @@ public class EmpleadoControlador {
         vista.setVisible(true);
     }
 
-
-
-
     private void mostrarVenta() {
-        VentaVista vista = new VentaVista();
+        VentaVista vistaV = new VentaVista();
         VentaDAO dao = new VentaDAO();
-        VentaControlador controlador = new VentaControlador(vista, dao, this.vista);
-        vista.setVisible(true); 
+        VentaControlador controlador = new VentaControlador(vistaV, dao, this.vista);
+        vistaV.setVisible(true);
+        vista.dispose();
     }
-
-
-
 
     private void cerrarSesion() {
         vista.dispose();
-
         VistaIS nuevaVistaLogin = new VistaIS();
         ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
         ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
@@ -60,7 +53,7 @@ public class EmpleadoControlador {
     }
 
     public void iniciarVista() {
-        vista.mostrarEmpleado();
+        vista.setVisible(true);
     }
 }
 
