@@ -120,11 +120,6 @@ public class VentaControlador {
         }
     }
 
-
-
-
-
-
     private void confirmarVenta() {
         try {
             String nombre = vista.getNombreCliente().getText().trim();
@@ -146,38 +141,19 @@ public class VentaControlador {
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
 
-            int idVenta = dao.insertarVentaCliente(venta, listaDetalles, clienteId);
-            venta.setIdVenta(idVenta);
-            for (DetalleVenta detalle : listaDetalles) {
-                detalle.setIdVenta(idVenta);
+            // Registrar venta completa con transacción
+            boolean exito = dao.registrarVentaCompleta(venta, listaDetalles);
+
+            if (exito) {
+                generarFacturaPDF(venta, listaDetalles);
+                JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
+                // Puedes limpiar la vista o reiniciar la tabla si deseas
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al registrar la venta. No se realizaron cambios.");
             }
 
-
-
-            dao.insertarDetalles(listaDetalles);
-            generarFacturaPDF(venta, listaDetalles);
-
-            String fecha = vista.FechaVenta.getText();
-            String tipoMovimiento = "Ajuste negativo inventario";
-            String nroDocumento = "VENTA-" + venta.getIdVenta();
-
-            for (DetalleVenta detalle : listaDetalles) {
-                ModeloMovimiento movimiento = new ModeloMovimiento();
-                movimiento.setCantidad(detalle.getCantidad());
-                movimiento.setFechaMovimiento(fecha);
-                movimiento.setObservacion("Venta");
-                movimiento.setProductoId(Integer.parseInt(detalle.getIdProducto()));
-                movimiento.setTipoMovimiento(tipoMovimiento);
-
-                boolean exito = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
-                if (!exito) {
-                    JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
-                }
-            }
-
-            JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(vista, "Error al registrar venta: " + e.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vista, "Error al procesar la venta: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -17,8 +17,6 @@ public class AdministradorControlador {
         vista.setNombreUsuario(nombreUsuario);
         vista.setVisible(true);
         vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
-
-
     }
 
     private void abrirVistaReporteVenta() {
@@ -27,7 +25,5 @@ public class AdministradorControlador {
         ReporteVentaControlador controlador = new ReporteVentaControlador(vista, dao);
         vista.setVisible(true);
     }
-
-
 }
 

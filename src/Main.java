@@ -1,9 +1,6 @@
 import Controlador.ControladorIS;
 import Modelo.ModeloIS;
 import Vista.VistaIS;
-import Modelo.ModeloP;
-
-import javax.swing.table.DefaultTableModel;
 
 public class Main {
     public static void main(String[] args) {

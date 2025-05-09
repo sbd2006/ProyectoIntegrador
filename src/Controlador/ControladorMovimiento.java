@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.ModeloMovimiento;
+import Modelo.ModeloP;
 import Modelo.MovimientoDAO;
 import Vista.AdministradorVista;
 import Vista.MovimientoVista;
@@ -8,16 +9,21 @@ import Vista.MovimientoVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ControladorMovimiento {
     private MovimientoVista vista;
     private AdministradorVista adminVista;
+    private Map<String, Integer> mapaProductos;
+    private ModeloP modeloP;
 
     public ControladorMovimiento(MovimientoVista vista, AdministradorVista adminVista) {
         this.vista = vista;
         this.adminVista = adminVista;
-
+        this.modeloP = new ModeloP();
+        this.mapaProductos = modeloP.obtenerProductosNombreId();
         cargarTiposDocumentoEnCombo();
 
         this.vista.getRegistrarButton().addActionListener(new ActionListener() {
@@ -35,21 +41,23 @@ public class ControladorMovimiento {
             }
         });
 
+        vista.setComboBoxItems(new ArrayList<>(mapaProductos.keySet()));
+
+
     }
 
     private void registrarMovimiento() {
         try {
-            if (vista.getProductoId().getText().isEmpty() ||
+            if (vista.getComboProductos().getSelectedItem() == null ||
                     vista.getCantidad().getText().isEmpty() ||
                     vista.getObs().getText().isEmpty()) {
-
                 JOptionPane.showMessageDialog(null,
                         "Por favor completa todos los campos antes de registrar el movimiento.",
                         "Campos vacíos", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-            int productoId = Integer.parseInt(vista.getProductoId().getText());
+            String nombreSeleccionado = (String) vista.getComboProductos().getSelectedItem();
+            int productoId = mapaProductos.get(nombreSeleccionado);
             String tipoMovimiento = vista.getTipoDocu().getSelectedItem().toString();
             int documentoId = vista.getDocumentoId();
             int cantidad = Integer.parseInt(vista.getCantidad().getText());

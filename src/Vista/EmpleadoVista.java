@@ -14,7 +14,6 @@
         private JLabel Bienvenido;
 
         private JButton ReporteVentaButton;
-        private JLabel lblBienvenida;
         private int idEmpleadoActual;
 
         public EmpleadoVista(int idEmpleadoActual) {
@@ -25,9 +24,19 @@
             pack();
         }
 
+
+    public EmpleadoVista() {
+        setTitle("Vista Empleado");
+        setContentPane(PantallaCliente);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        } 
+
         public JButton getReporteVentaButton() {
             return ReporteVentaButton;
         }
+
 
 
         public void setNombreUsuario(String nombreUsuario) {
