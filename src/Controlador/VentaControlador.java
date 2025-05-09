@@ -28,8 +28,8 @@ public class VentaControlador {
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
 
     private String clienteNombreActual = "";
-    private final int idEmpleadoActual; 
-    private String nombreEmpleadoActual = ""; 
+    private final int idEmpleadoActual;
+    private String nombreEmpleadoActual = "";
 
     private final MovimientoDAO movimientoDAO = new MovimientoDAO();
 
@@ -49,10 +49,14 @@ public class VentaControlador {
         vista.eliminarButton.addActionListener(e -> eliminarProducto());
 
         vista.PrecioUnitario.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) { calcularTotalProducto(); }
+            public void keyReleased(KeyEvent e) {
+                calcularTotalProducto();
+            }
         });
         vista.CantidadP.addKeyListener(new KeyAdapter() {
-            public void keyReleased(KeyEvent e) { calcularTotalProducto(); }
+            public void keyReleased(KeyEvent e) {
+                calcularTotalProducto();
+            }
         });
 
         vista.tableCatalogo.addMouseListener(new MouseAdapter() {
@@ -91,14 +95,12 @@ public class VentaControlador {
             }
 
 
-            
             int stockActual = dao.obtenerStockActual(idProducto);  // Asegúrate de tener este método en tu DAO
             if (cantidad > stockActual) {
                 JOptionPane.showMessageDialog(vista, "Stock insuficiente. Disponible: " + stockActual, "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            
 
             String nombreProducto = dao.obtenerNombreProducto(idProducto);
 
@@ -119,6 +121,7 @@ public class VentaControlador {
             JOptionPane.showMessageDialog(vista, "Error al obtener nombre del producto: " + ex.getMessage());
         }
     }
+
 
     private void confirmarVenta() {
         try {
@@ -144,12 +147,33 @@ public class VentaControlador {
             // Registrar venta completa con transacción
             boolean exito = dao.registrarVentaCompleta(venta, listaDetalles);
 
+
+            dao.insertarDetalles(listaDetalles);
+            generarFacturaPDF(venta, listaDetalles);
+
+            String fecha = vista.FechaVenta.getText();
+            String tipoMovimiento = "Ajuste negativo inventario";
+            String nroDocumento = "VENTA-" + venta.getIdVenta();
+
+            for (DetalleVenta detalle : listaDetalles) {
+                ModeloMovimiento movimiento = new ModeloMovimiento();
+                movimiento.setCantidad(detalle.getCantidad());
+                movimiento.setFechaMovimiento(fecha);
+                movimiento.setObservacion("Venta");
+                movimiento.setProductoId(Integer.parseInt(detalle.getIdProducto()));
+                movimiento.setTipoMovimiento(tipoMovimiento);
+
+                boolean exito = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
+                }
+
             if (exito) {
                 generarFacturaPDF(venta, listaDetalles);
                 JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
-                // Puedes limpiar la vista o reiniciar la tabla si deseas
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al registrar la venta. No se realizaron cambios.");
+
             }
 
         } catch (Exception ex) {
@@ -177,7 +201,7 @@ public class VentaControlador {
             listaDetalles.remove(fila);
             JOptionPane.showMessageDialog(vista, "Producto eliminado");
 
-            
+
             if (listaDetalles.isEmpty()) {
                 vista.finalizarVenta.setEnabled(false);
             }
@@ -246,3 +270,5 @@ public class VentaControlador {
         vista.dispose();
         emVista.setVisible(true);
     }
+
+}

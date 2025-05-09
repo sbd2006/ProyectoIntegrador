@@ -21,9 +21,12 @@ public class VentaDAO {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             con.setAutoCommit(false); // Inicia transacción
 
+   
+
             // 1. Insertar venta
             String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
+
 
 
             int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
@@ -33,7 +36,7 @@ public class VentaDAO {
             psVenta.setDouble(2, venta.getTotal());
             psVenta.setInt(3, cantidadTotal);
             psVenta.setDouble(4, precioTotal);
-            psVenta.setDouble(5, 0); // Descuento fijo por ahora
+            psVenta.setDouble(5, 0); 
 
             psVenta.executeUpdate();
 
@@ -61,6 +64,7 @@ public class VentaDAO {
             String fechaHoy = java.time.LocalDate.now().toString();
 
             for (DetalleVenta d : detalles) {
+
                 d.setIdVenta(idVenta);
 
                 // Insertar detalle
@@ -194,7 +198,9 @@ public class VentaDAO {
                 return rs.getInt("stock");
             }
         }
-        return 0; // Retornar 0 si no se encuentra
+
+        return 0; 
+
     }
 
 }
