@@ -15,7 +15,7 @@ public class ReporteVentaVista extends JFrame {
 
     public ReporteVentaVista() {
         setTitle("Reporte de Ventas");
-        setSize(600, 400);
+        setSize(1920, 1080);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 

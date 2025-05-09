@@ -1,9 +1,8 @@
 package Controlador;
 
 
-import Modelo.ModeloIS;
 import Modelo.ReporteVentaDAO;
-
+import Modelo.ModeloIS;
 import Modelo.VentaDAO;
 import Vista.EmpleadoVista;
 import Vista.ReporteVentaVista;
@@ -13,21 +12,30 @@ import Vista.VentaVista;
 public class EmpleadoControlador {
 
     private final EmpleadoVista vista;
-    private final String nombreUsuario; // Hacemos final el nombre del usuario
+    private final String nombreUsuario;
+    private final int idEmpleado;
 
-    public EmpleadoControlador(EmpleadoVista vista, String nombreUsuario) {
+    public EmpleadoControlador(EmpleadoVista vista, String nombreUsuario, int idEmpleado) {
         this.vista = vista;
         this.nombreUsuario = nombreUsuario;
+        this.idEmpleado = idEmpleado;
         initController();
     }
 
     private void initController() {
-
         vista.realizarVentaButton.addActionListener(e -> mostrarVenta());
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
         vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
         vista.setNombreUsuario(nombreUsuario);
     }
+
+    private void mostrarVenta() {
+        VentaVista vistaVenta = new VentaVista();
+        VentaDAO dao = new VentaDAO();
+        VentaControlador controlador = new VentaControlador(vistaVenta, dao, vista, idEmpleado); 
+        vistaVenta.setVisible(true);
+    }
+
     private void abrirVistaReporteVenta() {
         ReporteVentaVista vista = new ReporteVentaVista();
         ReporteVentaDAO dao = new ReporteVentaDAO();
@@ -55,5 +63,8 @@ public class EmpleadoControlador {
     public void iniciarVista() {
         vista.setVisible(true);
     }
-}
 
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
+}

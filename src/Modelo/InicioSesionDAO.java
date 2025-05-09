@@ -33,7 +33,8 @@ public class InicioSesionDAO {
         String pass = String.valueOf(getPass().getPassword());
 
         try {
-            String sql = "SELECT * FROM usuarios WHERE Usuario = ? AND Pass = ?";
+            String sql = "SELECT u.*, e.Nombre FROM usuario u JOIN empleado e ON u.ID_EMPLEADO = e.ID_EMPLEADO WHERE u.Usuario = ? AND u.Pass = ?";
+
             ps = conX.getConexion().prepareStatement(sql);
             ps.setString(1, user);
             ps.setString(2, pass);

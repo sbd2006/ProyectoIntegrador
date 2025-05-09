@@ -9,15 +9,16 @@ public class RolDAO {
 
     public RolDAO() throws SQLException {
 
-        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "Juanguis-2006");
+        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "OH{c<6H1#cQ%F69$i");
 
     }
 
     public List<String[]> consultarUsuarios() throws SQLException {
         List<String[]> lista = new ArrayList<>();
         String[] registro;
-        Statement st = conexion.createStatement();
-        ResultSet rs = st.executeQuery("SELECT id, Nombre, Apellido, tipo, Usuario FROM usuarios");
+        CallableStatement cs = conexion.prepareCall("{CALL mostrarUsuarios()}");
+        ResultSet rs = cs.executeQuery();
+
 
         while (rs.next()) {
             registro = new String[5];
@@ -32,15 +33,15 @@ public class RolDAO {
     }
 
     public boolean actualizarRol(int id, String tipo) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement("UPDATE Usuarios SET tipo = ? WHERE id = ?");
-        ps.setString(1, tipo);
-        ps.setInt(2, id);
-        return ps.executeUpdate() > 0;
+        CallableStatement cs = conexion.prepareCall("{CALL actualizarRol(?,?)}");
+        cs.setInt(1, id);
+        cs.setString(2, tipo);
+        return cs.executeUpdate() > 0;
     }
 
     public boolean eliminarUsuario(int id) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement("DELETE FROM Usuarios WHERE id = ?");
-        ps.setInt(1, id);
-        return ps.executeUpdate() > 0;
+        CallableStatement cs = conexion.prepareCall("{CALL eliminarRol(?)}");
+        cs.setInt(1, id);
+        return cs.executeUpdate() > 0;
     }
 }

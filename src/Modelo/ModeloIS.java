@@ -10,6 +10,9 @@ public class ModeloIS {
     private ResultSet rs;
     private PreparedStatement ps;
     private String nombreUsuario; // ← Aquí se guarda el nombre del usuario
+    private int idEmpleado;
+    public int getIdEmpleado() { return idEmpleado; }
+
     Conexion conX = new Conexion();
 
     public ModeloIS(VistaIS vista) {
@@ -29,8 +32,17 @@ public class ModeloIS {
         String user = getUser().getText();
         String pass = String.valueOf(getPass().getPassword());
 
+
         try {
-            String sql = "SELECT * FROM usuarios WHERE Usuario = ? AND Pass = ?";
+            String sql = """
+                SELECT u.Usuario, u.Pass, u.tipo, e.Nombre, u.ID_EMPLEADO 
+                FROM usuario u 
+                JOIN empleado e ON u.ID_EMPLEADO = e.ID_EMPLEADO 
+                WHERE u.Usuario = ? AND u.Pass = ?
+                
+            """;
+
+
             ps = conX.getConexion().prepareStatement(sql);
             ps.setString(1, user);
             ps.setString(2, pass);
@@ -38,16 +50,19 @@ public class ModeloIS {
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                // Guardar el nombre para usarlo en la bienvenida
-                nombreUsuario = rs.getString("Nombre"); // Asegúrate de que la columna se llame así
-                return rs.getString("tipo"); // Retorna el tipo (Administrador / Usuario)
+                nombreUsuario = rs.getString("Nombre");
+                this.idEmpleado = rs.getInt("ID_EMPLEADO");
+                return rs.getString("tipo");
             }
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
         }
 
-        return null; // Si no encuentra nada
+        return null;
     }
+
+
 
     public String getNombreUsuario() {
         return nombreUsuario;

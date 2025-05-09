@@ -50,6 +50,7 @@ public class RolSelectionVista extends JFrame {
         rolText.addItem("Seleccione un Rol");
         rolText.addItem("Administrador");
         rolText.addItem("Usuario");
+
     }
 
     public void mostrarVista() {

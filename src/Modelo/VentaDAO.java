@@ -8,8 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
-
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
@@ -26,9 +25,10 @@ public class VentaDAO {
             String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
 
+
             int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
             double precioTotal = detalles.stream().mapToDouble(DetalleVenta::getPrecioUnitario).sum();
-
+          
             psVenta.setString(1, venta.getFecha());
             psVenta.setDouble(2, venta.getTotal());
             psVenta.setInt(3, cantidadTotal);
@@ -49,6 +49,7 @@ public class VentaDAO {
             // 2. Insertar detalles de la venta
             String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, TOTAL_PRODUCTO, ID_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
             psDetalle = con.prepareStatement(sqlDetalle);
+
 
             // 3. Preparar actualización de stock
             String sqlStock = "UPDATE producto SET stock = stock - ? WHERE Id_producto = ?";
@@ -112,8 +113,8 @@ public class VentaDAO {
         }
     }
 
-    // ✅ Este método aún puede servir para consultas por fecha
     public List<String[]> consultarPorFecha(String fecha) {
+
         List<String[]> resultados = new ArrayList<>();
         String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, d.TOTAL_PRODUCTO, p.Nombre " +
                 "FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto " +
