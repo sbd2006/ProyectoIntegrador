@@ -4,18 +4,22 @@ public class Venta {
     private int idVenta;
     private String fecha;
     private double total;
+    private int idEmpleado;
 
-    public Venta(int idVenta, String fecha, double total) {
+    public Venta(int idVenta, String fecha, double total, int idEmpleado) {
         this.idVenta = idVenta;
         this.fecha = fecha;
         this.total = total;
+        this.idEmpleado = idEmpleado;
     }
 
     public int getIdVenta() { return idVenta; }
     public String getFecha() { return fecha; }
     public double getTotal() { return total; }
+    public int getIdEmpleado() { return idEmpleado; }
 
     public void setIdVenta(int idVenta) { this.idVenta = idVenta; }
     public void setFecha(String fecha) { this.fecha = fecha; }
     public void setTotal(double total) { this.total = total; }
+    public void setIdEmpleado(int idEmpleado) { this.idEmpleado = idEmpleado; }
 }

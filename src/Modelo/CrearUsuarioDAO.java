@@ -7,27 +7,48 @@ public class CrearUsuarioDAO {
 
     private final String URL = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
     private final String USER = "root";
-    private final String PASSWORD = "Santi104";
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
     public boolean guardarUsuario(CrearUsuario usuario) {
-        try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD)) {
-             CallableStatement cs = conexion.prepareCall("{CALL guardarUsuarios(?,?,?,?,?,?)}");
+        String sqlEmpleado = "INSERT INTO empleado (Nombre, Apellido, Telefono, Direccion) VALUES (?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO usuarios (Usuario, Pass, tipo, ID_EMPLEADO) VALUES (?, ?, ?, ?)";
 
-            cs.setString(1, usuario.getNombre());
-            cs.setString(2, usuario.getApellido());
-            cs.setString(3, usuario.getTelefono());
-            cs.setString(4, usuario.getDireccion());
-            cs.setString(5, usuario.getUsuario());
-            cs.setString(6, usuario.getContrasena());
+        try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement psEmpleado = conexion.prepareStatement(sqlEmpleado, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement psUsuario = conexion.prepareStatement(sqlUsuario)) {
 
-            cs.executeUpdate();
+            conexion.setAutoCommit(false);
+
+            psEmpleado.setString(1, usuario.getNombre());
+            psEmpleado.setString(2, usuario.getApellido());
+            psEmpleado.setString(3, usuario.getTelefono());
+            psEmpleado.setString(4, usuario.getDireccion());
+            psEmpleado.executeUpdate();
+
+            ResultSet rs = psEmpleado.getGeneratedKeys();
+            if (!rs.next()) {
+                conexion.rollback();
+                throw new SQLException("No se pudo obtener ID del empleado");
+            }
+            int idEmpleado = rs.getInt(1);
+
+            // Insertar usuario con tipo fijo 'Usuario'
+            psUsuario.setString(1, usuario.getUsuario());
+            psUsuario.setString(2, usuario.getContrasena());
+            psUsuario.setString(3, "Usuario"); // ✅ tipo determinado automáticamente
+            psUsuario.setInt(4, idEmpleado);
+            psUsuario.executeUpdate();
+
+            conexion.commit();
             return true;
+
         } catch (SQLIntegrityConstraintViolationException e) {
             JOptionPane.showMessageDialog(null, "El usuario ya existe. Por favor use otro nombre de usuario.");
             return false;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al guardar el usuario: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al registrar el usuario: " + e.getMessage());
             return false;
         }
     }
+
 }

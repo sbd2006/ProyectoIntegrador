@@ -2,7 +2,9 @@ package Modelo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -73,4 +75,23 @@ public class ModeloP {
         }
         return modeloTabla;
     }
+    public Map<String, Integer> obtenerProductosNombreId() {
+        Map<String, Integer> productos = new HashMap<>();
+        try {
+            Connection conn = getConexion();
+            String sql = "SELECT id_producto, nombre FROM producto";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                productos.put(rs.getString("nombre"), rs.getInt("id_producto"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productos;
+    }
 }
+
+

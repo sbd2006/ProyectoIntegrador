@@ -45,7 +45,7 @@
         </constraints>
         <properties>
           <font name="Britannic Bold" size="16" style="0"/>
-          <text value="Registrar Venta"/>
+          <text value="Registrar venta"/>
         </properties>
       </component>
       <vspacer id="6c94f">
@@ -126,7 +126,7 @@
         </constraints>
         <properties>
           <font name="Britannic Bold" size="16" style="0"/>
-          <text value="Reporte de Venta"/>
+          <text value="Reporte de venta"/>
         </properties>
       </component>
     </children>
