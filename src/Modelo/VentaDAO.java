@@ -8,12 +8,14 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
+
     private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
 
 
     public int insertarVentaCliente(Venta venta, List<DetalleVenta> detalles, int clienteId) throws SQLException {
         String sql = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
+
 
         int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
 
@@ -51,15 +53,29 @@ public class VentaDAO {
                 ps.setInt(2, d.getCantidad());
                 ps.setString(3, d.getDescripcion());
                 ps.setDouble(4, d.getPrecioUnitario());
+
                 ps.setInt(5, d.getIdVenta());
 
                 ps.addBatch();
             }
+
+                ps.setDouble(5, d.getTotalProducto());
+                ps.setInt(6, d.getIdVenta());
+                ps.addBatch();
+            }
+
             ps.executeBatch();
+        }
+
+
+        for (DetalleVenta d : detalles) {
+            actualizarStock(d.getIdProducto(), d.getCantidad());
         }
     }
 
+
     public List<String[]> consultarFecha(String fecha) {
+
         List<String[]> resultados = new ArrayList<>();
         String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, d.TOTAL_PRODUCTO, p.Nombre FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto WHERE v.FECHA_VENTA = ?";
 
@@ -125,5 +141,29 @@ public class VentaDAO {
             }
         }
         return "";
+    }
+
+    public void actualizarStock(String idProducto, int cantidadVendida) throws SQLException {
+        String sql = "UPDATE producto SET stock = stock - ? WHERE Id_producto = ?";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, cantidadVendida);
+            ps.setString(2, idProducto);
+            ps.executeUpdate();
+        }
+    }
+    public int obtenerStockActual(String idProducto) throws SQLException {
+        String sql = "SELECT stock FROM producto WHERE Id_producto = ?";
+        try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, idProducto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("stock");
+            }
+        }
+        return -1; // o lanzar una excepción si el producto no existe
     }
 }

@@ -26,9 +26,13 @@ public class VentaControlador {
     private EmpleadoVista emVista;
     private final VentaDAO dao;
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
+
     private String clienteNombreActual = "";
-    private final int idEmpleadoActual; // ✅ nuevo campo
-    private String nombreEmpleadoActual = ""; // ✅ nuevo campo
+    private final int idEmpleadoActual; 
+    private String nombreEmpleadoActual = ""; 
+
+    private final MovimientoDAO movimientoDAO = new MovimientoDAO();
+
 
     public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista, int idEmpleadoActual) {
         this.vista = vista;
@@ -86,6 +90,16 @@ public class VentaControlador {
                 return;
             }
 
+
+            
+            int stockActual = dao.obtenerStockActual(idProducto);  // Asegúrate de tener este método en tu DAO
+            if (cantidad > stockActual) {
+                JOptionPane.showMessageDialog(vista, "Stock insuficiente. Disponible: " + stockActual, "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            
+
             String nombreProducto = dao.obtenerNombreProducto(idProducto);
 
             DetalleVenta detalle = new DetalleVenta(0, idProducto, cantidad, nombreProducto, precio, totalProducto);
@@ -105,6 +119,11 @@ public class VentaControlador {
             JOptionPane.showMessageDialog(vista, "Error al obtener nombre del producto: " + ex.getMessage());
         }
     }
+
+
+
+
+
 
     private void confirmarVenta() {
         try {
@@ -138,11 +157,69 @@ public class VentaControlador {
             dao.insertarDetalles(listaDetalles);
             generarFacturaPDF(venta, listaDetalles);
 
+            String fecha = vista.FechaVenta.getText();
+            String tipoMovimiento = "Ajuste negativo inventario";
+            String nroDocumento = "VENTA-" + venta.getIdVenta();
+
+            for (DetalleVenta detalle : listaDetalles) {
+                ModeloMovimiento movimiento = new ModeloMovimiento();
+                movimiento.setCantidad(detalle.getCantidad());
+                movimiento.setFechaMovimiento(fecha);
+                movimiento.setObservacion("Venta");
+                movimiento.setProductoId(Integer.parseInt(detalle.getIdProducto()));
+                movimiento.setTipoMovimiento(tipoMovimiento);
+
+                boolean exito = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
+                }
+            }
+
             JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "Error al registrar venta: " + e.getMessage());
         }
     }
+
+
+    private void mostrarCatalogo() {
+        try {
+            vista.modTablaCatalogo.setRowCount(0);
+            for (String[] producto : dao.obtenerProductos()) {
+                vista.modTablaCatalogo.addRow(producto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(vista, "Error al mostrar productos: " + e.getMessage());
+        }
+    }
+
+    private void eliminarProducto() {
+        int fila = vista.tableVenta.getSelectedRow();
+        if (fila != -1) {
+            vista.modTablaVenta.removeRow(fila);
+            listaDetalles.remove(fila);
+            JOptionPane.showMessageDialog(vista, "Producto eliminado");
+
+            
+            if (listaDetalles.isEmpty()) {
+                vista.finalizarVenta.setEnabled(false);
+            }
+        } else {
+            JOptionPane.showMessageDialog(vista, "Seleccione una fila para eliminar");
+        }
+    }
+
+
+    private void calcularTotalProducto() {
+        try {
+            int cantidad = Integer.parseInt(vista.CantidadP.getText());
+            double precio = Double.parseDouble(vista.PrecioUnitario.getText());
+            vista.Total.setText(String.format("%.2f", cantidad * precio));
+        } catch (NumberFormatException ignored) {
+        }
+    }
+
 
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
         Document document = new Document();
@@ -189,40 +266,7 @@ public class VentaControlador {
         }
     }
 
-    private void mostrarCatalogo() {
-        try {
-            vista.modTablaCatalogo.setRowCount(0);
-            for (String[] producto : dao.obtenerProductos()) {
-                vista.modTablaCatalogo.addRow(producto);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(vista, "Error al mostrar productos: " + e.getMessage());
-        }
-    }
-
-    private void eliminarProducto() {
-        int fila = vista.tableVenta.getSelectedRow();
-        if (fila != -1) {
-            vista.modTablaVenta.removeRow(fila);
-            listaDetalles.remove(fila);
-            if (listaDetalles.isEmpty()) {
-                vista.finalizarVenta.setEnabled(false);
-            }
-        } else {
-            JOptionPane.showMessageDialog(vista, "Seleccione una fila para eliminar");
-        }
-    }
-
-    private void calcularTotalProducto() {
-        try {
-            int cantidad = Integer.parseInt(vista.CantidadP.getText());
-            double precio = Double.parseDouble(vista.PrecioUnitario.getText());
-            vista.Total.setText(String.format("%.2f", cantidad * precio));
-        } catch (NumberFormatException ignored) {}
-    }
-
     private void regresar() {
         vista.dispose();
         emVista.setVisible(true);
     }
-}

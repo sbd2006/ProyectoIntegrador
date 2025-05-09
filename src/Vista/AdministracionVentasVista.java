@@ -57,7 +57,7 @@ public class AdministracionVentasVista extends JFrame {
         panelPrincipal.add(panelTop, BorderLayout.NORTH);
 
         table1 = new JTable();
-        modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Fecha"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"ID", "FECHA", "TOTAL VENTA"}, 0);
         table1.setModel(modeloTabla);
 
         JScrollPane scrollPane = new JScrollPane(table1);
