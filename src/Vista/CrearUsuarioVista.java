@@ -27,7 +27,6 @@ public class CrearUsuarioVista extends JFrame {
 
     public void regresarAInicioSesion() {
         dispose();
-
         VistaIS nuevaVistaLogin = new VistaIS();
         ModeloIS nuevoModeloLogin = new ModeloIS(nuevaVistaLogin);
         ControladorIS nuevoControladorLogin = new ControladorIS(nuevoModeloLogin, nuevaVistaLogin);
