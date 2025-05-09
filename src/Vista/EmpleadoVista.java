@@ -31,6 +31,7 @@
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         } 
 
         public JButton getReporteVentaButton() {
@@ -56,7 +57,6 @@
             setVisible(true);
         }
 
-
         public void mostrarVenta() {
             VentaVista vistaV = new VentaVista();
             VentaDAO dao = new VentaDAO();
@@ -64,8 +64,5 @@
             vistaV.setVisible(true);
             this.setVisible(false);
         }
-
-
-
 
     }
