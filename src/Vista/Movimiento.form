@@ -53,14 +53,6 @@
           <text value="Tipo de documento"/>
         </properties>
       </component>
-      <component id="826f8" class="javax.swing.JTextField" binding="ProductoId">
-        <constraints>
-          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-        </constraints>
-        <properties/>
-      </component>
       <component id="8572" class="javax.swing.JTextField" binding="Cantidad">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -241,6 +233,12 @@
         <properties>
           <text value=""/>
         </properties>
+      </component>
+      <component id="9a281" class="javax.swing.JComboBox" binding="comboProductos">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
       </component>
     </children>
   </grid>

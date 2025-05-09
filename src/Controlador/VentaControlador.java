@@ -144,11 +144,8 @@ public class VentaControlador {
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
 
-            int idVenta = dao.insertarVentaCliente(venta, listaDetalles, clienteId);
-            venta.setIdVenta(idVenta);
-            for (DetalleVenta detalle : listaDetalles) {
-                detalle.setIdVenta(idVenta);
-            }
+            // Registrar venta completa con transacción
+            boolean exito = dao.registrarVentaCompleta(venta, listaDetalles);
 
 
             dao.insertarDetalles(listaDetalles);
@@ -170,11 +167,17 @@ public class VentaControlador {
                 if (!exito) {
                     JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
                 }
+
+            if (exito) {
+                generarFacturaPDF(venta, listaDetalles);
+                JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al registrar la venta. No se realizaron cambios.");
+
             }
 
-            JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(vista, "Error al registrar venta: " + e.getMessage());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vista, "Error al procesar la venta: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
