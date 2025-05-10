@@ -9,7 +9,7 @@ public class ModeloIS {
     private VistaIS vista;
     private ResultSet rs;
     private PreparedStatement ps;
-    private String nombreUsuario; // ← Aquí se guarda el nombre del usuario
+    private String nombreUsuario;
     private int idEmpleado;
     public int getIdEmpleado() { return idEmpleado; }
 
@@ -35,11 +35,11 @@ public class ModeloIS {
 
         try {
             String sql = """
-                SELECT u.Usuario, u.Pass, u.tipo, e.Nombre, u.ID_EMPLEADO 
-                FROM usuario u 
-                JOIN empleado e ON u.ID_EMPLEADO = e.ID_EMPLEADO 
+                SELECT u.Usuario, u.Pass, u.tipo, e.Nombre, u.ID_EMPLEADO
+                FROM usuario u
+                JOIN empleado e ON u.ID_EMPLEADO = e.ID_EMPLEADO
                 WHERE u.Usuario = ? AND u.Pass = ?
-                
+          
             """;
 
 

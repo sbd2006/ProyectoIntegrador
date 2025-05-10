@@ -1,6 +1,5 @@
 package Controlador;
 
-
 import Modelo.ReporteVentaDAO;
 import Modelo.ModeloIS;
 import Modelo.VentaDAO;
@@ -32,23 +31,16 @@ public class EmpleadoControlador {
     private void mostrarVenta() {
         VentaVista vistaVenta = new VentaVista();
         VentaDAO dao = new VentaDAO();
-        VentaControlador controlador = new VentaControlador(vistaVenta, dao, vista, idEmpleado); 
+        VentaControlador controlador = new VentaControlador(vistaVenta, dao, vista, idEmpleado);
         vistaVenta.setVisible(true);
+        vista.dispose();
     }
 
     private void abrirVistaReporteVenta() {
-        ReporteVentaVista vista = new ReporteVentaVista();
+        ReporteVentaVista vistaReporte = new ReporteVentaVista();
         ReporteVentaDAO dao = new ReporteVentaDAO();
-        ReporteVentaControlador controlador = new ReporteVentaControlador(vista, dao);
-        vista.setVisible(true);
-    }
-
-    private void mostrarVenta() {
-        VentaVista vistaV = new VentaVista();
-        VentaDAO dao = new VentaDAO();
-        VentaControlador controlador = new VentaControlador(vistaV, dao, this.vista);
-        vistaV.setVisible(true);
-        vista.dispose();
+        ReporteVentaControlador controlador = new ReporteVentaControlador(vistaReporte, dao);
+        vistaReporte.setVisible(true);
     }
 
     private void cerrarSesion() {
