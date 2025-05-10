@@ -19,26 +19,24 @@ public class VentaDAO {
 
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
-            con.setAutoCommit(false); // Inicia transacción
+            con.setAutoCommit(false);
 
    
 
             // 1. Insertar venta
-            String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, precio, DESCUENTO) VALUES (?, ?, ?, ?, ?)";
+            String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
 
-
-
             int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
-            double precioTotal = detalles.stream().mapToDouble(DetalleVenta::getPrecioUnitario).sum();
-          
+
             psVenta.setString(1, venta.getFecha());
             psVenta.setDouble(2, venta.getTotal());
             psVenta.setInt(3, cantidadTotal);
-            psVenta.setDouble(4, precioTotal);
-            psVenta.setDouble(5, 0); 
+            psVenta.setInt(4, venta.getIdCliente());      // ✅ este debe estar en tu clase Venta
+            psVenta.setInt(5, venta.getIdEmpleado());     // ✅ ya lo tienes
 
             psVenta.executeUpdate();
+
 
             ResultSet rs = psVenta.getGeneratedKeys();
             int idVenta;
@@ -50,7 +48,7 @@ public class VentaDAO {
             }
 
             // 2. Insertar detalles de la venta
-            String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, TOTAL_PRODUCTO, ID_VENTA) VALUES (?, ?, ?, ?, ?, ?)";
+            String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, ID_VENTA) VALUES (?, ?, ?, ?, ?)";
             psDetalle = con.prepareStatement(sqlDetalle);
 
 
@@ -72,8 +70,8 @@ public class VentaDAO {
                 psDetalle.setInt(2, d.getCantidad());
                 psDetalle.setString(3, d.getDescripcion());
                 psDetalle.setDouble(4, d.getPrecioUnitario());
-                psDetalle.setDouble(5, d.getTotalProducto());
-                psDetalle.setInt(6, idVenta);
+                psDetalle.setInt(5, idVenta);
+
                 psDetalle.addBatch();
 
                 // Actualizar stock
@@ -93,12 +91,12 @@ public class VentaDAO {
             psStock.executeBatch();
             psMovimiento.executeBatch();
 
-            con.commit(); // ✅ Confirmar transacción
+            con.commit();
             return true;
 
         } catch (SQLException e) {
             try {
-                if (con != null) con.rollback(); // ❌ Revertir si falla
+                if (con != null) con.rollback();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al hacer rollback: " + ex.getMessage());
             }
