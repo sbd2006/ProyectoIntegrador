@@ -16,23 +16,19 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.Desktop;
 
 public class VentaControlador {
     private final VentaVista vista;
-    private EmpleadoVista emVista;
+    private final EmpleadoVista emVista;
     private final VentaDAO dao;
     private final List<DetalleVenta> listaDetalles = new ArrayList<>();
-
     private String clienteNombreActual = "";
     private final int idEmpleadoActual;
     private String nombreEmpleadoActual = "";
-
     private final MovimientoDAO movimientoDAO = new MovimientoDAO();
-
 
     public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista, int idEmpleadoActual) {
         this.vista = vista;
@@ -94,13 +90,11 @@ public class VentaControlador {
                 return;
             }
 
-
-            int stockActual = dao.obtenerStockActual(idProducto);  // Asegúrate de tener este método en tu DAO
+            int stockActual = dao.obtenerStockActual(idProducto);
             if (cantidad > stockActual) {
                 JOptionPane.showMessageDialog(vista, "Stock insuficiente. Disponible: " + stockActual, "Stock insuficiente", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
 
             String nombreProducto = dao.obtenerNombreProducto(idProducto);
 
@@ -122,7 +116,6 @@ public class VentaControlador {
         }
     }
 
-
     private void confirmarVenta() {
         try {
             String nombre = vista.getNombreCliente().getText().trim();
@@ -139,17 +132,12 @@ public class VentaControlador {
             int clienteId = clienteDAO.obtenerIdOCrear(nombre, telefono, direccion);
 
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
-            Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual);
+            Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual, clienteId);
 
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
 
-            // Registrar venta completa con transacción
-            boolean exito = dao.registrarVentaCompleta(venta, listaDetalles);
-
-
-            dao.insertarDetalles(listaDetalles);
-            generarFacturaPDF(venta, listaDetalles);
+            boolean exitoVenta = dao.registrarVentaCompleta(venta, listaDetalles);
 
             String fecha = vista.FechaVenta.getText();
             String tipoMovimiento = "Ajuste negativo inventario";
@@ -163,24 +151,24 @@ public class VentaControlador {
                 movimiento.setProductoId(Integer.parseInt(detalle.getIdProducto()));
                 movimiento.setTipoMovimiento(tipoMovimiento);
 
-                boolean exito = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
-                if (!exito) {
-                    JOptionPane.showMessageDialog(vista, "Error al registrar salida en inventario del producto: " + detalle.getDescripcion());
-                }
+                boolean exitoMovimiento = movimientoDAO.registrarMovimiento(movimiento, nroDocumento);
 
-            if (exito) {
+                if (!exitoMovimiento) {
+                    JOptionPane.showMessageDialog(vista, "Error al registrar salida de inventario del producto: " + detalle.getDescripcion());
+                }
+            }
+
+            if (exitoVenta) {
                 generarFacturaPDF(venta, listaDetalles);
                 JOptionPane.showMessageDialog(vista, "Venta registrada con éxito");
             } else {
-                JOptionPane.showMessageDialog(vista, "Error al registrar la venta. No se realizaron cambios.");
-
+                JOptionPane.showMessageDialog(vista, "Error al registrar la venta.");
             }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vista, "Error al procesar la venta: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     private void mostrarCatalogo() {
         try {
@@ -201,7 +189,6 @@ public class VentaControlador {
             listaDetalles.remove(fila);
             JOptionPane.showMessageDialog(vista, "Producto eliminado");
 
-
             if (listaDetalles.isEmpty()) {
                 vista.finalizarVenta.setEnabled(false);
             }
@@ -209,7 +196,6 @@ public class VentaControlador {
             JOptionPane.showMessageDialog(vista, "Seleccione una fila para eliminar");
         }
     }
-
 
     private void calcularTotalProducto() {
         try {
@@ -219,7 +205,6 @@ public class VentaControlador {
         } catch (NumberFormatException ignored) {
         }
     }
-
 
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles) {
         Document document = new Document();
@@ -239,14 +224,11 @@ public class VentaControlador {
             document.add(new Paragraph("Fecha: " + venta.getFecha(), textoFont));
             document.add(new Paragraph("Cliente: " + clienteNombreActual, textoFont));
             document.add(new Paragraph("Empleado: " + nombreEmpleadoActual, textoFont));
-            document.add(new Paragraph("\n"));
-
-            document.add(new Paragraph("Detalles de la venta:", textoFont));
+            document.add(new Paragraph("\nDetalles de la venta:", textoFont));
             document.add(new Paragraph("--------------------------------------", textoFont));
 
             for (DetalleVenta d : detalles) {
                 document.add(new Paragraph("Producto: " + d.getDescripcion(), textoFont));
-                document.add(new Paragraph("ID Producto: " + d.getIdProducto(), textoFont));
                 document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
                 document.add(new Paragraph("Precio Unitario: $" + d.getPrecioUnitario(), textoFont));
                 document.add(new Paragraph("Total: $" + d.getTotalProducto(), textoFont));
@@ -255,10 +237,9 @@ public class VentaControlador {
 
             document.add(new Paragraph("--------------------------------------", textoFont));
             document.add(new Paragraph("Total a pagar: $" + venta.getTotal(), tituloFont));
-
             document.add(new Paragraph("\nGracias por su compra. ¡Vuelva pronto!", textoFont));
-
             document.close();
+
             Desktop.getDesktop().open(new File(nombreArchivo));
 
         } catch (Exception e) {
@@ -270,5 +251,4 @@ public class VentaControlador {
         vista.dispose();
         emVista.setVisible(true);
     }
-
 }
