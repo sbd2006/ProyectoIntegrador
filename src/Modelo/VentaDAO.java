@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
@@ -120,7 +120,7 @@ public class VentaDAO {
     public List<String[]> consultarPorFecha(String fecha) {
 
         List<String[]> resultados = new ArrayList<>();
-        String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, d.TOTAL_PRODUCTO, p.Nombre " +
+        String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, p.Nombre " +
                 "FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto " +
                 "WHERE v.FECHA_VENTA = ?";
 
@@ -131,15 +131,14 @@ public class VentaDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String[] fila = new String[8];
+                String[] fila = new String[7];
                 fila[0] = rs.getString("ID_VENTA");
                 fila[1] = rs.getString("FECHA_VENTA");
                 fila[2] = rs.getString("TOTAL");
                 fila[3] = rs.getString("ID_PRODUCTO");
                 fila[4] = rs.getString("CANTIDAD_PRODUCTO");
                 fila[5] = rs.getString("PRECIO_UNITARIO");
-                fila[6] = rs.getString("TOTAL_PRODUCTO");
-                fila[7] = rs.getString("Nombre");
+                fila[6] = rs.getString("Nombre");
                 resultados.add(fila);
             }
 
