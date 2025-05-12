@@ -147,10 +147,9 @@ public class VentaDAO {
         return resultados;
     }
 
-    // ✅ También se puede dejar este si lo usas para cargar productos al combobox o tabla
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        String sql = "SELECT Id_producto, Nombre, Categoria, Precio, stock FROM producto";
+        String sql = "SELECT p.Id_producto, p.Nombre, c.Nombre, p.Precio, stock FROM producto p JOIN categoria c ON p.id_Categoria = c.id_Categoria ";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement st = con.createStatement();
@@ -160,7 +159,7 @@ public class VentaDAO {
                 String[] registro = {
                         rs.getString("Id_producto"),
                         rs.getString("Nombre"),
-                        rs.getString("Categoria"),
+                        rs.getString("c.Nombre"),
                         rs.getString("Precio"),
                         rs.getString("stock")
                 };

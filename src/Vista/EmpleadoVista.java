@@ -12,7 +12,6 @@
         public JButton realizarVentaButton;
         public JButton cerrarSesionButton;
         private JLabel Bienvenido;
-
         private JButton ReporteVentaButton;
         private int idEmpleadoActual;
 
@@ -22,17 +21,9 @@
             setContentPane(PantallaCliente);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             pack();
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
+            setLocationRelativeTo(null);
         }
-
-
-    public EmpleadoVista() {
-        setTitle("Vista Empleado");
-        setContentPane(PantallaCliente);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        pack();
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        } 
 
         public JButton getReporteVentaButton() {
             return ReporteVentaButton;

@@ -24,7 +24,6 @@ public class AdministradorVista extends JFrame {
     private MovimientoVista movimientoVista;
     private ControladorMovimiento controladorMovimiento;
 
-
     public AdministradorVista() {
         setTitle("Vista Administrador");
         setContentPane(administracion);
