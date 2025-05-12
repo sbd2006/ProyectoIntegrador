@@ -31,7 +31,7 @@ public class AdministracionVentasControlador {
         }
 
         String fecha = new SimpleDateFormat("yyyy-MM-dd").format(vista.selectorFecha.getDate());
-        List<String[]> datos = modelo.consultarFecha(fecha);
+        List<String[]> datos = modelo.consultarPorFecha(fecha);
 
         for (String[] fila : datos) {
             vista.modeloTabla.addRow(fila);

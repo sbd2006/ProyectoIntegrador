@@ -1,97 +1,74 @@
 package Modelo;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.table.DefaultTableModel;
-
+import java.util.*;
 
 public class ModeloP {
-    private Conexion conSQL;
+    private Connection conexion;
 
     public ModeloP() {
-        conSQL = new Conexion();
-        conSQL.conectar();
+        Conexion con = new Conexion();  // crear instancia
+        con.conectar();                 // inicializar la conexión
+        this.conexion = con.getConexion(); // obtener la conexión activa
     }
+
     public Connection getConexion() {
-        return conSQL.getConexion();
+        return conexion;
+    }
+    public void guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
+        String sql = "INSERT INTO producto (id, nombre, id_categoria, precio) VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setString(1, id);
+        ps.setString(2, nombre);
+        ps.setInt(3, idCategoria);
+        ps.setString(4, precio);
+        ps.executeUpdate();
+    }
+
+    public void editarProducto(String id, String precio) throws SQLException {
+        String sql = "UPDATE producto SET precio = ? WHERE id = ?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setString(1, precio);
+        ps.setString(2, id);
+        ps.executeUpdate();
+    }
+
+    public void eliminarProducto(String id) throws SQLException {
+        String sql = "DELETE FROM producto WHERE id = ?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setString(1, id);
+        ps.executeUpdate();
     }
 
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        Statement st = getConexion().createStatement();
-        ResultSet rs = st.executeQuery(
-                "SELECT p.Id_producto, p.Nombre, c.Nombre AS Categoria, p.Precio, p.stock " +
-                        "FROM Producto p JOIN Categoria c ON p.ID_CATEGORIA = c.ID_CATEGORIA"
-        );
-
+        String sql = "SELECT p.id_producto, p.nombre, c.nombre AS categoria, p.precio, p.stock " +
+                "FROM producto p JOIN categoria c ON p.id_categoria = c.id_categoria";
+        Statement stmt = conexion.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
         while (rs.next()) {
-            String[] registro = {
-                    rs.getString("Id_producto"),
-                    rs.getString("Nombre"),
-                    rs.getString("Categoria"),
-                    rs.getString("Precio"),
-                    rs.getString("stock")
-            };
-            productos.add(registro);
+            String[] fila = new String[5];
+            fila[0] = rs.getString("id_producto");
+            fila[1] = rs.getString("nombre");
+            fila[2] = rs.getString("categoria");
+            fila[3] = rs.getString("precio");
+            fila[4] = rs.getString("stock");
+            productos.add(fila);
         }
         return productos;
     }
 
-    public boolean guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("INSERT INTO Producto (Id_producto, Nombre, ID_CATEGORIA, Precio) VALUES (?, ?, ?, ?)");
-        ps.setInt(1, Integer.parseInt(id));
-        ps.setString(2, nombre);
-        ps.setInt(3, idCategoria);
-        ps.setInt(4, Integer.parseInt(precio));
-        return ps.executeUpdate() > 0;
-    }
-
-
-    public boolean editarProducto(String id, String precio) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("UPDATE Producto SET Nombre= ?, Categoria= ?, Precio = ? WHERE Id_producto = ?");
-        ps.setInt(1, Integer.parseInt(precio));
-        ps.setInt(2, Integer.parseInt(id));
-        return ps.executeUpdate() > 0;
-    }
-
-    public boolean eliminarProducto(String id) throws SQLException {
-        PreparedStatement ps = getConexion().prepareStatement("DELETE FROM Producto WHERE Id_producto = ?");
-        ps.setInt(1, Integer.parseInt(id));
-        return ps.executeUpdate() > 0;
-    }
-
-    public DefaultTableModel mostrarProductos() {
-        DefaultTableModel modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Categoria", "Precio", "Cantidad"}, 0);
-        try {
-            List<String[]> productos = obtenerProductos();
-            for (String[] producto : productos) {
-                modeloTabla.addRow(producto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return modeloTabla;
-    }
     public Map<String, Integer> obtenerProductosNombreId() {
-        Map<String, Integer> productos = new HashMap<>();
-        try {
-            Connection conn = getConexion();
-            String sql = "SELECT id_producto, nombre FROM producto";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
+        Map<String, Integer> mapa = new HashMap<>();
+        String sql = "SELECT id, nombre FROM producto";
+        try (PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                productos.put(rs.getString("nombre"), rs.getInt("id_producto"));
-
+                mapa.put(rs.getString("nombre"), rs.getInt("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return productos;
+        return mapa;
     }
 }
-
-

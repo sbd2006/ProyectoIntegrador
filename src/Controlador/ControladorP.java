@@ -7,17 +7,13 @@ import Vista.VistaCategoria;
 import Vista.VistaP;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.List;
 
 public class ControladorP extends JFrame {
     private ModeloP modelo;
     private VistaP vistaP;
-    private VistaCategoria vistaC;
-
     private AdministradorVista adminVista;
     private ModeloCategoria modeloCategoria;
 
@@ -27,105 +23,35 @@ public class ControladorP extends JFrame {
         this.adminVista = adminVista;
         this.modeloCategoria = new ModeloCategoria(modelo.getConexion());
 
-        // Listener de botones
-        this.vistaP.getMostrarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarProductos();
-            }
-        });
+        vistaP.getMostrarButton().addActionListener(e -> mostrarProductos());
+        vistaP.getGuardarButton().addActionListener(e -> guardarProducto());
+        vistaP.getEditarButton().addActionListener(e -> editarProducto());
+        vistaP.getEliminarButton().addActionListener(e -> eliminarProducto());
+        vistaP.getRegresarButton().addActionListener(e -> regresar());
 
-        this.vistaP.getGuardarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guardarProducto();
-            }
-        });
+        vistaP.newButton.addActionListener(e -> {
+            VistaCategoria vistaCategoria = new VistaCategoria();
+            ModeloCategoria modeloCategoria = new ModeloCategoria(modelo.getConexion());
+            ControladorCategoria controlador = new ControladorCategoria(vistaCategoria, modeloCategoria);
 
-        this.vistaP.getEditarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editarProducto();
-            }
-        });
-
-        this.vistaP.getEliminarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                eliminarProducto();
-            }
-        });
-
-        this.vistaP.getRegresarButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                regresar();
-            }
-        });
-
-        this.vistaP.newButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VistaCategoria vistaCategoria = new VistaCategoria();
-                ModeloCategoria modeloCategoria = new ModeloCategoria(modelo.getConexion());
-                ControladorCategoria controlador = new ControladorCategoria(vistaCategoria, modeloCategoria);
-
-
-                vistaCategoria.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosed(java.awt.event.WindowEvent e) {
-                        categoriasComboBox(); // recargar categorías
-                    }
-                });
-
-                controlador.iniciarVista();
-            }
-        });
-
-        this.vistaP.getDeleteCategory().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String nombreCategoria = (String) vistaP.getComboBoxCategoria().getSelectedItem();
-
-                    if (nombreCategoria == null) {
-                        JOptionPane.showMessageDialog(vistaP, "No hay categoría seleccionada.");
-                        return;
-                    }
-
-                    int confirm = JOptionPane.showConfirmDialog(vistaP,
-                            "¿Seguro que deseas eliminar la categoría \"" + nombreCategoria + "\"?",
-                            "Confirmar eliminación",
-                            JOptionPane.YES_NO_OPTION);
-
-                    if (confirm == JOptionPane.YES_OPTION) {
-                        boolean eliminada = modeloCategoria.eliminarCategoria(nombreCategoria);
-                        if (eliminada) {
-                            JOptionPane.showMessageDialog(vistaP, "Categoría eliminada.");
-                            categoriasComboBox(); // actualizar combo
-                        } else {
-                            JOptionPane.showMessageDialog(vistaP,
-                                    "No se puede eliminar La categoría está en uso por productos.",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(vistaP, "Error al eliminar la categoría.");
-                    ex.printStackTrace();
+            vistaCategoria.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    categoriasComboBox();
                 }
-            }
+            });
+
+            controlador.iniciarVista();
         });
 
-
-
-
+        vistaP.getDeleteCategory().addActionListener(e -> eliminarCategoria());
     }
 
     private void mostrarProductos() {
         try {
-            vistaP.modTabla.setRowCount(0); // Limpiar tabla
-            for (String[] producto : modelo.obtenerProductos()) {
+            vistaP.modTabla.setRowCount(0);
+            List<String[]> productos = modelo.obtenerProductos();
+            for (String[] producto : productos) {
                 vistaP.modTabla.addRow(producto);
             }
         } catch (SQLException e) {
@@ -151,7 +77,6 @@ public class ControladorP extends JFrame {
             e.printStackTrace();
         }
     }
-
 
     private void editarProducto() {
         try {
@@ -183,7 +108,6 @@ public class ControladorP extends JFrame {
         vistaP.getPreciotext().setText("");
     }
 
-
     private void regresar() {
         vistaP.dispose();
         adminVista.setVisible(true);
@@ -191,7 +115,7 @@ public class ControladorP extends JFrame {
 
     public void categoriasComboBox() {
         try {
-            vistaP.getComboBoxCategoria().removeAllItems(); // limpiar
+            vistaP.getComboBoxCategoria().removeAllItems();
             String sql = "SELECT Nombre FROM Categoria";
             PreparedStatement ps = modelo.getConexion().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -203,10 +127,37 @@ public class ControladorP extends JFrame {
         }
     }
 
+    private void eliminarCategoria() {
+        try {
+            String nombreCategoria = (String) vistaP.getComboBoxCategoria().getSelectedItem();
+            if (nombreCategoria == null) {
+                JOptionPane.showMessageDialog(vistaP, "No hay categoría seleccionada.");
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(vistaP,
+                    "¿Seguro que deseas eliminar la categoría \"" + nombreCategoria + "\"?",
+                    "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                boolean eliminada = modeloCategoria.eliminarCategoria(nombreCategoria);
+                if (eliminada) {
+                    JOptionPane.showMessageDialog(vistaP, "Categoría eliminada.");
+                    categoriasComboBox();
+                } else {
+                    JOptionPane.showMessageDialog(vistaP,
+                            "No se puede eliminar. La categoría está en uso por productos.",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(vistaP, "Error al eliminar la categoría.");
+            ex.printStackTrace();
+        }
+    }
+
     public void iniciarVista() {
         categoriasComboBox();
         vistaP.mostrarVista();
     }
-
 }
-

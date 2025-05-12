@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Santi104";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
@@ -150,10 +150,9 @@ public class VentaDAO {
         return resultados;
     }
 
-    // ✅ También se puede dejar este si lo usas para cargar productos al combobox o tabla
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        String sql = "SELECT Id_producto, Nombre, Categoria, Precio, stock FROM producto";
+        String sql = "SELECT p.Id_producto, p.Nombre, c.Nombre, p.Precio, stock FROM producto p JOIN categoria c ON p.id_Categoria = c.id_Categoria ";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement st = con.createStatement();
@@ -163,7 +162,7 @@ public class VentaDAO {
                 String[] registro = {
                         rs.getString("Id_producto"),
                         rs.getString("Nombre"),
-                        rs.getString("Categoria"),
+                        rs.getString("c.Nombre"),
                         rs.getString("Precio"),
                         rs.getString("stock")
                 };
@@ -187,6 +186,7 @@ public class VentaDAO {
         }
         return "";
     }
+
     public int obtenerStockActual(String idProducto) throws SQLException {
         String sql = "SELECT stock FROM producto WHERE Id_producto = ?";
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);

@@ -22,7 +22,7 @@ public class VistaIS extends JFrame {
         setContentPane(Mensaje);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setSize(1920,1080);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public JTextField getIngresoUser() {
