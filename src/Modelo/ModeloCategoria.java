@@ -39,7 +39,7 @@ public class ModeloCategoria {
         if (rs.next()) {
             return false;
         }else {
-            String sql = "INSERT INTO categoria (nombre) VALUES (?)";
+            String sql = "INSERT INTO categoria (Nombre) VALUES (?)";
             PreparedStatement ps = conexion.prepareStatement(sql);
             ps.setString(1, nombre);
             ps.executeUpdate();
@@ -48,7 +48,7 @@ public class ModeloCategoria {
     }
 
     public boolean eliminarCategoria(String nombre) throws SQLException {
-        String verificar = "SELECT COUNT(*) FROM producto WHERE ID_CATEGORIA = (SELECT ID_CATEGORIA FROM categoria WHERE nombre = ?)";
+        String verificar = "SELECT COUNT(*) FROM producto WHERE ID_CATEGORIA = (SELECT ID_CATEGORIA FROM categoria WHERE Nombre = ?)";
         PreparedStatement psVerificar = conexion.prepareStatement(verificar);
         psVerificar.setString(1, nombre);
         ResultSet rs = psVerificar.executeQuery();
@@ -57,7 +57,7 @@ public class ModeloCategoria {
             return false;
         }
 
-        String sql = "DELETE FROM categoria WHERE nombre = ?";
+        String sql = "DELETE FROM categoria WHERE Nombre = ?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, nombre);
         return ps.executeUpdate() > 0;

@@ -16,7 +16,9 @@ public class ModeloP {
         return conexion;
     }
     public void guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
-        String sql = "INSERT INTO producto (id, nombre, id_categoria, precio) VALUES (?, ?, ?, ?)";
+
+        String sql = "INSERT INTO producto (id_producto, nombre, id_categoria, precio) VALUES (?, ?, ?, ?)";
+      
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, id);
         ps.setString(2, nombre);
@@ -26,7 +28,8 @@ public class ModeloP {
     }
 
     public void editarProducto(String id, String precio) throws SQLException {
-        String sql = "UPDATE producto SET precio = ? WHERE id = ?";
+
+        String sql = "UPDATE producto SET precio = ? WHERE id_producto = ?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, precio);
         ps.setString(2, id);
@@ -34,7 +37,8 @@ public class ModeloP {
     }
 
     public void eliminarProducto(String id) throws SQLException {
-        String sql = "DELETE FROM producto WHERE id = ?";
+      
+        String sql = "DELETE FROM producto WHERE id_producto = ?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, id);
         ps.executeUpdate();
@@ -60,15 +64,18 @@ public class ModeloP {
 
     public Map<String, Integer> obtenerProductosNombreId() {
         Map<String, Integer> mapa = new HashMap<>();
-        String sql = "SELECT id, nombre FROM producto";
+
+        String sql = "SELECT id_producto, nombre FROM producto";
         try (PreparedStatement ps = conexion.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                mapa.put(rs.getString("nombre"), rs.getInt("id"));
+                mapa.put(rs.getString("nombre"), rs.getInt("id_producto"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return mapa;
     }
+  
 }
+

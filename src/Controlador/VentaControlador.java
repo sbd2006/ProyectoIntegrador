@@ -132,7 +132,7 @@ public class VentaControlador {
             int clienteId = clienteDAO.obtenerIdOCrear(nombre, telefono, direccion);
 
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
-            Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual);
+            Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual, clienteId);
 
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
@@ -229,7 +229,6 @@ public class VentaControlador {
 
             for (DetalleVenta d : detalles) {
                 document.add(new Paragraph("Producto: " + d.getDescripcion(), textoFont));
-                document.add(new Paragraph("ID Producto: " + d.getIdProducto(), textoFont));
                 document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
                 document.add(new Paragraph("Precio Unitario: $" + d.getPrecioUnitario(), textoFont));
                 document.add(new Paragraph("Total: $" + d.getTotalProducto(), textoFont));
@@ -252,4 +251,5 @@ public class VentaControlador {
         vista.dispose();
         emVista.setVisible(true);
     }
+
 }

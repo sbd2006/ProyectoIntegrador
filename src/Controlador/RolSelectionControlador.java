@@ -71,7 +71,7 @@ public class RolSelectionControlador {
             }else {
                 int id = Integer.parseInt(vista.getIdText().getText());
                 if (modelo.eliminarUsuario(id)) {
-                    JOptionPane.showMessageDialog(null , "Se Elimino correctamente");
+                    JOptionPane.showMessageDialog(null , "Se elimino correctamente");
                     limpiarCampos();
                     consultarUsuarios();
                 }

@@ -5,13 +5,20 @@ public class Venta {
     private String fecha;
     private double total;
     private int idEmpleado;
+    private int idCliente;
 
-    public Venta(int idVenta, String fecha, double total, int idEmpleado) {
+
+    public Venta(int idVenta, String fecha, double total, int idEmpleado, int idCliente) {
         this.idVenta = idVenta;
         this.fecha = fecha;
         this.total = total;
         this.idEmpleado = idEmpleado;
+        this.idCliente = idCliente;
     }
+
+    public int getIdCliente() { return idCliente; }
+    public void setIdCliente(int idCliente) { this.idCliente = idCliente; }
+
 
     public int getIdVenta() { return idVenta; }
     public String getFecha() { return fecha; }
