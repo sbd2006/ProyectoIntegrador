@@ -7,7 +7,7 @@ public class RolModelo {
     private String tipo;    // el rol
     private String usuario;
 
-    // Constructor vacío
+
     public RolModelo() {
     }
 

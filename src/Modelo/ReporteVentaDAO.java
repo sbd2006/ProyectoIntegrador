@@ -47,7 +47,7 @@ public class ReporteVentaDAO {
                 "FROM detalle_venta d JOIN producto p ON d.ID_PRODUCTO = p.ID_PRODUCTO " +
                 "JOIN venta v ON d.ID_VENTA = v.ID_VENTA " +
                 "WHERE v.FECHA_VENTA BETWEEN ? AND ? " +
-                "GROUP BY d.ID_PRODUCTO " +
+                "GROUP BY d.ID_PRODUCTO, p.Nombre " +
                 "ORDER BY total " + orden + " LIMIT 5";
 
         List<String[]> productos = new ArrayList<>();
