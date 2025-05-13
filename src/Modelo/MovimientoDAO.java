@@ -17,7 +17,7 @@ public class MovimientoDAO {
             try (Connection conn = con1.getConexion()) {
                 conn.setAutoCommit(false);
 
-                // 1. Obtener ID_TIPO_DOCUMENTO y SIGNO
+
                 String tipoDocQuery = "SELECT ID_TIPO_DOCUMENTO, SIGNO FROM tipo_documento WHERE DESCRIPCION = ?";
                 int tipoDocId;
                 int signo;
@@ -32,7 +32,7 @@ public class MovimientoDAO {
                     }
                 }
 
-                // 2. Insertar en DOCUMENTO y obtener ID_DOCUMENTO generado
+
                 int idDocumentoGenerado;
                 try (PreparedStatement psDoc = conn.prepareStatement(insertDocumentoSQL, Statement.RETURN_GENERATED_KEYS)) {
                     psDoc.setString(1, movimiento.getFechaMovimiento());
@@ -49,19 +49,19 @@ public class MovimientoDAO {
                     }
                 }
 
-                // 3. Insertar en MOVIMIENTO
+
                 try (PreparedStatement pstmt = conn.prepareStatement(movimientoSql)) {
                     pstmt.setInt(1, movimiento.getCantidad());
                     pstmt.setString(2, movimiento.getFechaMovimiento());
                     pstmt.setString(3, movimiento.getObservacion());
                     pstmt.setInt(4, movimiento.getProductoId());
-                    pstmt.setInt(5, idDocumentoGenerado); // foreign key
+                    pstmt.setInt(5, idDocumentoGenerado);
                     pstmt.executeUpdate();
                 }
 
-                // 4. Actualizar STOCK
+
                 try (PreparedStatement psStock = conn.prepareStatement(stockSql)) {
-                    psStock.setInt(1, movimiento.getCantidad() * signo); // aplicar el signo
+                    psStock.setInt(1, movimiento.getCantidad() * signo);
                     psStock.setInt(2, movimiento.getProductoId());
                     psStock.executeUpdate();
                 }

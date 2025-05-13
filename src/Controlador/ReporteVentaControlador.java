@@ -9,16 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.io.File;
 import java.io.FileOutputStream;
-
-
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -81,12 +76,6 @@ public class ReporteVentaControlador {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(vista, "Error al obtener datos: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-
-
-    public void iniciarVista() {
-        vista.setVisible(true);
     }
 
     private void exportarReportePDF() {
