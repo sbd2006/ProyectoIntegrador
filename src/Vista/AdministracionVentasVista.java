@@ -14,8 +14,6 @@ public class AdministracionVentasVista extends JFrame {
     public JTable table1;
     public DefaultTableModel modeloTabla;
     public JDateChooser selectorFecha;
-
-    // Nueva variable para referencia a la ventana anterior
     private AdministradorVista administradorVista;
 
     public AdministracionVentasVista(AdministradorVista administradorVista) {
@@ -28,12 +26,11 @@ public class AdministracionVentasVista extends JFrame {
 
         JPanel panelPrincipal = new JPanel(new BorderLayout());
 
-        // ---------- Panel Título ----------
+
         JLabel tituloLabel = new JLabel("Consultar Ventas", JLabel.CENTER);
         tituloLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 18));
         panelPrincipal.add(tituloLabel, BorderLayout.NORTH);
 
-        // ---------- Panel superior ----------
         JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         selectorFecha = new JDateChooser();
@@ -65,7 +62,6 @@ public class AdministracionVentasVista extends JFrame {
 
         setContentPane(panelPrincipal);
 
-        // Acción del botón regresar
         regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,8 +71,8 @@ public class AdministracionVentasVista extends JFrame {
     }
 
     private void cerrarYRegresar() {
-        this.dispose(); // Cierra la ventana actual
-        administradorVista.regresar(); // Muestra la vista del administrador
+        this.dispose();
+        administradorVista.regresar();
     }
 
     public void mostrarVista() {
