@@ -32,10 +32,9 @@ public class CrearUsuarioDAO {
             }
             int idEmpleado = rs.getInt(1);
 
-            // Insertar usuario con tipo fijo 'Usuario'
             psUsuario.setString(1, usuario.getUsuario());
             psUsuario.setString(2, usuario.getContrasena());
-            psUsuario.setString(3, "Usuario"); // ✅ tipo determinado automáticamente
+            psUsuario.setString(3, "Usuario"); 
             psUsuario.setInt(4, idEmpleado);
             psUsuario.executeUpdate();
 
