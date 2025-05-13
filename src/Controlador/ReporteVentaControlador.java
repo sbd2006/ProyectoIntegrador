@@ -5,12 +5,21 @@ import Vista.ReporteVentaVista;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
+
+
+import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.io.File;
 import java.io.FileOutputStream;
+
 import com.itextpdf.text.*;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Chunk;
+
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -70,6 +79,7 @@ public class ReporteVentaControlador {
     }
 
     private void exportarReportePDF() {
+
         Date fechaInicioDate = vista.getFechaInicioChooser().getDate();
         Date fechaFinDate = vista.getFechaFinChooser().getDate();
 
@@ -81,6 +91,7 @@ public class ReporteVentaControlador {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String fechaInicio = sdf.format(fechaInicioDate);
         String fechaFin = sdf.format(fechaFinDate);
+
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar Reporte como PDF");

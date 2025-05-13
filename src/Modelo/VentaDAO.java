@@ -21,9 +21,7 @@ public class VentaDAO {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             con.setAutoCommit(false);
 
-   
 
-            // 1. Insertar venta
             String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
 
@@ -32,8 +30,8 @@ public class VentaDAO {
             psVenta.setString(1, venta.getFecha());
             psVenta.setDouble(2, venta.getTotal());
             psVenta.setInt(3, cantidadTotal);
-            psVenta.setInt(4, venta.getIdCliente());      // ✅ este debe estar en tu clase Venta
-            psVenta.setInt(5, venta.getIdEmpleado());     // ✅ ya lo tienes
+            psVenta.setInt(4, venta.getIdCliente());
+            psVenta.setInt(5, venta.getIdEmpleado());
 
             psVenta.executeUpdate();
 
@@ -47,16 +45,16 @@ public class VentaDAO {
                 throw new SQLException("No se generó el ID de la venta.");
             }
 
-            // 2. Insertar detalles de la venta
+
             String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, ID_VENTA) VALUES (?, ?, ?, ?, ?)";
             psDetalle = con.prepareStatement(sqlDetalle);
 
 
-            // 3. Preparar actualización de stock
+
             String sqlStock = "UPDATE producto SET stock = stock - ? WHERE Id_producto = ?";
             psStock = con.prepareStatement(sqlStock);
 
-            // 4. Preparar movimiento de inventario
+
             String sqlMovimiento = "INSERT INTO movimiento (ID_PRODUCTO, CANTIDAD, FECHA_MOVIMIENTO, OBSERVACION ) VALUES (?, ?, ?, ?)";
             psMovimiento = con.prepareStatement(sqlMovimiento);
             String fechaHoy = java.time.LocalDate.now().toString();
@@ -65,7 +63,7 @@ public class VentaDAO {
 
                 d.setIdVenta(idVenta);
 
-                // Insertar detalle
+
                 psDetalle.setString(1, d.getIdProducto());
                 psDetalle.setInt(2, d.getCantidad());
                 psDetalle.setString(3, d.getDescripcion());
@@ -74,12 +72,12 @@ public class VentaDAO {
 
                 psDetalle.addBatch();
 
-                // Actualizar stock
+
                 psStock.setInt(1, d.getCantidad());
                 psStock.setString(2, d.getIdProducto());
                 psStock.addBatch();
 
-                // Insertar movimiento
+
                 psMovimiento.setString(1, d.getIdProducto());
                 psMovimiento.setInt(2, d.getCantidad());
                 psMovimiento.setString(3, fechaHoy);
@@ -147,10 +145,9 @@ public class VentaDAO {
         return resultados;
     }
 
-    // ✅ También se puede dejar este si lo usas para cargar productos al combobox o tabla
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        String sql = "SELECT Id_producto, Nombre, Categoria, Precio, stock FROM producto";
+        String sql = "SELECT p.Id_producto, p.Nombre, c.Nombre, p.Precio, stock FROM producto p JOIN categoria c ON p.id_Categoria = c.id_Categoria ";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement st = con.createStatement();
@@ -160,7 +157,7 @@ public class VentaDAO {
                 String[] registro = {
                         rs.getString("Id_producto"),
                         rs.getString("Nombre"),
-                        rs.getString("Categoria"),
+                        rs.getString("c.Nombre"),
                         rs.getString("Precio"),
                         rs.getString("stock")
                 };

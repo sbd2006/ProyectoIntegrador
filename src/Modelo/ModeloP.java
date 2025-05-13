@@ -7,9 +7,9 @@ public class ModeloP {
     private Connection conexion;
 
     public ModeloP() {
-        Conexion con = new Conexion();  // crear instancia
-        con.conectar();                 // inicializar la conexión
-        this.conexion = con.getConexion(); // obtener la conexión activa
+        Conexion con = new Conexion();
+        con.conectar();
+        this.conexion = con.getConexion();
     }
 
     public Connection getConexion() {

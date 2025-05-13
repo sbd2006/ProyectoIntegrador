@@ -56,7 +56,4 @@ public class EmpleadoControlador {
         vista.setVisible(true);
     }
 
-    public int getIdEmpleado() {
-        return idEmpleado;
-    }
 }
