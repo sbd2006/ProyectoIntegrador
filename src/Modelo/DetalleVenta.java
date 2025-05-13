@@ -17,8 +17,7 @@ public class DetalleVenta {
         this.totalProducto = totalProducto;
     }
 
-    public int getIdVenta() { return idVenta; }
-    public String getIdProducto() { return idProducto; }
+     public String getIdProducto() { return idProducto; }
     public int getCantidad() { return cantidad; }
     public String getDescripcion() { return descripcion; }
     public double getPrecioUnitario() { return precioUnitario; }
