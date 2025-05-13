@@ -5,9 +5,7 @@ import Modelo.ModeloP;
 import Vista.AdministradorVista;
 import Vista.VistaCategoria;
 import Vista.VistaP;
-
 import javax.swing.*;
-import java.awt.event.*;
 import java.sql.*;
 import java.util.List;
 

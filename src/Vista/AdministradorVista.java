@@ -32,7 +32,6 @@ public class AdministradorVista extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
-        // Aquí se conectan los botones con sus acciones
         productoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,8 +84,6 @@ public class AdministradorVista extends JFrame {
     }
 
 
-    // Métodos de acción
-
     private void abrirVistaProducto() {
         VistaP productoVista = new VistaP();
         ModeloP productoModelo = new ModeloP();
@@ -104,8 +101,6 @@ public class AdministradorVista extends JFrame {
         nuevaVistaLogin.setControlador(nuevoControladorLogin);
         nuevaVistaLogin.setVisible(true);
     }
-
-
 
     private void abrirGestionUsuarios() {
         try {
@@ -128,9 +123,7 @@ public class AdministradorVista extends JFrame {
 
             VentaDAO modeloVentas = new VentaDAO();
 
-            // Se pasa la instancia actual (this) al constructor de la vista
             AdministracionVentasVista vistaVentas = new AdministracionVentasVista(this);
-
             AdministracionVentasControlador controladorVentas =
                     new AdministracionVentasControlador(vistaVentas, modeloVentas);
 
@@ -142,14 +135,12 @@ public class AdministradorVista extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
     private void abrirVistaMovimiento() {
-        MovimientoVista vistaMovimiento = new MovimientoVista(); // tu clase de interfaz
-        ControladorMovimiento controladorMovimiento = new ControladorMovimiento(vistaMovimiento, this); // controlador que maneja eventos
-        vistaMovimiento.mostrarVista(); // se abre la ventana
-        this.setVisible(false); // oculta la actual
+        MovimientoVista vistaMovimiento = new MovimientoVista();
+        ControladorMovimiento controladorMovimiento = new ControladorMovimiento(vistaMovimiento, this);
+        vistaMovimiento.mostrarVista();
+        this.setVisible(false);
 }
-
 
     public void regresar() {
 
