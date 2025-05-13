@@ -6,7 +6,8 @@ import java.util.*;
 public class ReporteVentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
+
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
 
     public List<String[]> obtenerVentasPorRango(String fechaInicio, String fechaFin, String tipo) throws SQLException {
@@ -46,7 +47,7 @@ public class ReporteVentaDAO {
                 "FROM detalle_venta d JOIN producto p ON d.ID_PRODUCTO = p.ID_PRODUCTO " +
                 "JOIN venta v ON d.ID_VENTA = v.ID_VENTA " +
                 "WHERE v.FECHA_VENTA BETWEEN ? AND ? " +
-                "GROUP BY d.ID_PRODUCTO " +
+                "GROUP BY d.ID_PRODUCTO, p.Nombre " +
                 "ORDER BY total " + orden + " LIMIT 5";
 
         List<String[]> productos = new ArrayList<>();

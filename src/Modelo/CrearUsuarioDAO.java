@@ -7,7 +7,7 @@ public class CrearUsuarioDAO {
 
     private final String URL = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
     public boolean guardarUsuario(CrearUsuario usuario) {
         String sqlEmpleado = "INSERT INTO empleado (Nombre, Apellido, Telefono, Direccion) VALUES (?, ?, ?, ?)";
@@ -34,6 +34,7 @@ public class CrearUsuarioDAO {
 
             psUsuario.setString(1, usuario.getUsuario());
             psUsuario.setString(2, usuario.getContrasena());
+
             psUsuario.setString(3, "Usuario");
             psUsuario.setInt(4, idEmpleado);
             psUsuario.executeUpdate();
