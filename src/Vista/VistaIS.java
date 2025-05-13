@@ -50,14 +50,6 @@ public class VistaIS extends JFrame {
         });
     }
 
-    public void mostrarInicioSesion() {
-        setContentPane(Mensaje);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setVisible(true);
-        pack();
-        setSize(1920, 1080);
-    }
-
     public void mostrarVista() {
         this.setVisible(true);
         dispose();
