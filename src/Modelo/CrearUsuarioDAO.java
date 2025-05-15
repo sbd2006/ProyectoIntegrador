@@ -11,7 +11,7 @@ public class CrearUsuarioDAO {
 
     public boolean guardarUsuario(CrearUsuario usuario) {
         String sqlEmpleado = "INSERT INTO empleado (Nombre, Apellido, Telefono, Direccion) VALUES (?, ?, ?, ?)";
-        String sqlUsuario = "INSERT INTO usuarios (Usuario, Pass, tipo, ID_EMPLEADO) VALUES (?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO usuario (Usuario, Pass, tipo, ID_EMPLEADO) VALUES (?, ?, ?, ?)";
 
         try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement psEmpleado = conexion.prepareStatement(sqlEmpleado, Statement.RETURN_GENERATED_KEYS);
@@ -34,7 +34,8 @@ public class CrearUsuarioDAO {
 
             psUsuario.setString(1, usuario.getUsuario());
             psUsuario.setString(2, usuario.getContrasena());
-            psUsuario.setString(3, "Usuario"); 
+
+            psUsuario.setString(3, "Usuario");
             psUsuario.setInt(4, idEmpleado);
             psUsuario.executeUpdate();
 
