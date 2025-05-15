@@ -138,7 +138,8 @@ public class VentaControlador {
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
 
             boolean exitoVenta = dao.registrarVentaCompleta(venta, listaDetalles);
-
+            
+            vista.modTablaVenta.setRowCount(0);
             String fecha = vista.FechaVenta.getText();
             String tipoMovimiento = "Ajuste negativo inventario";
             String nroDocumento = "VENTA-" + venta.getIdVenta();
