@@ -14,10 +14,10 @@ public class AdministracionVentasVista extends JFrame {
     public JTable table1;
     public DefaultTableModel modeloTabla;
     public JDateChooser selectorFecha;
-    private AdministradorVista administradorVista;
+    private JFrame ventanaAnterior;
 
-    public AdministracionVentasVista(AdministradorVista administradorVista) {
-        this.administradorVista = administradorVista;
+    public AdministracionVentasVista(JFrame ventanaAnterior) {
+        this.ventanaAnterior = ventanaAnterior;
 
         setTitle("Consulta por Fecha");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,7 +54,12 @@ public class AdministracionVentasVista extends JFrame {
         panelPrincipal.add(panelTop, BorderLayout.NORTH);
 
         table1 = new JTable();
-        modeloTabla = new DefaultTableModel(new String[]{"ID", "FECHA", "TOTAL VENTA"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"ID VENTA", "FECHA", "PRODUCTOS Y CANTIDADES", "TOTAL VENTA"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table1.setModel(modeloTabla);
 
         JScrollPane scrollPane = new JScrollPane(table1);
@@ -72,7 +77,9 @@ public class AdministracionVentasVista extends JFrame {
 
     private void cerrarYRegresar() {
         this.dispose();
-        administradorVista.regresar();
+        if (ventanaAnterior != null) {
+            ventanaAnterior.setVisible(true);
+        }
     }
 
     public void mostrarVista() {

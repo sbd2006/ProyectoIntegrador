@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
@@ -51,13 +51,6 @@ public class VentaDAO {
 
 
 
-            String sqlStock = "UPDATE producto SET stock = stock - ? WHERE Id_producto = ?";
-            psStock = con.prepareStatement(sqlStock);
-
-
-            String sqlMovimiento = "INSERT INTO movimiento (ID_PRODUCTO, CANTIDAD, FECHA_MOVIMIENTO, OBSERVACION ) VALUES (?, ?, ?, ?)";
-            psMovimiento = con.prepareStatement(sqlMovimiento);
-            String fechaHoy = java.time.LocalDate.now().toString();
 
             for (DetalleVenta d : detalles) {
 
@@ -73,21 +66,9 @@ public class VentaDAO {
                 psDetalle.addBatch();
 
 
-                psStock.setInt(1, d.getCantidad());
-                psStock.setString(2, d.getIdProducto());
-                psStock.addBatch();
-
-
-                psMovimiento.setString(1, d.getIdProducto());
-                psMovimiento.setInt(2, d.getCantidad());
-                psMovimiento.setString(3, fechaHoy);
-                psMovimiento.setString(4, "Venta - " + idVenta);
-                psMovimiento.addBatch();
             }
 
             psDetalle.executeBatch();
-            psStock.executeBatch();
-            psMovimiento.executeBatch();
 
             con.commit();
             return true;
@@ -104,8 +85,6 @@ public class VentaDAO {
             try {
                 if (psVenta != null) psVenta.close();
                 if (psDetalle != null) psDetalle.close();
-                if (psStock != null) psStock.close();
-                if (psMovimiento != null) psMovimiento.close();
                 if (con != null) con.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -193,7 +172,7 @@ public class VentaDAO {
             }
         }
 
-        return 0; 
+        return 0;
 
     }
 
