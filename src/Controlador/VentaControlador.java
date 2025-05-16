@@ -133,12 +133,13 @@ public class VentaControlador {
 
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
             Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual, clienteId);
-
+            
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);
 
             boolean exitoVenta = dao.registrarVentaCompleta(venta, listaDetalles);
 
+            vista.modTablaVenta.setRowCount(0);
             String fecha = vista.FechaVenta.getText();
             String tipoMovimiento = "Ajuste negativo inventario";
             String nroDocumento = "VENTA-" + venta.getIdVenta();

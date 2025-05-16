@@ -7,6 +7,7 @@
         public JButton cerrarSesionButton;
         private JLabel Bienvenido;
         private JButton ReporteVentaButton;
+        private JButton consultarVentasButton;
         private int idEmpleadoActual;
 
         public EmpleadoVista(int idEmpleadoActual) {
@@ -21,6 +22,10 @@
 
         public JButton getReporteVentaButton() {
             return ReporteVentaButton;
+        }
+
+        public JButton getConsultarVentasButton() {
+            return consultarVentasButton;
         }
 
         public void setNombreUsuario(String nombreUsuario) {

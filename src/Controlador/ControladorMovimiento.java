@@ -93,7 +93,7 @@ public class ControladorMovimiento {
         MovimientoDAO dao = new MovimientoDAO();
         List<String> tipos = dao.obtenerTiposDocumento();
 
-        vista.getTipoDocu().removeAllItems(); // Limpia combo actual
+        vista.getTipoDocu().removeAllItems(); //
         for (String tipo : tipos) {
             vista.getTipoDocu().addItem(tipo);
         }

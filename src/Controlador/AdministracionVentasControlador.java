@@ -5,7 +5,10 @@ import Vista.AdministracionVentasVista;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdministracionVentasControlador {
 
@@ -33,10 +36,41 @@ public class AdministracionVentasControlador {
         String fecha = new SimpleDateFormat("yyyy-MM-dd").format(vista.selectorFecha.getDate());
         List<String[]> datos = modelo.consultarPorFecha(fecha);
 
+
+        Map<String, StringBuilder> productosPorVenta = new LinkedHashMap<>();
+        Map<String, String> fechas = new HashMap<>();
+        Map<String, String> totales = new HashMap<>();
+
         for (String[] fila : datos) {
-            vista.modeloTabla.addRow(fila);
+            String idVenta = fila[0];
+            String fechaVenta = fila[1];
+            String total = fila[2];
+            String producto = fila[6];
+            String cantidad = fila[4];
+
+            fechas.put(idVenta, fechaVenta);
+            totales.put(idVenta, total);
+
+            productosPorVenta.putIfAbsent(idVenta, new StringBuilder());
+            productosPorVenta.get(idVenta)
+                    .append(cantidad).append(" x ").append(producto).append(", ");
+        }
+
+
+        for (String idVenta : productosPorVenta.keySet()) {
+            String fechaVenta = fechas.get(idVenta);
+            String total = totales.get(idVenta);
+            String productosFormateados = productosPorVenta.get(idVenta).toString();
+
+
+            if (productosFormateados.endsWith(", ")) {
+                productosFormateados = productosFormateados.substring(0, productosFormateados.length() - 2);
+            }
+
+            vista.modeloTabla.addRow(new String[]{idVenta, fechaVenta, productosFormateados, total});
         }
     }
+
 
     public void iniciarVista() {
         vista.mostrarVista();

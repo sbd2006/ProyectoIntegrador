@@ -72,7 +72,13 @@ public class VistaP extends JFrame {
 
 
     public VistaP() {
-        modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Stock"}, 0);
+        modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Stock"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         table1.setModel(modTabla);
 
         setContentPane(producto);
