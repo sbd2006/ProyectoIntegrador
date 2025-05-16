@@ -260,7 +260,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Guillermocpu','1918','Usuario',20),(2,'Juan','2006','Usuario',21);
+INSERT INTO `usuario` VALUES (1,'Guillermocpu','1918','Administrador',20),(2,'Juan','2006','Usuario',21);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,4 +304,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-16 17:00:14
+-- Dump completed on 2025-05-16 17:25:16
