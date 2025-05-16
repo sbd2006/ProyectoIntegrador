@@ -16,16 +16,17 @@ public class ModeloP {
         return conexion;
     }
     public void guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
-
-        String sql = "INSERT INTO producto (id_producto, nombre, id_categoria, precio) VALUES (?, ?, ?, ?)";
-      
+        String sql = "INSERT INTO producto (cod_producto, id_producto, nombre, id_categoria, precio) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, id);
-        ps.setString(2, nombre);
-        ps.setInt(3, idCategoria);
-        ps.setString(4, precio);
+        ps.setString(2, id);
+        ps.setString(3, nombre);
+        ps.setInt(4, idCategoria);
+        ps.setString(5, precio);
+
         ps.executeUpdate();
     }
+
 
     public void editarProducto(String id, String precio) throws SQLException {
 
