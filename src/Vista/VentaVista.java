@@ -14,6 +14,8 @@ public class VentaVista extends JFrame {
     private JTextField Telefono;
     private JLabel Id;
     private JLabel CANTIDAD_PRODUCTO;
+    private JTextField DineroRecibido;
+    private JTextField Cambio;
     public DefaultTableModel modTablaCatalogo;
     public DefaultTableModel modTablaVenta;
 
@@ -29,7 +31,6 @@ public class VentaVista extends JFrame {
         FechaVenta.setEditable(false);
         Total.setEditable(false);
         finalizarVenta.setEnabled(false);
-
 
         String[] columnas = {"ID", "Nombre", "Categoría", "Precio", "Stock"};
         modTablaCatalogo = new DefaultTableModel(columnas, 0) {
@@ -48,13 +49,11 @@ public class VentaVista extends JFrame {
             }
         };
         tableVenta.setModel(modTablaVenta);
-
-
     }
+
     public JTextField getNombreCliente() {
         return nombreCliente;
     }
-
 
     public JTextField getDireccion() {
         return Direccion;
@@ -62,5 +61,13 @@ public class VentaVista extends JFrame {
 
     public JTextField getTelefono() {
         return Telefono;
+    }
+
+    public JTextField getDineroRecibido() {
+        return DineroRecibido;
+    }
+
+    public JTextField getCambio() {
+        return Cambio;
     }
 }
