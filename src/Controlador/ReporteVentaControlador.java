@@ -1,3 +1,4 @@
+
 package Controlador;
 
 import Modelo.ReporteVentaDAO;
@@ -5,21 +6,12 @@ import Vista.ReporteVentaVista;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.SQLException;
-
-
-import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.io.File;
 import java.io.FileOutputStream;
-
 import com.itextpdf.text.*;
-
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Chunk;
-
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -79,7 +71,6 @@ public class ReporteVentaControlador {
     }
 
     private void exportarReportePDF() {
-
         Date fechaInicioDate = vista.getFechaInicioChooser().getDate();
         Date fechaFinDate = vista.getFechaFinChooser().getDate();
 
@@ -91,7 +82,6 @@ public class ReporteVentaControlador {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String fechaInicio = sdf.format(fechaInicioDate);
         String fechaFin = sdf.format(fechaFinDate);
-
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Guardar Reporte como PDF");
@@ -140,9 +130,9 @@ public class ReporteVentaControlador {
                 document.add(Chunk.NEWLINE);
                 PdfPTable topMasVendidos = new PdfPTable(3);
                 topMasVendidos.setWidthPercentage(100);
-                topMasVendidos.addCell("ID Producto");
-                topMasVendidos.addCell("Nombre");
-                topMasVendidos.addCell("Cantidad Vendida");
+                topMasVendidos.addCell(new PdfPCell(new Phrase("ID Producto", subtituloFont)));
+                topMasVendidos.addCell(new PdfPCell(new Phrase("Nombre", subtituloFont)));
+                topMasVendidos.addCell(new PdfPCell(new Phrase("Cantidad Vendida", subtituloFont)));
                 List<String[]> top5 = dao.obtenerTopProductos(fechaInicio, fechaFin, true);
                 for (String[] fila : top5) {
                     for (String celda : fila) {
@@ -156,9 +146,9 @@ public class ReporteVentaControlador {
                 document.add(Chunk.NEWLINE);
                 PdfPTable topMenosVendidos = new PdfPTable(3);
                 topMenosVendidos.setWidthPercentage(100);
-                topMenosVendidos.addCell("ID Producto");
-                topMenosVendidos.addCell("Nombre");
-                topMenosVendidos.addCell("Cantidad Vendida");
+                topMenosVendidos.addCell(new PdfPCell(new Phrase("ID Producto", subtituloFont)));
+                topMenosVendidos.addCell(new PdfPCell(new Phrase("Nombre", subtituloFont)));
+                topMenosVendidos.addCell(new PdfPCell(new Phrase("Cantidad Vendida", subtituloFont)));
                 List<String[]> bottom5 = dao.obtenerTopProductos(fechaInicio, fechaFin, false);
                 for (String[] fila : bottom5) {
                     for (String celda : fila) {
@@ -175,5 +165,6 @@ public class ReporteVentaControlador {
             }
         }
     }
+
 
 }
