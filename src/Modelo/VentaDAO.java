@@ -45,17 +45,12 @@ public class VentaDAO {
                 throw new SQLException("No se generó el ID de la venta.");
             }
 
-
             String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, ID_VENTA) VALUES (?, ?, ?, ?, ?)";
             psDetalle = con.prepareStatement(sqlDetalle);
-
-
-
 
             for (DetalleVenta d : detalles) {
 
                 d.setIdVenta(idVenta);
-
 
                 psDetalle.setString(1, d.getIdProducto());
                 psDetalle.setInt(2, d.getCantidad());
@@ -64,7 +59,6 @@ public class VentaDAO {
                 psDetalle.setInt(5, idVenta);
 
                 psDetalle.addBatch();
-
 
             }
 
@@ -93,17 +87,14 @@ public class VentaDAO {
     }
 
     public List<String[]> consultarPorFecha(String fecha) {
-
         List<String[]> resultados = new ArrayList<>();
-        String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, p.Nombre " +
-                "FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.Id_producto " +
-                "WHERE v.FECHA_VENTA = ?";
+        String sql = "{CALL consultaPorFecha(?)}";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             CallableStatement cs = con.prepareCall(sql)) {
 
-            ps.setString(1, fecha);
-            ResultSet rs = ps.executeQuery();
+            cs.setString(1, fecha);
+            ResultSet rs = cs.executeQuery();
 
             while (rs.next()) {
                 String[] fila = new String[7];
