@@ -252,7 +252,7 @@ public class VentaControlador {
             }
 
             document.add(new Paragraph("--------------------------------------", textoFont));
-            document.add(new Paragraph("Total: $" + String.format("%.0f", venta.getTotal()), textoFont));
+            document.add(new Paragraph("Total: $" + String.format("%.0f", venta.getTotal()), tituloFont));
             document.add(new Paragraph("Dinero recibido: $" + String.format("%.0f", dineroRecibido), textoFont));
             document.add(new Paragraph("Cambio entregado: $" + String.format("%.0f", cambio), textoFont));
             document.add(new Paragraph("\nGracias por su compra.", textoFont));
