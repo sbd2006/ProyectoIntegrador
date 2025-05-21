@@ -1,7 +1,6 @@
 package Vista;
 
 import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
