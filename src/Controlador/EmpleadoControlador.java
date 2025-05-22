@@ -3,10 +3,7 @@ package Controlador;
 import Modelo.ReporteVentaDAO;
 import Modelo.ModeloIS;
 import Modelo.VentaDAO;
-import Vista.EmpleadoVista;
-import Vista.ReporteVentaVista;
-import Vista.VistaIS;
-import Vista.VentaVista;
+import Vista.*;
 
 public class EmpleadoControlador {
 
@@ -26,6 +23,14 @@ public class EmpleadoControlador {
         vista.cerrarSesionButton.addActionListener(e -> cerrarSesion());
         vista.getReporteVentaButton().addActionListener(e -> abrirVistaReporteVenta());
         vista.setNombreUsuario(nombreUsuario);
+        vista.getConsultarVentasButton().addActionListener(e -> {
+            AdministracionVentasVista ventasVista = new AdministracionVentasVista(vista);
+            VentaDAO ventaDAO = new VentaDAO();
+            AdministracionVentasControlador ventasControlador = new AdministracionVentasControlador(ventasVista, ventaDAO);
+            ventasControlador.iniciarVista();
+            vista.setVisible(false);
+
+        });
     }
 
     private void mostrarVenta() {

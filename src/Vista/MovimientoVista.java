@@ -74,7 +74,12 @@ public class MovimientoVista extends JFrame {
         setVisible(true);
     }
     public void cargarTablaMovimiento(List<String[]> datos) {
-        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Producto", "Cantidad", "Fecha", "Obs"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Producto", "Cantidad", "Fecha", "Obs"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         for (String[] fila : datos) {
             modelo.addRow(fila);
         }
@@ -82,12 +87,18 @@ public class MovimientoVista extends JFrame {
     }
 
     public void cargarTablaDocumento(List<String[]> datos) {
-        DefaultTableModel modelo = new DefaultTableModel(new String[]{"ID", "Fecha", "Nro Documento"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new String[]{"ID", "Fecha", "Nro Documento"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         for (String[] fila : datos) {
             modelo.addRow(fila);
         }
         table2.setModel(modelo);
     }
+
 
     public void setComboBoxItems(List<String> nombresProductos) {
         comboProductos.removeAllItems();
@@ -95,5 +106,4 @@ public class MovimientoVista extends JFrame {
             comboProductos.addItem(nombre);
         }
     }
-
 }

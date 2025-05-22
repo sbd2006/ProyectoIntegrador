@@ -7,15 +7,13 @@ public class VistaP extends JFrame {
     private JPanel producto;
     private JTextField preciotext;
     private JTextField cantidadtext;
-    private JTable table1;
+    private JTable tablaProductos;
     private JButton mostrarButton;
     private JButton editarButton;
     private JButton eliminarButton;
     private JButton guardarButton;
     private JTextField nombretext;
     private JButton regresarButton;
-    private JTextField Idtext;
-    private JLabel Id;
     private JComboBox categoriatext;
     public JButton newButton;
     private JButton deleteCategory;
@@ -29,8 +27,8 @@ public class VistaP extends JFrame {
         return cantidadtext;
     }
 
-    public JTable getTable1() {
-        return table1;
+    public JTable getTabla() {
+        return tablaProductos;
     }
 
     public JButton getMostrarButton() {
@@ -57,10 +55,6 @@ public class VistaP extends JFrame {
         return regresarButton;
     }
 
-    public JTextField getIdtext() {
-        return Idtext;
-    }
-
     public JComboBox getComboBoxCategoria() {
         return categoriatext;
     }
@@ -72,8 +66,14 @@ public class VistaP extends JFrame {
 
 
     public VistaP() {
-        modTabla = new DefaultTableModel(new String[]{"Id_producto","Nombre","Categoria","Precio","Stock"}, 0);
-        table1.setModel(modTabla);
+        modTabla = new DefaultTableModel(new String[]{"Codigo","Nombre","Categoria","Precio","Stock"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tablaProductos.setModel(modTabla);
 
         setContentPane(producto);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

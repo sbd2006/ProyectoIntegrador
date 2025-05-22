@@ -15,42 +15,37 @@ public class ModeloP {
     public Connection getConexion() {
         return conexion;
     }
-    public void guardarProducto(String id, String nombre, int idCategoria, String precio) throws SQLException {
-        String sql = "INSERT INTO producto (cod_producto, id_producto, nombre, id_categoria, precio) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1, id);
-        ps.setString(2, id);
-        ps.setString(3, nombre);
-        ps.setInt(4, idCategoria);
-        ps.setString(5, precio);
-
-        ps.executeUpdate();
+    public void guardarProducto(String nombre, int idCategoria, String precio) throws SQLException {
+        String sql = "{CALL guardarProducto(?,?,?)}";
+        CallableStatement cs = conexion.prepareCall(sql);
+        cs.setString(1, nombre);
+        cs.setInt(2, idCategoria);
+        cs.setString(3, precio);
+        cs.executeUpdate();
     }
-
 
     public void editarProducto(String id, String precio) throws SQLException {
 
-        String sql = "UPDATE producto SET precio = ? WHERE id_producto = ?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1, precio);
-        ps.setString(2, id);
-        ps.executeUpdate();
+        String sql = "{CALL editarProducto(?,?)}";
+        CallableStatement cs = conexion.prepareCall(sql);
+        cs.setString(1, precio);
+        cs.setString(2, id);
+        cs.executeUpdate();
     }
 
     public void eliminarProducto(String id) throws SQLException {
-      
-        String sql = "DELETE FROM producto WHERE id_producto = ?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1, id);
-        ps.executeUpdate();
+
+        String sql = "{CALL eliminarProducto(?)}";
+        CallableStatement cs = conexion.prepareCall(sql);
+        cs.setString(1, id);
+        cs.executeUpdate();
     }
 
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        String sql = "SELECT p.id_producto, p.nombre, c.nombre AS categoria, p.precio, p.stock " +
-                "FROM producto p JOIN categoria c ON p.id_categoria = c.id_categoria";
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
+        String sql = "{CALL obtenerProductos()}";
+        CallableStatement cs = conexion.prepareCall(sql);
+        ResultSet rs = cs.executeQuery(sql);
         while (rs.next()) {
             String[] fila = new String[5];
             fila[0] = rs.getString("id_producto");
@@ -65,7 +60,6 @@ public class ModeloP {
 
     public Map<String, Integer> obtenerProductosNombreId() {
         Map<String, Integer> mapa = new HashMap<>();
-
         String sql = "SELECT id_producto, nombre FROM producto";
         try (PreparedStatement ps = conexion.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -77,6 +71,4 @@ public class ModeloP {
         }
         return mapa;
     }
-  
 }
-

@@ -1,7 +1,6 @@
 package Vista;
 
 import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,12 +13,10 @@ public class AdministracionVentasVista extends JFrame {
     public JTable table1;
     public DefaultTableModel modeloTabla;
     public JDateChooser selectorFecha;
+    private JFrame ventanaAnterior;
 
-    // Nueva variable para referencia a la ventana anterior
-    private AdministradorVista administradorVista;
-
-    public AdministracionVentasVista(AdministradorVista administradorVista) {
-        this.administradorVista = administradorVista;
+    public AdministracionVentasVista(JFrame ventanaAnterior) {
+        this.ventanaAnterior = ventanaAnterior;
 
         setTitle("Consulta por Fecha");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -28,12 +25,11 @@ public class AdministracionVentasVista extends JFrame {
 
         JPanel panelPrincipal = new JPanel(new BorderLayout());
 
-        // ---------- Panel Título ----------
+
         JLabel tituloLabel = new JLabel("Consultar Ventas", JLabel.CENTER);
         tituloLabel.setFont(new Font("Britannic Bold", Font.PLAIN, 18));
         panelPrincipal.add(tituloLabel, BorderLayout.NORTH);
 
-        // ---------- Panel superior ----------
         JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         selectorFecha = new JDateChooser();
@@ -57,7 +53,12 @@ public class AdministracionVentasVista extends JFrame {
         panelPrincipal.add(panelTop, BorderLayout.NORTH);
 
         table1 = new JTable();
-        modeloTabla = new DefaultTableModel(new String[]{"ID", "FECHA", "TOTAL VENTA"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"ID VENTA", "FECHA", "PRODUCTOS Y CANTIDADES", "TOTAL VENTA"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         table1.setModel(modeloTabla);
 
         JScrollPane scrollPane = new JScrollPane(table1);
@@ -65,7 +66,6 @@ public class AdministracionVentasVista extends JFrame {
 
         setContentPane(panelPrincipal);
 
-        // Acción del botón regresar
         regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,8 +75,10 @@ public class AdministracionVentasVista extends JFrame {
     }
 
     private void cerrarYRegresar() {
-        this.dispose(); // Cierra la ventana actual
-        administradorVista.regresar(); // Muestra la vista del administrador
+        this.dispose();
+        if (ventanaAnterior != null) {
+            ventanaAnterior.setVisible(true);
+        }
     }
 
     public void mostrarVista() {

@@ -1,10 +1,4 @@
     package Vista;
-
-    import Controlador.ControladorIS;
-    import Controlador.VentaControlador;
-    import Modelo.ModeloIS;
-    import Modelo.VentaDAO;
-
     import javax.swing.*;
 
     public class EmpleadoVista extends JFrame {
@@ -13,6 +7,7 @@
         public JButton cerrarSesionButton;
         private JLabel Bienvenido;
         private JButton ReporteVentaButton;
+        private JButton consultarVentasButton;
         private int idEmpleadoActual;
 
         public EmpleadoVista(int idEmpleadoActual) {
@@ -29,6 +24,9 @@
             return ReporteVentaButton;
         }
 
+        public JButton getConsultarVentasButton() {
+            return consultarVentasButton;
+        }
 
         public void setNombreUsuario(String nombreUsuario) {
             Bienvenido.setText("Bienvenido Emplead@ " + nombreUsuario);

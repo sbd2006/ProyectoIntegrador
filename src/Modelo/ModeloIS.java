@@ -9,6 +9,7 @@ public class ModeloIS {
     private VistaIS vista;
     private ResultSet rs;
     private PreparedStatement ps;
+    private CallableStatement cs;
     private String nombreUsuario;
     private int idEmpleado;
     public int getIdEmpleado() { return idEmpleado; }
@@ -32,22 +33,14 @@ public class ModeloIS {
         String user = getUser().getText();
         String pass = String.valueOf(getPass().getPassword());
 
-
         try {
-            String sql = """
-                SELECT u.Usuario, u.Pass, u.tipo, e.Nombre, u.ID_EMPLEADO
-                FROM usuario u
-                JOIN empleado e ON u.ID_EMPLEADO = e.ID_EMPLEADO
-                WHERE u.Usuario = ? AND u.Pass = ?
-          
-            """;
+            String sql = "{CALL validacionSQL (?,?)}";
 
+            cs = conX.getConexion().prepareCall(sql);
+            cs.setString(1, user);
+            cs.setString(2, pass);
 
-            ps = conX.getConexion().prepareStatement(sql);
-            ps.setString(1, user);
-            ps.setString(2, pass);
-
-            rs = ps.executeQuery();
+            rs = cs.executeQuery();
 
             if (rs.next()) {
                 nombreUsuario = rs.getString("Nombre");

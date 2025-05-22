@@ -43,6 +43,7 @@ public class ControladorP extends JFrame {
         });
 
         vistaP.getDeleteCategory().addActionListener(e -> eliminarCategoria());
+
     }
 
     private void mostrarProductos() {
@@ -63,7 +64,6 @@ public class ControladorP extends JFrame {
             int idCategoria = modeloCategoria.obtenerOCrearCategoria(nombreCategoria);
 
             modelo.guardarProducto(
-                    vistaP.getIdtext().getText(),
                     vistaP.getNombretext().getText(),
                     idCategoria,
                     vistaP.getPreciotext().getText()
@@ -78,12 +78,17 @@ public class ControladorP extends JFrame {
 
     private void editarProducto() {
         try {
-            modelo.editarProducto(
-                    vistaP.getIdtext().getText(),
-                    vistaP.getPreciotext().getText()
-            );
-            limpiarCampos();
-            mostrarProductos();
+            int fila = vistaP.getTabla().getSelectedRow();
+            if (fila >= 0) {
+                String idProducto = vistaP.getTabla().getValueAt(fila, 0).toString();
+                String nuevoPrecio = vistaP.getPreciotext().getText();
+
+                modelo.editarProducto(idProducto, nuevoPrecio);
+                limpiarCampos();
+                mostrarProductos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona un producto para editar.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,16 +96,23 @@ public class ControladorP extends JFrame {
 
     private void eliminarProducto() {
         try {
-            modelo.eliminarProducto(vistaP.getIdtext().getText());
-            limpiarCampos();
-            mostrarProductos();
+            int fila = vistaP.getTabla().getSelectedRow();
+            if (fila >= 0) {
+                String idProducto = vistaP.getTabla().getValueAt(fila, 0).toString();
+
+                modelo.eliminarProducto(idProducto);
+                limpiarCampos();
+                mostrarProductos();
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecciona un producto para eliminar.");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
     private void limpiarCampos() {
-        vistaP.getIdtext().setText("");
         vistaP.getNombretext().setText("");
         vistaP.getComboBoxCategoria().setSelectedIndex(-1);
         vistaP.getPreciotext().setText("");
