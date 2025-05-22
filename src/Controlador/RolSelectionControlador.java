@@ -5,6 +5,8 @@ import Vista.AdministradorVista;
 import Vista.RolSelectionVista;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,6 +24,20 @@ public class RolSelectionControlador {
         vista.getUpdateButton().addActionListener(e -> actualizarRol());
         vista.getDeleteButton().addActionListener(e -> eliminarUsuario());
         vista.getButton1().addActionListener(e -> regresar());
+        vista.getTabla().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.getTabla().getSelectedRow();
+                if (fila != -1) {
+                    String id = vista.getTabla().getValueAt(fila, 0).toString();
+                    String rol = vista.getTabla().getValueAt(fila, 3).toString();
+
+                    vista.getIdText().setText(id);
+                    vista.getRolText().setSelectedItem(rol);
+                }
+            }
+        });
+
 
         vista.mostrarVista();
     }
