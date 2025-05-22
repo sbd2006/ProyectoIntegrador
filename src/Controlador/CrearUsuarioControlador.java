@@ -4,7 +4,6 @@ import Modelo.CrearUsuario;
 import Modelo.CrearUsuarioDAO;
 import Vista.CrearUsuarioVista;
 
-
 import javax.swing.*;
 
 public class CrearUsuarioControlador extends JFrame {
@@ -20,16 +19,22 @@ public class CrearUsuarioControlador extends JFrame {
     }
 
     private void crearUsuario() {
-        CrearUsuario usuario = new CrearUsuario(
-                vista.IngresoNombre.getText(),
-                vista.IngresoApellido.getText(),
-                vista.IngresoTelefono.getText(),
-                vista.IngresoDireccion.getText(),
-                vista.IngresoUsuario.getText(),
-                new String(vista.IngresoContraseña.getPassword())
-        );
+        String nombre = vista.IngresoNombre.getText().trim();
+        String apellido = vista.IngresoApellido.getText().trim();
+        String telefono = vista.IngresoTelefono.getText().trim();
+        String direccion = vista.IngresoDireccion.getText().trim();
+        String usuario = vista.IngresoUsuario.getText().trim();
+        String contrasena = new String(vista.IngresoContraseña.getPassword()).trim();
 
-        if (dao.guardarUsuario(usuario)) {
+        if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() ||
+                direccion.isEmpty() || usuario.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Por favor, completa todos los campos.", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        CrearUsuario nuevoUsuario = new CrearUsuario(nombre, apellido, telefono, direccion, usuario, contrasena);
+
+        if (dao.guardarUsuario(nuevoUsuario)) {
             JOptionPane.showMessageDialog(vista, "Usuario creado exitosamente.");
             vista.regresarAInicioSesion();
             vista.dispose();

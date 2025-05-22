@@ -72,6 +72,7 @@ public class MovimientoVista extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     public void cargarTablaMovimiento(List<String[]> datos) {
         DefaultTableModel modelo = new DefaultTableModel(new String[]{"Producto", "Cantidad", "Fecha", "Obs"}, 0) {

@@ -74,7 +74,6 @@ public class VistaP extends JFrame {
         };
 
         tablaProductos.setModel(modTabla);
-
         setContentPane(producto);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
