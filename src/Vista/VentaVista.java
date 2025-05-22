@@ -18,7 +18,7 @@ public class VentaVista extends JFrame {
     private JTextField Cambio;
     public DefaultTableModel modTablaCatalogo;
     public DefaultTableModel modTablaVenta;
-
+    
     public VentaVista() {
         setTitle("Gestión de Ventas");
         setContentPane(Venta);

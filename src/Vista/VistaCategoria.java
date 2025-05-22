@@ -11,6 +11,7 @@ public class VistaCategoria extends JFrame {
         setContentPane(categoriaPanel);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         pack();
 
     }

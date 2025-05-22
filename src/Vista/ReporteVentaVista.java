@@ -18,6 +18,8 @@ public class ReporteVentaVista extends JFrame {
         setSize(1920, 1080);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 
         JPanel panel = new JPanel(new BorderLayout());
         JPanel formularioPanel = new JPanel(new GridLayout(2, 5, 10, 10));

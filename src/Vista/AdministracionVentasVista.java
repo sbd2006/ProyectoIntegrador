@@ -22,6 +22,8 @@ public class AdministracionVentasVista extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 450);
         setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 
         JPanel panelPrincipal = new JPanel(new BorderLayout());
 
