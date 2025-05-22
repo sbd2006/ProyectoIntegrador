@@ -23,7 +23,7 @@
         </constraints>
         <properties>
           <font name="Britannic Bold" size="16" style="0"/>
-          <text value="Id producto"/>
+          <text value="Producto"/>
         </properties>
       </component>
       <component id="500e" class="javax.swing.JLabel">
