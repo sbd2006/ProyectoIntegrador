@@ -138,7 +138,8 @@
               <background color="-2586"/>
               <foreground color="-9545390"/>
               <selectionBackground color="-472868"/>
-              <selectionForeground color="-1"/>
+              <selectionForeground color="-9545390"/>
+              <showHorizontalLines value="false"/>
             </properties>
           </component>
         </children>
