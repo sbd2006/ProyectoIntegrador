@@ -16,6 +16,7 @@ public class VentaVista extends JFrame {
     private JLabel CANTIDAD_PRODUCTO;
     private JTextField DineroRecibido;
     private JTextField Cambio;
+    private JComboBox comboMetodoPago;
     public DefaultTableModel modTablaCatalogo;
     public DefaultTableModel modTablaVenta;
     
@@ -49,6 +50,11 @@ public class VentaVista extends JFrame {
             }
         };
         tableVenta.setModel(modTablaVenta);
+
+        comboMetodoPago.addItem("Efectivo");
+        comboMetodoPago.addItem("Nequi");
+        comboMetodoPago.addItem("Bancolombia");
+        comboMetodoPago.addItem("Datáfono");
     }
 
     public JTextField getNombreCliente() {
@@ -70,4 +76,9 @@ public class VentaVista extends JFrame {
     public JTextField getCambio() {
         return Cambio;
     }
+
+    public JComboBox<String> getComboMetodoPago() {
+        return comboMetodoPago;
+    }
+
 }

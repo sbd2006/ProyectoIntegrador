@@ -28,6 +28,7 @@
       <component id="1d5c2" class="javax.swing.JButton" binding="regresarButton" default-binding="true">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="78" height="33"/>
             <maximum-size width="200" height="-1"/>
           </grid>
         </constraints>
@@ -90,7 +91,9 @@
       </component>
       <component id="b5fb0" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="16" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="16" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="58" height="33"/>
+          </grid>
         </constraints>
         <properties>
           <background color="-7643588"/>
@@ -182,7 +185,7 @@
       <component id="2871b" class="javax.swing.JTextField" binding="IdProducto">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="10" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
         <properties>
@@ -435,6 +438,14 @@
           <font name="Britannic Bold" size="16" style="0"/>
           <foreground color="-7643588"/>
           <text value="Direccion (Opcional)"/>
+        </properties>
+      </component>
+      <component id="75e5d" class="javax.swing.JComboBox" binding="comboMetodoPago">
+        <constraints>
+          <grid row="20" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model/>
         </properties>
       </component>
     </children>
