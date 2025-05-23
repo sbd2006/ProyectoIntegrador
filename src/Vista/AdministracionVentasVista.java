@@ -81,7 +81,7 @@ public class AdministracionVentasVista extends JFrame {
         table1.setBackground(Color.decode("#FFFFFF"));
         table1.setForeground(Color.decode("#6E5952"));
         table1.setSelectionBackground(Color.decode("#F8C8DC"));
-        table1.setSelectionForeground(Color.decode("#FFFFFF"));
+        table1.setSelectionForeground(Color.decode("#6E5952"));
         table1.getTableHeader().setBackground(Color.decode("#FFF5E6"));
         table1.getTableHeader().setForeground(Color.decode("#6E5952"));
 

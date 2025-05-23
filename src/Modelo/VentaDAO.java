@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
+    private final String PASSWORD = "Santi104";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
@@ -18,7 +18,6 @@ public class VentaDAO {
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             con.setAutoCommit(false);
-
 
             String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
@@ -33,7 +32,6 @@ public class VentaDAO {
 
             psVenta.executeUpdate();
 
-
             ResultSet rs = psVenta.getGeneratedKeys();
             int idVenta;
             if (rs.next()) {
@@ -46,8 +44,14 @@ public class VentaDAO {
             String sqlDetalle = "INSERT INTO detalle_venta (ID_PRODUCTO, CANTIDAD_PRODUCTO, DESCRIPCION, PRECIO_UNITARIO, ID_VENTA) VALUES (?, ?, ?, ?, ?)";
             psDetalle = con.prepareStatement(sqlDetalle);
 
-            for (DetalleVenta d : detalles) {
+            String sqlStock = "UPDATE producto SET stock = stock - ? WHERE COD_PRODUCTO = ?";
+            psStock = con.prepareStatement(sqlStock);
 
+            String sqlMovimiento = "INSERT INTO movimiento (ID_PRODUCTO, CANTIDAD, FECHA_MOVIMIENTO, OBSERVACION ) VALUES (?, ?, ?, ?)";
+            psMovimiento = con.prepareStatement(sqlMovimiento);
+            String fechaHoy = java.time.LocalDate.now().toString();
+
+            for (DetalleVenta d : detalles) {
                 d.setIdVenta(idVenta);
 
                 psDetalle.setString(1, d.getIdProducto());
@@ -55,12 +59,22 @@ public class VentaDAO {
                 psDetalle.setString(3, d.getDescripcion());
                 psDetalle.setDouble(4, d.getPrecioUnitario());
                 psDetalle.setInt(5, idVenta);
-
                 psDetalle.addBatch();
 
+                psStock.setInt(1, d.getCantidad());
+                psStock.setString(2, d.getIdProducto());
+                psStock.addBatch();
+
+                psMovimiento.setString(1, d.getIdProducto());
+                psMovimiento.setInt(2, d.getCantidad());
+                psMovimiento.setString(3, fechaHoy);
+                psMovimiento.setString(4, "Venta - " + idVenta);
+                psMovimiento.addBatch();
             }
 
             psDetalle.executeBatch();
+            psStock.executeBatch();
+            psMovimiento.executeBatch();
 
             con.commit();
             return true;
@@ -77,6 +91,8 @@ public class VentaDAO {
             try {
                 if (psVenta != null) psVenta.close();
                 if (psDetalle != null) psDetalle.close();
+                if (psStock != null) psStock.close();
+                if (psMovimiento != null) psMovimiento.close();
                 if (con != null) con.close();
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -86,13 +102,15 @@ public class VentaDAO {
 
     public List<String[]> consultarPorFecha(String fecha) {
         List<String[]> resultados = new ArrayList<>();
-        String sql = "{CALL consultaPorFecha(?)}";
+        String sql = "SELECT v.ID_VENTA, v.FECHA_VENTA, v.TOTAL, d.ID_PRODUCTO, d.CANTIDAD_PRODUCTO, d.PRECIO_UNITARIO, p.Nombre " +
+                "FROM Venta v JOIN detalle_venta d ON v.ID_VENTA = d.ID_VENTA JOIN producto p ON d.ID_PRODUCTO = p.COD_PRODUCTO " +
+                "WHERE v.FECHA_VENTA = ?";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
-             CallableStatement cs = con.prepareCall(sql)) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            cs.setString(1, fecha);
-            ResultSet rs = cs.executeQuery();
+            ps.setString(1, fecha);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 String[] fila = new String[7];
@@ -116,7 +134,8 @@ public class VentaDAO {
 
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
-        String sql = "SELECT p.Id_producto, p.Nombre, c.Nombre, p.Precio, stock FROM producto p JOIN categoria c ON p.id_Categoria = c.id_Categoria ";
+        String sql = "SELECT p.COD_PRODUCTO, p.Nombre, c.Nombre AS Categoria, p.Precio, p.stock " +
+                "FROM producto p JOIN categoria c ON p.id_Categoria = c.id_Categoria";
 
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement st = con.createStatement();
@@ -124,9 +143,9 @@ public class VentaDAO {
 
             while (rs.next()) {
                 String[] registro = {
-                        rs.getString("Id_producto"),
+                        rs.getString("COD_PRODUCTO"),
                         rs.getString("Nombre"),
-                        rs.getString("c.Nombre"),
+                        rs.getString("Categoria"),
                         rs.getString("Precio"),
                         rs.getString("stock")
                 };
@@ -138,7 +157,7 @@ public class VentaDAO {
     }
 
     public String obtenerNombreProducto(String idProducto) throws SQLException {
-        String sql = "SELECT Nombre FROM producto WHERE Id_producto = ?";
+        String sql = "SELECT Nombre FROM producto WHERE COD_PRODUCTO = ?";
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = con.prepareStatement(sql)) {
 
@@ -150,8 +169,9 @@ public class VentaDAO {
         }
         return "";
     }
+
     public int obtenerStockActual(String idProducto) throws SQLException {
-        String sql = "SELECT stock FROM producto WHERE Id_producto = ?";
+        String sql = "SELECT stock FROM producto WHERE COD_PRODUCTO = ?";
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement ps = con.prepareStatement(sql)) {
 

@@ -135,12 +135,6 @@ public class AdministradorVista extends JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void abrirVistaMovimiento() {
-        MovimientoVista vistaMovimiento = new MovimientoVista();
-        ControladorMovimiento controladorMovimiento = new ControladorMovimiento(vistaMovimiento, this);
-        vistaMovimiento.mostrarVista();
-        this.setVisible(false);
-}
 
     public void regresar() {
 
