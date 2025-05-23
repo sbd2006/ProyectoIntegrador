@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="producto" layout-manager="GridLayoutManager" row-count="34" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="17" y="7" width="819" height="839"/>
+      <xy x="17" y="7" width="828" height="839"/>
     </constraints>
     <properties>
       <background color="-2586"/>
@@ -116,7 +116,7 @@
               <background color="-2586"/>
               <foreground color="-9545390"/>
               <selectionBackground color="-472868"/>
-              <selectionForeground color="-1"/>
+              <selectionForeground color="-9545390"/>
             </properties>
           </component>
         </children>

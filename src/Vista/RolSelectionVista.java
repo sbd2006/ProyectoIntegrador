@@ -1,6 +1,7 @@
 package Vista;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class RolSelectionVista extends JFrame {
     private JPanel rolPanel;
@@ -11,6 +12,8 @@ public class RolSelectionVista extends JFrame {
     private JButton consultButton;
     private JButton updateButton;
     private JButton deleteButton;
+
+    private DefaultTableModel modTabla;
 
     public JTextField getIdText() {
         return idText;
@@ -40,6 +43,10 @@ public class RolSelectionVista extends JFrame {
         return deleteButton;
     }
 
+    public DefaultTableModel getModTabla() {
+        return modTabla;
+    }
+
     public RolSelectionVista() {
         setContentPane(rolPanel);
         setTitle("Administrar Roles");
@@ -51,6 +58,14 @@ public class RolSelectionVista extends JFrame {
         rolText.addItem("Administrador");
         rolText.addItem("Usuario");
 
+        modTabla = new DefaultTableModel(new String[]{"ID", "Rol", "Descripción"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        tabla.setModel(modTabla);
     }
 
     public void mostrarVista() {
