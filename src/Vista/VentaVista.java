@@ -2,6 +2,8 @@ package Vista;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentaVista extends JFrame {
     public JPanel Venta;
@@ -32,6 +34,26 @@ public class VentaVista extends JFrame {
         FechaVenta.setEditable(false);
         Total.setEditable(false);
         finalizarVenta.setEnabled(false);
+
+        DineroRecibido.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                JTextField field = DineroRecibido;
+                int pos = field.getCaretPosition();
+                String texto = field.getText().replace(".", "");
+
+                if (!texto.isEmpty() && texto.matches("\\d+")) {
+                    try {
+                        long valor = Long.parseLong(texto);
+                        String formateado = String.format("%,d", valor).replace(",", ".");
+                        field.setText(formateado);
+                        if (pos > formateado.length()) pos = formateado.length();
+                        field.setCaretPosition(pos);
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        });
+
 
         String[] columnas = {"ID", "Nombre", "Categoría", "Precio", "Stock"};
         modTablaCatalogo = new DefaultTableModel(columnas, 0) {
