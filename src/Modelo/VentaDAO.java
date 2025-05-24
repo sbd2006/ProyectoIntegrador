@@ -8,12 +8,13 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "Juanguis-2006";
+    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
         PreparedStatement psVenta = null;
         PreparedStatement psDetalle = null;
+
 
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -102,7 +103,7 @@ public class VentaDAO {
                 fila[3] = rs.getString("ID_PRODUCTO");
                 fila[4] = rs.getString("CANTIDAD_PRODUCTO");
                 fila[5] = rs.getString("PRECIO_UNITARIO");
-                fila[6] = rs.getString("DESCRIPCION");
+                fila[6] = rs.getString("Nombre");
                 resultados.add(fila);
             }
 
@@ -112,7 +113,6 @@ public class VentaDAO {
 
         return resultados;
     }
-
 
     public List<String[]> obtenerProductos() throws SQLException {
         List<String[]> productos = new ArrayList<>();
@@ -161,6 +161,9 @@ public class VentaDAO {
                 return rs.getInt("stock");
             }
         }
+
         return 0;
+
     }
+
 }
