@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.List;
 
+
 public class ControladorP extends JFrame {
     private ModeloP modelo;
     private VistaP vistaP;
