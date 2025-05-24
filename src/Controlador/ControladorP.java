@@ -1,13 +1,16 @@
 package Controlador;
 
-import Modelo.ModeloCategoria;
-import Modelo.ModeloP;
+import Modelo.*;
 import Vista.AdministradorVista;
 import Vista.VistaCategoria;
 import Vista.VistaP;
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.*;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ControladorP extends JFrame {
     private ModeloP modelo;
@@ -27,6 +30,27 @@ public class ControladorP extends JFrame {
         vistaP.getEliminarButton().addActionListener(e -> eliminarProducto());
         vistaP.getRegresarButton().addActionListener(e -> regresar());
 
+        vistaP.getPreciotext().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                JTextField field = vistaP.getPreciotext();
+                int pos = field.getCaretPosition();
+                String texto = field.getText().replace(".", "");
+
+                if (!texto.isEmpty() && texto.matches("\\d+")) {
+                    try {
+                        long valor = Long.parseLong(texto);
+                        String formateado = String.format("%,d", valor).replace(",", ".");
+                        field.setText(formateado);
+                        if (pos > formateado.length()) pos = formateado.length();
+                        field.setCaretPosition(pos);
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        });
+
+
+
         vistaP.newButton.addActionListener(e -> {
             VistaCategoria vistaCategoria = new VistaCategoria();
             ModeloCategoria modeloCategoria = new ModeloCategoria(modelo.getConexion());
@@ -43,14 +67,16 @@ public class ControladorP extends JFrame {
         });
 
         vistaP.getDeleteCategory().addActionListener(e -> eliminarCategoria());
-
     }
 
     private void mostrarProductos() {
         try {
             vistaP.modTabla.setRowCount(0);
             List<String[]> productos = modelo.obtenerProductos();
+            NumberFormat format = NumberFormat.getNumberInstance(Locale.GERMANY);
+
             for (String[] producto : productos) {
+                producto[3] = format.format(Double.parseDouble(producto[3]));
                 vistaP.modTabla.addRow(producto);
             }
         } catch (SQLException e) {
@@ -66,7 +92,7 @@ public class ControladorP extends JFrame {
             modelo.guardarProducto(
                     vistaP.getNombretext().getText(),
                     idCategoria,
-                    vistaP.getPreciotext().getText()
+                    vistaP.getPreciotext().getText().replace(".", "")
             );
 
             limpiarCampos();
@@ -81,7 +107,7 @@ public class ControladorP extends JFrame {
             int fila = vistaP.getTabla().getSelectedRow();
             if (fila >= 0) {
                 String idProducto = vistaP.getTabla().getValueAt(fila, 0).toString();
-                String nuevoPrecio = vistaP.getPreciotext().getText();
+                String nuevoPrecio = vistaP.getPreciotext().getText().replace(".", "");
 
                 modelo.editarProducto(idProducto, nuevoPrecio);
                 limpiarCampos();
@@ -110,7 +136,6 @@ public class ControladorP extends JFrame {
             e.printStackTrace();
         }
     }
-
 
     private void limpiarCampos() {
         vistaP.getNombretext().setText("");

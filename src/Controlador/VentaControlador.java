@@ -20,6 +20,7 @@ import com.itextpdf.text.FontFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.Desktop;
+import java.text.DecimalFormat;
 
 public class VentaControlador {
     private final VentaVista vista;
@@ -30,6 +31,7 @@ public class VentaControlador {
     private final int idEmpleadoActual;
     private String nombreEmpleadoActual = "";
     private final MovimientoDAO movimientoDAO = new MovimientoDAO();
+    private final DecimalFormat formatoPunto = new DecimalFormat("#,###");
 
     public VentaControlador(VentaVista vista, VentaDAO dao, EmpleadoVista emVista, int idEmpleadoActual) {
         this.vista = vista;
@@ -87,12 +89,12 @@ public class VentaControlador {
         try {
             String dineroTexto = vista.getDineroRecibido().getText();
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
-            vista.Total.setText(String.format("%.0f", total));
+            vista.Total.setText(formatoPunto.format(total));
 
             if (!dineroTexto.isBlank()) {
-                double recibido = Double.parseDouble(dineroTexto);
+                double recibido = Double.parseDouble(dineroTexto.replace(".", ""));
                 double cambio = recibido - total;
-                vista.getCambio().setText(String.format("%.0f", cambio));
+                vista.getCambio().setText(formatoPunto.format(cambio));
                 if (recibido >= total) {
                     vista.getDineroRecibido().setBackground(Color.WHITE);
                     vista.finalizarVenta.setEnabled(true);
@@ -112,6 +114,7 @@ public class VentaControlador {
         }
     }
 
+
     private void agregarProducto() {
         try {
             if (vista.IdProducto.getText().isBlank() || vista.CantidadP.getText().isBlank()
@@ -122,7 +125,7 @@ public class VentaControlador {
 
             int cantidad = Integer.parseInt(vista.CantidadP.getText());
             double precio = Double.parseDouble(vista.PrecioUnitario.getText());
-            double totalProducto = Double.parseDouble(vista.Total.getText());
+            double totalProducto = Double.parseDouble(vista.Total.getText().replace(".", "").replace(",", "."));
             String idProducto = vista.IdProducto.getText();
 
             if (cantidad <= 0 || precio <= 0 || totalProducto <= 0) {
@@ -142,7 +145,7 @@ public class VentaControlador {
             listaDetalles.add(detalle);
 
             vista.modTablaVenta.addRow(new Object[]{
-                    idProducto, nombreProducto, cantidad, String.format("%.2f", precio), String.format("%.2f", totalProducto)
+                    idProducto, nombreProducto, cantidad, formatoPunto.format(precio), formatoPunto.format(totalProducto)
             });
 
             actualizarCambio();
@@ -168,18 +171,20 @@ public class VentaControlador {
             int clienteId = clienteDAO.obtenerIdOCrear(nombre, telefono, direccion);
 
             double total = listaDetalles.stream().mapToDouble(DetalleVenta::getTotalProducto).sum();
-            vista.Total.setText(String.format("%.0f", total));
+            vista.Total.setText(formatoPunto.format(total));
 
-            double dineroRecibido = Double.parseDouble(vista.getDineroRecibido().getText());
+            double dineroRecibido = Double.parseDouble(vista.getDineroRecibido().getText().replace(".", ""));
             double cambio = dineroRecibido - total;
-            vista.getCambio().setText(String.format("%.0f", cambio));
+            vista.getCambio().setText(formatoPunto.format(cambio));
 
             Object[] options = {"Sí", "No"};
             int confirmacion = JOptionPane.showOptionDialog(vista, "¿Desea imprimir el recibo de venta?", "Confirmación",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual, clienteId);
+
             venta.setMetodoPago(vista.getComboMetodoPago().getSelectedItem().toString());
+
 
 
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
@@ -223,6 +228,7 @@ public class VentaControlador {
         }
     }
 
+
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles, String telefono, String direccion, double dineroRecibido, double cambio) {
         Document document = new Document();
         try {
@@ -249,15 +255,15 @@ public class VentaControlador {
             for (DetalleVenta d : detalles) {
                 document.add(new Paragraph("Producto: " + d.getDescripcion(), textoFont));
                 document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
-                document.add(new Paragraph("Precio Unitario: $" + String.format("%.0f", d.getPrecioUnitario()), textoFont));
-                document.add(new Paragraph("Total: $" + String.format("%.0f", d.getTotalProducto()), textoFont));
+                document.add(new Paragraph("Precio Unitario: $" + formatoPunto.format(d.getPrecioUnitario()), textoFont));
+                document.add(new Paragraph("Total: $" + formatoPunto.format(d.getTotalProducto()), textoFont));
                 document.add(new Paragraph(" ", textoFont));
             }
 
             document.add(new Paragraph("--------------------------------------", textoFont));
-            document.add(new Paragraph("Total: $" + String.format("%.0f", venta.getTotal()), tituloFont));
-            document.add(new Paragraph("Dinero recibido: $" + String.format("%.0f", dineroRecibido), textoFont));
-            document.add(new Paragraph("Cambio entregado: $" + String.format("%.0f", cambio), textoFont));
+            document.add(new Paragraph("Total: $" + formatoPunto.format(venta.getTotal()), tituloFont));
+            document.add(new Paragraph("Dinero recibido: $" + formatoPunto.format(dineroRecibido), textoFont));
+            document.add(new Paragraph("Cambio entregado: $" + formatoPunto.format(cambio), textoFont));
             document.add(new Paragraph("\nGracias por su compra.", textoFont));
             document.close();
         } catch (Exception e) {
@@ -291,7 +297,7 @@ public class VentaControlador {
         try {
             int cantidad = Integer.parseInt(vista.CantidadP.getText());
             double precio = Double.parseDouble(vista.PrecioUnitario.getText());
-            vista.Total.setText(String.format("%.0f", cantidad * precio));
+            vista.Total.setText(formatoPunto.format(cantidad * precio));
         } catch (NumberFormatException ignored) {}
     }
 
