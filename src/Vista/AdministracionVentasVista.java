@@ -70,7 +70,7 @@ public class AdministracionVentasVista extends JFrame {
         panelPrincipal.add(panelTop, BorderLayout.NORTH);
 
         table1 = new JTable();
-        modeloTabla = new DefaultTableModel(new String[]{"ID VENTA", "FECHA", "PRODUCTOS Y CANTIDADES", "TOTAL VENTA"}, 0) {
+        modeloTabla = new DefaultTableModel(new String[]{"ID VENTA", "FECHA", "PRODUCTOS Y CANTIDADES", "TOTAL VENTA", "METODO DE PAGO"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

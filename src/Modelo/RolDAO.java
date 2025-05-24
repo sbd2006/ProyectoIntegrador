@@ -8,7 +8,7 @@ public class RolDAO {
     private Connection conexion;
 
     public RolDAO() throws SQLException {
-        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "OH{c<6H1#cQ%F69$i");
+        conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "Juanguis-2006");
 
     }
 

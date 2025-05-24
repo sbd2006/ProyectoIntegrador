@@ -7,12 +7,12 @@ public class CrearUsuarioDAO {
 
     private final String URL = "jdbc:mysql://127.0.0.1:3306/postresmariajose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
 
     public boolean guardarUsuario(CrearUsuario usuario) {
         String sqlEmpleado = "INSERT INTO empleado (Nombre, Apellido, Telefono, Direccion) VALUES (?, ?, ?, ?)";
-        String sqlUsuario = "INSERT INTO usuarios (Usuario, Pass, tipo, ID_EMPLEADO) VALUES (?, ?, ?, ?)";
+        String sqlUsuario = "INSERT INTO usuario (Usuario, Pass, tipo, ID_EMPLEADO) VALUES (?, ?, ?, ?)";
 
         try (Connection conexion = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement psEmpleado = conexion.prepareStatement(sqlEmpleado, Statement.RETURN_GENERATED_KEYS);
