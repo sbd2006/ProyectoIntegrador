@@ -40,6 +40,7 @@ public class AdministracionVentasControlador {
         Map<String, StringBuilder> productosPorVenta = new LinkedHashMap<>();
         Map<String, String> fechas = new HashMap<>();
         Map<String, String> totales = new HashMap<>();
+        Map<String, String> metodosPago = new HashMap<>();
 
         for (String[] fila : datos) {
             String idVenta = fila[0];
@@ -47,9 +48,11 @@ public class AdministracionVentasControlador {
             String total = fila[2];
             String producto = fila[6];
             String cantidad = fila[4];
+            String metodoPago = fila[7];
 
             fechas.put(idVenta, fechaVenta);
             totales.put(idVenta, total);
+            metodosPago.put(idVenta, metodoPago);
 
             productosPorVenta.putIfAbsent(idVenta, new StringBuilder());
             productosPorVenta.get(idVenta)
@@ -61,17 +64,16 @@ public class AdministracionVentasControlador {
             String fechaVenta = fechas.get(idVenta);
             String total = totales.get(idVenta);
             String productosFormateados = productosPorVenta.get(idVenta).toString();
+            String metodoPago = metodosPago.get(idVenta);
 
 
             if (productosFormateados.endsWith(", ")) {
                 productosFormateados = productosFormateados.substring(0, productosFormateados.length() - 2);
             }
 
-            vista.modeloTabla.addRow(new String[]{idVenta, fechaVenta, productosFormateados, total});
+            vista.modeloTabla.addRow(new String[]{idVenta, fechaVenta, productosFormateados, total, metodoPago});
         }
     }
-
-
     public void iniciarVista() {
         vista.mostrarVista();
     }

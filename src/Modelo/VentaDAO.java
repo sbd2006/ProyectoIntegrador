@@ -8,29 +8,28 @@ import java.util.ArrayList;
 public class VentaDAO {
     private final String URL = "jdbc:mysql://127.0.0.1:3306/PostresMariaJose";
     private final String USER = "root";
-    private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
+    private final String PASSWORD = "Juanguis-2006";
 
     public boolean registrarVentaCompleta(Venta venta, List<DetalleVenta> detalles) {
         Connection con = null;
         PreparedStatement psVenta = null;
         PreparedStatement psDetalle = null;
 
-
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             con.setAutoCommit(false);
 
-
-            String sqlVenta = "INSERT INTO ventas (fecha, total, id_empleado, id_cliente, metodo_pago) VALUES (?, ?, ?, ?, ?)";
+            String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO, METODO_PAGO) VALUES (?, ?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
 
             int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
 
-            psVenta.setString(1, venta.getFecha());
+            psVenta.setTimestamp(1, Timestamp.valueOf(java.time.LocalDateTime.now()));
             psVenta.setDouble(2, venta.getTotal());
-            psVenta.setInt(3, venta.getIdEmpleado());
+            psVenta.setInt(3, cantidadTotal);
             psVenta.setInt(4, venta.getIdCliente());
-            psVenta.setString(5, venta.getMetodoPago());
+            psVenta.setInt(5, venta.getIdEmpleado());
+            psVenta.setString(6, venta.getMetodoPago());
 
             psVenta.executeUpdate();
 
@@ -96,14 +95,17 @@ public class VentaDAO {
             ResultSet rs = cs.executeQuery();
 
             while (rs.next()) {
-                String[] fila = new String[7];
+                String[] fila = new String[8];
                 fila[0] = rs.getString("ID_VENTA");
-                fila[1] = rs.getString("FECHA_VENTA");
+                Timestamp timestamp = rs.getTimestamp("FECHA_VENTA");
+                fila[1] = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp);
                 fila[2] = rs.getString("TOTAL");
                 fila[3] = rs.getString("ID_PRODUCTO");
                 fila[4] = rs.getString("CANTIDAD_PRODUCTO");
                 fila[5] = rs.getString("PRECIO_UNITARIO");
-                fila[6] = rs.getString("Nombre");
+                fila[6] = rs.getString("DESCRIPCION");
+                fila[7] = rs.getString("METODO_PAGO");
+
                 resultados.add(fila);
             }
 
@@ -167,4 +169,3 @@ public class VentaDAO {
     }
 
 }
-

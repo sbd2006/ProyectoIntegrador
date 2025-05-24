@@ -106,10 +106,16 @@ public class ControladorP extends JFrame {
         try {
             int fila = vistaP.getTabla().getSelectedRow();
             if (fila >= 0) {
-                String idProducto = vistaP.getTabla().getValueAt(fila, 0).toString();
-                String nuevoPrecio = vistaP.getPreciotext().getText().replace(".", "");
+                String nuevoPrecio = vistaP.getPreciotext().getText().trim();
 
+                if (nuevoPrecio.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un precio.");
+                    return;
+                }
+
+                String idProducto = vistaP.getTabla().getValueAt(fila, 0).toString();
                 modelo.editarProducto(idProducto, nuevoPrecio);
+
                 limpiarCampos();
                 mostrarProductos();
             } else {
