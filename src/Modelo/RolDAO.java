@@ -9,6 +9,7 @@ public class RolDAO {
 
     public RolDAO() throws SQLException {
         conexion = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/PostresMariaJose", "root", "OH{c<6H1#cQ%F69$i");
+
     }
 
     public List<String[]> consultarUsuarios() throws SQLException {

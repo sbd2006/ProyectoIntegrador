@@ -45,11 +45,11 @@ public class RolSelectionControlador {
     private void consultarUsuarios() {
         try {
             List<String[]> usuarios = modelo.consultarUsuarios();
-            DefaultTableModel tabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Apellido", "Rol", "Usuario"}, 0);
+            DefaultTableModel tabla = vista.getModTabla();
+            tabla.setRowCount(0);
             for (String[] fila : usuarios) {
                 tabla.addRow(fila);
             }
-            vista.getTabla().setModel(tabla);
         } catch (SQLException e) {
             mostrarError("Error al consultar: " + e.getMessage());
         }

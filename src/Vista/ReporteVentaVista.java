@@ -57,7 +57,7 @@ public class ReporteVentaVista extends JFrame {
         tablaResultados.setBackground(Color.decode("#FFFFFF"));
         tablaResultados.setForeground(Color.decode("#6E5952"));
         tablaResultados.setSelectionBackground(Color.decode("#F8C8DC"));
-        tablaResultados.setSelectionForeground(Color.decode("#FFFFFF"));
+        tablaResultados.setSelectionForeground(Color.decode("#6E5952"));
         tablaResultados.getTableHeader().setBackground(Color.decode("#FFF5E6"));
         tablaResultados.getTableHeader().setForeground(Color.decode("#6E5952"));
 

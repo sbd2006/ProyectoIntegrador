@@ -80,6 +80,7 @@ public class VentaControlador {
                     vista.Total.setText("");
                     vista.CantidadP.setText("");
                 }
+
             }
         });
     }
@@ -181,6 +182,10 @@ public class VentaControlador {
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
             Venta venta = new Venta(0, vista.FechaVenta.getText(), total, idEmpleadoActual, clienteId);
+
+            venta.setMetodoPago(vista.getComboMetodoPago().getSelectedItem().toString());
+
+
 
             EmpleadoDAO empleadoDAO = new EmpleadoDAO();
             this.nombreEmpleadoActual = empleadoDAO.obtenerNombreEmpleado(idEmpleadoActual);

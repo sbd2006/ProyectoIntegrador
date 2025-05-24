@@ -21,16 +21,16 @@ public class VentaDAO {
             con.setAutoCommit(false);
 
 
-            String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO) VALUES (?, ?, ?, ?, ?)";
+            String sqlVenta = "INSERT INTO ventas (fecha, total, id_empleado, id_cliente, metodo_pago) VALUES (?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
 
             int cantidadTotal = detalles.stream().mapToInt(DetalleVenta::getCantidad).sum();
 
             psVenta.setString(1, venta.getFecha());
             psVenta.setDouble(2, venta.getTotal());
-            psVenta.setInt(3, cantidadTotal);
+            psVenta.setInt(3, venta.getIdEmpleado());
             psVenta.setInt(4, venta.getIdCliente());
-            psVenta.setInt(5, venta.getIdEmpleado());
+            psVenta.setString(5, venta.getMetodoPago());
 
             psVenta.executeUpdate();
 
@@ -167,3 +167,4 @@ public class VentaDAO {
     }
 
 }
+

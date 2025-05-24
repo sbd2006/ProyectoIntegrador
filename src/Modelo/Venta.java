@@ -6,6 +6,7 @@ public class Venta {
     private double total;
     private int idEmpleado;
     private int idCliente;
+    private String metodoPago;
 
 
     public Venta(int idVenta, String fecha, double total, int idEmpleado, int idCliente) {
@@ -14,6 +15,14 @@ public class Venta {
         this.total = total;
         this.idEmpleado = idEmpleado;
         this.idCliente = idCliente;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
     }
 
     public int getIdCliente() { return idCliente; }

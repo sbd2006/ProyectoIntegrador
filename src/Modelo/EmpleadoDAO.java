@@ -9,6 +9,7 @@ public class EmpleadoDAO {
     private final String USER = "root";
     private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
+
     public String obtenerNombreEmpleado(int idEmpleado) {
         String sql = "SELECT Nombre FROM empleado WHERE ID_EMPLEADO = ?";
         try (Connection con = DriverManager.getConnection(URL, USER, PASSWORD);

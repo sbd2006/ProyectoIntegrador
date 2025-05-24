@@ -9,6 +9,7 @@ public class ReporteVentaDAO {
     private final String PASSWORD = "OH{c<6H1#cQ%F69$i";
 
 
+
     public List<String[]> obtenerVentasPorRango(String fechaInicio, String fechaFin, String tipo) throws SQLException {
         String agrupamiento;
         switch (tipo.toLowerCase()) {

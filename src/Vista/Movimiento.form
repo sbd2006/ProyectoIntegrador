@@ -27,7 +27,6 @@
         <properties>
           <font name="Britannic Bold" size="16" style="0"/>
           <foreground color="-9545390"/>
-       
           <text value="Producto"/>
         </properties>
       </component>
@@ -197,7 +196,7 @@
               <background color="-2586"/>
               <foreground color="-9545390"/>
               <selectionBackground color="-472868"/>
-              <selectionForeground color="-1"/>
+              <selectionForeground color="-9545390"/>
             </properties>
           </component>
         </children>
@@ -215,7 +214,7 @@
               <background color="-2586"/>
               <foreground color="-9545390"/>
               <selectionBackground color="-472868"/>
-              <selectionForeground color="-1"/>
+              <selectionForeground color="-9545390"/>
             </properties>
           </component>
         </children>

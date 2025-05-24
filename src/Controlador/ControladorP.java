@@ -195,4 +195,5 @@ public class ControladorP extends JFrame {
         categoriasComboBox();
         vistaP.mostrarVista();
     }
+
 }
