@@ -58,7 +58,7 @@ public class RolSelectionVista extends JFrame {
         rolText.addItem("Administrador");
         rolText.addItem("Usuario");
 
-        modTabla = new DefaultTableModel(new String[]{"ID", "Rol", "Descripción"}, 0) {
+        modTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Apellido", "Rol", "Usuario"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
