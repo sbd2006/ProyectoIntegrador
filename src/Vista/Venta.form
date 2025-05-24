@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.VentaVista">
+  <grid id="27dc6" binding="Venta" layout-manager="GridLayoutManager" row-count="25" column-count="26" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1277" height="744"/>
+    </constraints>
+    <properties>
+      <background color="-2586"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <hspacer id="63743">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="6c956">
+        <constraints>
+          <grid row="22" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <vspacer id="7a1a3">
+        <constraints>
+          <grid row="24" column="10" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <component id="1d5c2" class="javax.swing.JButton" binding="regresarButton" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="78" height="33"/>
+            <maximum-size width="200" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-7643588"/>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-1"/>
+          <text value="&lt;-"/>
+        </properties>
+      </component>
+      <component id="9d921" class="javax.swing.JButton" binding="agregarProductoButton" default-binding="true">
+        <constraints>
+          <grid row="23" column="2" row-span="1" col-span="10" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="390" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+          <enabled value="true"/>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-9545390"/>
+          <text value="Agregar venta"/>
+        </properties>
+      </component>
+      <hspacer id="f8214">
+        <constraints>
+          <grid row="9" column="22" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="80071">
+        <constraints>
+          <grid row="21" column="20" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="2479a" class="javax.swing.JButton" binding="mostrarButton" default-binding="true">
+        <constraints>
+          <grid row="23" column="15" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="250" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-9545390"/>
+          <text value="Mostrar"/>
+        </properties>
+      </component>
+      <component id="5fb32" class="javax.swing.JButton" binding="eliminarButton" default-binding="true">
+        <constraints>
+          <grid row="23" column="17" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="250" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-9545390"/>
+          <text value="Eliminar"/>
+        </properties>
+      </component>
+      <component id="b5fb0" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="16" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="58" height="33"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-7643588"/>
+          <font name="Britannic Bold" size="20" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Ventas"/>
+        </properties>
+      </component>
+      <hspacer id="bb3b8">
+        <constraints>
+          <grid row="14" column="14" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="f9be7" class="javax.swing.JLabel" binding="Id">
+        <constraints>
+          <grid row="3" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Id producto"/>
+        </properties>
+      </component>
+      <component id="c225c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="16" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Catalogo"/>
+        </properties>
+      </component>
+      <scrollpane id="a47cb">
+        <constraints>
+          <grid row="4" column="15" row-span="8" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="300"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="1dd04" class="javax.swing.JTable" binding="tableCatalogo">
+            <constraints/>
+            <properties>
+              <background color="-2586"/>
+              <foreground color="-9545390"/>
+              <selectionBackground color="-472868"/>
+              <selectionForeground color="-9545390"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="f8ed3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="12" column="16" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Venta"/>
+        </properties>
+      </component>
+      <scrollpane id="9edaf">
+        <constraints>
+          <grid row="13" column="15" row-span="8" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="500" height="300"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="80601" class="javax.swing.JTable" binding="tableVenta">
+            <constraints/>
+            <properties>
+              <background color="-2586"/>
+              <foreground color="-9545390"/>
+              <gridColor color="-9545390"/>
+              <selectionBackground color="-472868"/>
+              <selectionForeground color="-9545390"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <component id="2871b" class="javax.swing.JTextField" binding="IdProducto">
+        <constraints>
+          <grid row="5" column="2" row-span="1" col-span="10" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="30"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="a9ab5" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Precio unitario"/>
+        </properties>
+      </component>
+      <component id="f2751" class="javax.swing.JTextField" binding="PrecioUnitario">
+        <constraints>
+          <grid row="8" column="2" row-span="1" col-span="10" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="3a69f" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Fecha venta"/>
+        </properties>
+      </component>
+      <component id="cef14" class="javax.swing.JTextField" binding="FechaVenta">
+        <constraints>
+          <grid row="11" column="2" row-span="1" col-span="10" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+        </properties>
+      </component>
+      <component id="cd3cb" class="javax.swing.JLabel" binding="CANTIDAD_PRODUCTO">
+        <constraints>
+          <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Cantidad"/>
+        </properties>
+      </component>
+      <component id="169b2" class="javax.swing.JTextField" binding="CantidadP">
+        <constraints>
+          <grid row="14" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="69d98" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="16" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Dinero recibido"/>
+        </properties>
+      </component>
+      <component id="19d84" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="16" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Cambio"/>
+        </properties>
+      </component>
+      <component id="2bb53" class="javax.swing.JTextField" binding="DineroRecibido">
+        <constraints>
+          <grid row="17" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="5986e" class="javax.swing.JTextField" binding="Cambio">
+        <constraints>
+          <grid row="17" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="52487" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="19" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Total"/>
+        </properties>
+      </component>
+      <component id="67d78" class="javax.swing.JTextField" binding="Total">
+        <constraints>
+          <grid row="20" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+        </properties>
+      </component>
+      <hspacer id="108c9">
+        <constraints>
+          <grid row="3" column="23" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="2cf46">
+        <constraints>
+          <grid row="1" column="24" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="cae4f">
+        <constraints>
+          <grid row="2" column="25" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="b171f">
+        <constraints>
+          <grid row="8" column="18" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="96581">
+        <constraints>
+          <grid row="3" column="19" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="4" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="50" height="-1"/>
+          </grid>
+        </constraints>
+      </hspacer>
+      <component id="9cbe6" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="18" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Datos del cliente"/>
+        </properties>
+      </component>
+      <component id="81120" class="javax.swing.JButton" binding="finalizarVenta">
+        <constraints>
+          <grid row="23" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="300" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-472868"/>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-9545390"/>
+          <text value="Finalizar venta"/>
+        </properties>
+      </component>
+      <component id="44ca6" class="javax.swing.JTextField" binding="nombreCliente">
+        <constraints>
+          <grid row="9" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="589b7" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="8" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Nombre "/>
+        </properties>
+      </component>
+      <component id="21eb5" class="javax.swing.JTextField" binding="Telefono">
+        <constraints>
+          <grid row="12" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="2fb59" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="11" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Telefono (Opcional)"/>
+        </properties>
+      </component>
+      <component id="9402d" class="javax.swing.JTextField" binding="Direccion">
+        <constraints>
+          <grid row="15" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-1"/>
+          <foreground color="-9545390"/>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="c8da5" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="14" column="21" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Direccion (Opcional)"/>
+        </properties>
+      </component>
+      <component id="75e5d" class="javax.swing.JComboBox" binding="comboMetodoPago">
+        <constraints>
+          <grid row="14" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <model/>
+        </properties>
+      </component>
+      <component id="ac368" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="13" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-7643588"/>
+          <text value="Metodo de pago"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
