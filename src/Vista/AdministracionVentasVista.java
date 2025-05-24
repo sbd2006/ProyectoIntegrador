@@ -107,7 +107,6 @@ public class AdministracionVentasVista extends JFrame {
             }
         });
     }
-
     private void cerrarYRegresar() {
         this.dispose();
         if (ventanaAnterior != null) {

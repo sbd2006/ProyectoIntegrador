@@ -264,7 +264,6 @@ public class VentaControlador {
             JOptionPane.showMessageDialog(vista, "Error al generar PDF: " + e.getMessage());
         }
     }
-
     private void mostrarCatalogo() {
         try {
             vista.modTablaCatalogo.setRowCount(0);

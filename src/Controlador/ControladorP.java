@@ -171,7 +171,6 @@ public class ControladorP extends JFrame {
             ex.printStackTrace();
         }
     }
-
     public void iniciarVista() {
         categoriasComboBox();
         vistaP.mostrarVista();

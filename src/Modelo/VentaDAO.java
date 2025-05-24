@@ -15,11 +15,9 @@ public class VentaDAO {
         PreparedStatement psVenta = null;
         PreparedStatement psDetalle = null;
 
-
         try {
             con = DriverManager.getConnection(URL, USER, PASSWORD);
             con.setAutoCommit(false);
-
 
             String sqlVenta = "INSERT INTO venta (FECHA_VENTA, TOTAL, CANTIDAD, ID_CLIENTE, ID_EMPLEADO, METODO_PAGO) VALUES (?, ?, ?, ?, ?, ?)";
             psVenta = con.prepareStatement(sqlVenta, Statement.RETURN_GENERATED_KEYS);
