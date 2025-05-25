@@ -36,6 +36,10 @@ public class AdministracionVentasControlador {
         String fecha = new SimpleDateFormat("yyyy-MM-dd").format(vista.selectorFecha.getDate());
         List<String[]> datos = modelo.consultarPorFecha(fecha);
 
+        if (datos.isEmpty()){
+            JOptionPane.showMessageDialog(vista, "No se encontraron ventas registradas en la fecha seleccionada.");
+            return;
+        }
 
         Map<String, StringBuilder> productosPorVenta = new LinkedHashMap<>();
         Map<String, String> fechas = new HashMap<>();
