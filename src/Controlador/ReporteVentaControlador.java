@@ -51,8 +51,8 @@ public class ReporteVentaControlador {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaInicio = sdf.format(fechaInicioDate);
-        String fechaFin = sdf.format(fechaFinDate);
+        String fechaInicio = sdf.format(fechaInicioDate) + " 00:00:00";
+        String fechaFin = sdf.format(fechaFinDate) + " 23:59:59";
 
         try {
             List<String[]> resultados = dao.obtenerVentasPorRangoConPago(fechaInicio, fechaFin, tipo);
@@ -89,14 +89,16 @@ public class ReporteVentaControlador {
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String fechaInicio = sdf.format(fechaInicioDate);
-        String fechaFin = sdf.format(fechaFinDate);
+        String fechaInicio = sdf.format(fechaInicioDate) + " 00:00:00";
+        String fechaFin = sdf.format(fechaFinDate) + " 23:59:59";
 
         try {
             File folder = new File("Reportes venta");
             if (!folder.exists()) folder.mkdirs();
 
-            File pdfFile = new File(folder, "ReporteVentas_" + tipo + "_" + fechaInicio + "_a_" + fechaFin + ".pdf");
+            String fechaInicioNombre = fechaInicio.split(" ")[0];
+            String fechaFinNombre = fechaFin.split(" ")[0];
+            File pdfFile = new File(folder, "ReporteVentas_" + tipo + "_" + fechaInicioNombre + "_a_" + fechaFinNombre + ".pdf");
 
             Document document = new Document(PageSize.A3.rotate());
             PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
