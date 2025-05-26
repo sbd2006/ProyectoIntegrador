@@ -33,17 +33,17 @@ public class ControladorP extends JFrame {
         vistaP.getPreciotext().addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                JTextField field = vistaP.getPreciotext();
-                int pos = field.getCaretPosition();
-                String texto = field.getText().replace(".", "");
+                JTextField campo = vistaP.getPreciotext();
+                int pos = campo.getCaretPosition();
+                String texto = campo.getText().replace(".", "");
 
                 if (!texto.isEmpty() && texto.matches("\\d+")) {
                     try {
                         long valor = Long.parseLong(texto);
                         String formateado = String.format("%,d", valor).replace(",", ".");
-                        field.setText(formateado);
+                        campo.setText(formateado);
                         if (pos > formateado.length()) pos = formateado.length();
-                        field.setCaretPosition(pos);
+                        campo.setCaretPosition(pos);
                     } catch (NumberFormatException ignored) {}
                 }
             }
@@ -55,6 +55,7 @@ public class ControladorP extends JFrame {
             VistaCategoria vistaCategoria = new VistaCategoria();
             ModeloCategoria modeloCategoria = new ModeloCategoria(modelo.getConexion());
             ControladorCategoria controlador = new ControladorCategoria(vistaCategoria, modeloCategoria);
+
 
             vistaCategoria.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
@@ -85,20 +86,31 @@ public class ControladorP extends JFrame {
     }
 
     private void guardarProducto() {
+        String nombre = vistaP.getNombretext().getText().trim();
+        String precio = vistaP.getPreciotext().getText().trim();
+        String nombreCategoria = (String) vistaP.getComboBoxCategoria().getSelectedItem();
+
+        if (nombre.isEmpty() || precio.isEmpty() || nombreCategoria == null || nombreCategoria.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor rellene todos los campos.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
-            String nombreCategoria = (String) vistaP.getComboBoxCategoria().getSelectedItem();
             int idCategoria = modeloCategoria.obtenerOCrearCategoria(nombreCategoria);
 
             modelo.guardarProducto(
-                    vistaP.getNombretext().getText(),
+                    nombre,
                     idCategoria,
-                    vistaP.getPreciotext().getText().replace(".", "")
+                    precio.replace(".", "")
             );
+
+            JOptionPane.showMessageDialog(null, "Producto guardado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
             limpiarCampos();
             mostrarProductos();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -106,7 +118,7 @@ public class ControladorP extends JFrame {
         try {
             int fila = vistaP.getTabla().getSelectedRow();
             if (fila >= 0) {
-                String nuevoPrecio = vistaP.getPreciotext().getText().trim();
+                String nuevoPrecio = vistaP.getPreciotext().getText().trim().replace(".", "");
 
                 if (nuevoPrecio.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor ingrese un precio.");
