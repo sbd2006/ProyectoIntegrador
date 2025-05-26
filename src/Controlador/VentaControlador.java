@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.awt.Desktop;
 import java.text.DecimalFormat;
+import com.itextpdf.text.Rectangle;
 
 public class VentaControlador {
     private final VentaVista vista;
@@ -230,7 +231,12 @@ public class VentaControlador {
 
 
     private void generarFacturaPDF(Venta venta, List<DetalleVenta> detalles, String telefono, String direccion, double dineroRecibido, double cambio) {
+
+        Rectangle tamañoTicket = new Rectangle(226.77f, 600f);
         Document document = new Document();
+        document.setPageSize(tamañoTicket);
+        document.setMargins(10, 10, 10, 10);
+
         try {
             File folder = new File("facturas");
             if (!folder.exists()) folder.mkdirs();
@@ -239,8 +245,9 @@ public class VentaControlador {
             PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo));
             document.open();
 
-            Font tituloFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);
-            Font textoFont = FontFactory.getFont(FontFactory.HELVETICA, 12);
+
+            Font tituloFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9);
+            Font textoFont = FontFactory.getFont(FontFactory.HELVETICA, 7);
 
             document.add(new Paragraph("POSTRES MARIA JOSE", tituloFont));
             document.add(new Paragraph("Factura N°: " + venta.getIdVenta(), textoFont));
@@ -249,27 +256,30 @@ public class VentaControlador {
             if (!telefono.isBlank()) document.add(new Paragraph("Teléfono: " + telefono, textoFont));
             if (!direccion.isBlank()) document.add(new Paragraph("Dirección: " + direccion, textoFont));
             document.add(new Paragraph("Empleado: " + nombreEmpleadoActual, textoFont));
-            document.add(new Paragraph("\nDetalles de la venta:", textoFont));
-            document.add(new Paragraph("--------------------------------------", textoFont));
+            document.add(new Paragraph(" ", textoFont));
+            document.add(new Paragraph("Detalles de la venta:", textoFont));
+            document.add(new Paragraph("-------------------------------------", textoFont));
 
             for (DetalleVenta d : detalles) {
                 document.add(new Paragraph("Producto: " + d.getDescripcion(), textoFont));
-                document.add(new Paragraph("Cantidad: " + d.getCantidad(), textoFont));
-                document.add(new Paragraph("Precio Unitario: $" + formatoPunto.format(d.getPrecioUnitario()), textoFont));
+                document.add(new Paragraph("Cant: " + d.getCantidad() + "   $" + formatoPunto.format(d.getPrecioUnitario()), textoFont));
                 document.add(new Paragraph("Total: $" + formatoPunto.format(d.getTotalProducto()), textoFont));
                 document.add(new Paragraph(" ", textoFont));
             }
 
-            document.add(new Paragraph("--------------------------------------", textoFont));
+            document.add(new Paragraph("-------------------------------------", textoFont));
             document.add(new Paragraph("Total: $" + formatoPunto.format(venta.getTotal()), tituloFont));
-            document.add(new Paragraph("Dinero recibido: $" + formatoPunto.format(dineroRecibido), textoFont));
-            document.add(new Paragraph("Cambio entregado: $" + formatoPunto.format(cambio), textoFont));
-            document.add(new Paragraph("\nGracias por su compra.", textoFont));
+            document.add(new Paragraph("Recibido: $" + formatoPunto.format(dineroRecibido), textoFont));
+            document.add(new Paragraph("Cambio: $" + formatoPunto.format(cambio), textoFont));
+            document.add(new Paragraph(" ", textoFont));
+            document.add(new Paragraph("¡Gracias por su compra!", textoFont));
+
             document.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "Error al generar PDF: " + e.getMessage());
         }
     }
+
 
     private void mostrarCatalogo() {
         try {
